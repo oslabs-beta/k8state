@@ -6,7 +6,7 @@ test("App should have correct initial render", () => {
   renderWithProviders(<App />)
 
   // The app should be rendered correctly
-  expect(screen.getByText(/learn/i)).toBeInTheDocument()
+  expect(screen.getByText(/Welcome to k8State/i)).toBeInTheDocument()
 
   // Initial state: count should be 0, incrementValue should be 2
   expect(screen.getByLabelText("Count")).toHaveTextContent("0")

@@ -7,7 +7,7 @@ const App = () => {
     <div className="App">
       <header className="App-header">
         Welcome to k8State
-        <Button variant="contained">insta </Button>
+        <Button variant="contained">facebook </Button>
       </header>
     </div>
   )

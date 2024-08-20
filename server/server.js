@@ -1,17 +1,25 @@
+// Importing required dependencies and functions
 import express from 'express';
+import cors from 'cors';
+import kubernetesRouter from './routes/kubernetesRouter';
+
 const app = express();
-const port = 8080;
-// Middleware example
+const PORT = 8080;
+
+// Middleware Setup
 app.use(express.json());
-// Basic route example
-app.get('/api', (_req, res) => {
-	res.send('Hello, TypeScript with Express!');
-});
-// Error handling middleware
+app.use(cors());
+
+
+// Kubernetes Router Handler
+app.use('/api', kubernetesRouter);
+
+// Global Error Handler
 app.use((err, _req, res, _next) => {
-	console.error(err.stack);
-	res.status(500).send('Something broke!');
+  res.status(500).send('Unknown error caught by express global error handler.');
 });
-app.listen(port, () => {
-	console.log(`Server is running on http://localhost:${port}`);
+
+// Starts the server on the given port
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
 });

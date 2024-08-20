@@ -1,10 +1,14 @@
 import express, { Request, Response, NextFunction } from 'express';
+// import kubernetesRouter from './routes/kubernetesRouter.ts';
 
 const app = express();
-const port = 8080;
+const PORT = 8080;
 
 // Middleware example
 app.use(express.json());
+
+// Kubernetes Router Handler
+// app.use('/api', kubernetesRouter);
 
 // Basic route example
 app.get('/api', (_req: Request, res: Response) => {
@@ -17,6 +21,6 @@ app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
 	res.status(500).send('Something broke!');
 });
 
-app.listen(port, () => {
-	console.log(`Server is running on http://localhost:${port}`);
+app.listen(PORT, () => {
+	console.log(`Server is running on http://localhost:${PORT}`);
 });

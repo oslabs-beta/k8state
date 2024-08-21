@@ -1,5 +1,5 @@
 import express, { Request, Response, NextFunction } from 'express';
-// import kubernetesRouter from './routes/kubernetesRouter.ts';
+import router from './routes/kubernetesRouter.js';
 
 const app = express();
 const PORT = 8080;
@@ -8,19 +8,20 @@ const PORT = 8080;
 app.use(express.json());
 
 // Kubernetes Router Handler
-// app.use('/api', kubernetesRouter);
+app.use('/api', router);
 
-// Basic route example
-app.get('/api', (_req: Request, res: Response) => {
-	res.send('Hello, TypeScript with Express!');
+// Kubernetes 404 Route Handler
+app.use('/', (_req, res) => {
+	res.status(404).send('Error page not found!');
 });
 
-// Error handling middleware
+// Express Global Error Handler
 app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
-	console.error(err.stack);
+	console.log(err);
 	res.status(500).send('Something broke!');
 });
 
+// Starts the app on the given port
 app.listen(PORT, () => {
 	console.log(`Server is running on http://localhost:${PORT}`);
 });

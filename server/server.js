@@ -5,8 +5,6 @@ const PORT = 8080;
 // Middleware example
 app.use(express.json());
 // Kubernetes Router Handler
-// app.use('/api', kubernetesRouter);
-// Basic route example
 app.use('/api', router);
 // Error handling middleware
 app.use((err, _req, res, _next) => {

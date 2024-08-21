@@ -1,20 +1,23 @@
 // Lines 2 - 31 are just basic kubernetes API setup
 import * as k8s from '@kubernetes/client-node';
-
+import dotenv from 'dotenv';
+dotenv.config();
 // Creates the config file that the server will be using to communicate with the cluster
 const kc = new k8s.KubeConfig();
+const server = process.env.KUBERNETES_SERVER;
+const token = process.env.KUBERNETES_TOKEN;
 kc.loadFromOptions({
     clusters: [
       {
         name: 'main-cluster',
-        server: 'https://blue-mocha.com:30006',
+        server: `${server}`,
         skipTLSVerify: true,
       },
     ],
     users: [
       {
         name: 'main-user',
-        token: 'eyJhbGciOiJSUzI1NiIsImtpZCI6ImhzU0E2OUlaSno2VmZRSnpJNjhLLWJGalQyaUZWbkJJUkpmVVdPYU1WV2cifQ.eyJhdWQiOlsiaHR0cHM6Ly9rdWJlcm5ldGVzLmRlZmF1bHQuc3ZjLmNsdXN0ZXIubG9jYWwiXSwiZXhwIjoxNzI2Nzc1OTkzLCJpYXQiOjE3MjQxODM5OTMsImlzcyI6Imh0dHBzOi8va3ViZXJuZXRlcy5kZWZhdWx0LnN2Yy5jbHVzdGVyLmxvY2FsIiwianRpIjoiYTliMWQzOTQtM2JlNi00ZGVkLWFmZjEtOTYwNzY1N2I2YzRjIiwia3ViZXJuZXRlcy5pbyI6eyJuYW1lc3BhY2UiOiJkZWZhdWx0Iiwic2VydmljZWFjY291bnQiOnsibmFtZSI6Ims4c3RhdGUiLCJ1aWQiOiI2MWNlODAyZS1lNzY5LTQyNzMtYjkxNS1kMzNiYmFjYjdlNDMifX0sIm5iZiI6MTcyNDE4Mzk5Mywic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50OmRlZmF1bHQ6azhzdGF0ZSJ9.ZF4pDBwIOqLyhy6GQdnAoorwue-JDcczQW8eLwPTp8SDOoLv1l-R7tah-auTzzh5UmPAhTRF5gsiwbrDJZvkgddCgTVy8PjZJ5RS1q9wRVAWMO7pUMg8AtvPcafnfw86iy5Q3eitVi42zGfpWUdZRbrevzgqbq4me0aNdiWJKR-_rgIodv_ABM2XY_RMqsI3mcJ6yv8DSuF8FyTsfEB7N9sOmAdXOy2tpia8AgAyRx20nIFexIAusjObrjCPIaN7a5K8wFNidDVb7CJ5SOmuWvrkzzA-JOxUuQs-OA9SRPIh69DMg9Z-lUVNZzWJbKITYV7ocbrC7OWRKf_W64tfeQ',
+        token: `${token}`,
       },
     ],
     contexts: [

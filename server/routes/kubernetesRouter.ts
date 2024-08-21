@@ -9,17 +9,17 @@ router.get('/pods', kubernetesController.getPods, (_req, res) => {
 });
 
 // Route to get all details of a specific pod
-router.get('/pods/:namespace/:podName', kubernetesController.getPodDetails, (req, res) => {
+router.get('/pods/:namespace/:podName', kubernetesController.getPodDetails, (_req, res) => {
     res.status(200).json(res.locals.pod);
 });
 
 // Route to get all services in the cluster
-router.get('/services', kubernetesController.getServices, (req, res) => {
+router.get('/services', kubernetesController.getServices, (_req, res) => {
     res.status(200).json(res.locals.serviceData);
 });
 
 // Route to get all nodes in the cluster
-router.get('/nodes', kubernetesController.getNodes, (req, res) => {
+router.get('/nodes', kubernetesController.getNodes, (_req, res) => {
     res.status(200).json(res.locals.nodeData);
 });
 

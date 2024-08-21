@@ -5,6 +5,7 @@ import kubernetesService from '../services/kubernetesService.js';
 // Controller object that contains middleware functions
 const kubernetesController = {
 
+    // Middleware function to get all pods from the cluster
     getPods: async (_req: Request, res: Response, next: NextFunction) => {
         const allPods = await (kubernetesService.getPodsFromCluster());
         interface ReturnedPod {
@@ -43,6 +44,7 @@ const kubernetesController = {
         next();
     },
 
+    // Middleware function to get details on a single pod from the cluster
     getPodDetails: async (req: Request, res: Response, next: NextFunction) => {
         const { podName, namespace } = req.params;
         interface ReturnedPod {
@@ -86,7 +88,8 @@ const kubernetesController = {
         }
     },
 
-    getNodes: async (req: Request, res: Response, next: NextFunction) => {
+    // Middleware function to get all nodes from the cluster
+    getNodes: async (_req: Request, res: Response, next: NextFunction) => {
         const allNodes = await (kubernetesService.getNodesFromCluster());
         interface ReturnedNode {
             name: String | undefined;
@@ -119,7 +122,8 @@ const kubernetesController = {
         next();
     },
 
-    getServices: async (req: Request, res: Response, next: NextFunction) => {
+    // Middleware function to get all services from the cluster
+    getServices: async (_req: Request, res: Response, next: NextFunction) => {
         const allServices = await (kubernetesService.getServicesFromCluster());
         interface ReturnedServices {
             name: String | undefined;

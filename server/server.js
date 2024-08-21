@@ -1,5 +1,5 @@
 import express from 'express';
-// import kubernetesRouter from './routes/kubernetesRouter.ts';
+import router from './routes/kubernetesRouter.js';
 const app = express();
 const PORT = 8080;
 // Middleware example
@@ -7,9 +7,7 @@ app.use(express.json());
 // Kubernetes Router Handler
 // app.use('/api', kubernetesRouter);
 // Basic route example
-app.get('/api', (_req, res) => {
-    res.send('Hello, TypeScript with Express!');
-});
+app.use('/api', router);
 // Error handling middleware
 app.use((err, _req, res, _next) => {
     console.error(err.stack);

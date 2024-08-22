@@ -1,7 +1,8 @@
-import { jsx as _jsx, Fragment as _Fragment } from "react/jsx-runtime";
+import { jsx as _jsx } from "react/jsx-runtime";
 import { ReactFlow } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 export default function ClusterViewContainer() {
+    // test nodes for React Flow chart
     const testNodes = [
         {
             id: "1",
@@ -14,6 +15,7 @@ export default function ClusterViewContainer() {
             data: { label: "2" },
         },
     ];
+    // test edges for Reat Flow chart
     const testEdges = [
         {
             id: "e1-2",
@@ -21,5 +23,7 @@ export default function ClusterViewContainer() {
             target: "2",
         },
     ];
-    return (_jsx(_Fragment, { children: _jsx("div", { style: { width: "100vw", height: "100vh" }, children: _jsx(ReactFlow, { nodes: testNodes, edges: testEdges }) }) }));
+    return (
+    // test chart render for React Flow chart
+    _jsx("div", { id: "clusterview-container", className: "container", children: _jsx("div", { style: { width: "100vw", height: "100vh" }, children: _jsx(ReactFlow, { nodes: testNodes, edges: testEdges }) }) }));
 }

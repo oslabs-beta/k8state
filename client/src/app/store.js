@@ -1,21 +1,19 @@
-import { combineSlices, configureStore } from "@reduxjs/toolkit";
-import { setupListeners } from "@reduxjs/toolkit/query";
-import { counterSlice } from "../features/counter/counterSlice";
-import { quotesApiSlice } from "../features/quotes/quotesApiSlice";
-import { clusterViewSlice } from "../features/cluster-view/clusterViewSlice";
-// `combineSlices` automatically combines the reducers using
-// their `reducerPath`s, therefore we no longer need to call `combineReducers`.
-const rootReducer = combineSlices(counterSlice, quotesApiSlice, clusterViewSlice);
+import { configureStore } from "@reduxjs/toolkit";
+import { setupListeners } from "@reduxjs/toolkit/query/react";
+import { clusterApi } from "../features/cluster-view/clusterViewApiSlice";
+import clusterViewReducer from "../features/cluster-view/clusterViewApiSlice";
+// Combine the slices and RTK Query APIs into the root reducer
+const rootReducer = {
+    [clusterApi.reducerPath]: clusterApi.reducer, // Adding the RTK Query reducer
+    clusterView: clusterViewReducer, // Adding the clusterView slice reducer
+    // Add other slices and APIs here as needed
+};
 // The store setup is wrapped in `makeStore` to allow reuse
 // when setting up tests that need the same store config
 export const makeStore = (preloadedState) => {
     const store = configureStore({
         reducer: rootReducer,
-        // Adding the api middleware enables caching, invalidation, polling,
-        // and other useful features of `rtk-query`.
-        middleware: getDefaultMiddleware => {
-            return getDefaultMiddleware().concat(quotesApiSlice.middleware);
-        },
+        middleware: getDefaultMiddleware => getDefaultMiddleware().concat(clusterApi.middleware), // Adding RTK Query middleware
         preloadedState,
     });
     // configure listeners using the provided defaults

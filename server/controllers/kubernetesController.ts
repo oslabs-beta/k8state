@@ -7,7 +7,6 @@ const kubernetesController = {
 
     // Middleware function to get all pods from the cluster
     getPods: async (_req: Request, res: Response, next: NextFunction) => {
-        const allPods = await (kubernetesService.getPodsFromCluster());
         interface ReturnedPod {
             name: string;
             creationTimestamp: Date | undefined;
@@ -19,29 +18,37 @@ const kubernetesController = {
             hostIP: String;
             podIP: String;
             phase: string | undefined;
-            // conditions: k8s.V1PodCondition[] | undefined; //(Pod Health)
+            conditions: k8s.V1PodCondition[] | undefined; //(Pod Health)
             startTime: Date | undefined;
         }
-        const returnedPods: ReturnedPod[] = [];
-        for (const pod of allPods) {
-            const newPod: ReturnedPod = {
-                name: pod.metadata?.name || 'Unknown Pod Name',
-                creationTimestamp: pod.metadata?.creationTimestamp || undefined,
-                namespace: pod.metadata?.namespace || 'Unknown namespce',
-                labels: pod.metadata?.labels || undefined,
-                nodeName: pod.spec?.nodeName,
-                // containers: pod.spec?.containers || undefined, //(Stretch)
-                restartPolicy: pod.spec?.restartPolicy || 'Unknown restart policy',
-                hostIP: pod.status?.hostIP || 'Unknown host IP',
-                podIP: pod.status?.podIP || 'Unknown pod IP',
-                phase: pod.status?.phase || 'Unknown phase',
-                // conditions: pod.status?.conditions || undefined, //(Pod Health)
-                startTime: pod.status?.startTime || undefined,
+        try {
+            const allPods = await (kubernetesService.getPodsFromCluster());
+
+            const returnedPods: ReturnedPod[] = [];
+            for (const pod of allPods) {
+                const newPod: ReturnedPod = {
+                    name: pod.metadata?.name || 'Unknown Pod Name',
+                    creationTimestamp: pod.metadata?.creationTimestamp || undefined,
+                    namespace: pod.metadata?.namespace || 'Unknown namespce',
+                    labels: pod.metadata?.labels || undefined,
+                    nodeName: pod.spec?.nodeName,
+                    // containers: pod.spec?.containers || undefined, //(Stretch)
+                    restartPolicy: pod.spec?.restartPolicy || 'Unknown restart policy',
+                    hostIP: pod.status?.hostIP || 'Unknown host IP',
+                    podIP: pod.status?.podIP || 'Unknown pod IP',
+                    phase: pod.status?.phase || 'Unknown phase',
+                    conditions: pod.status?.conditions || undefined, //(Pod Health)
+                    startTime: pod.status?.startTime || undefined,
+                }
+                returnedPods.push(newPod);
             }
-            returnedPods.push(newPod);
+            res.locals.podData = returnedPods;
+            next();
         }
-        res.locals.podData = returnedPods;
-        next();
+        catch (error) {
+            console.log(error);
+            res.status(500).json({ message: 'Error fetching pods from cluster'});
+        }
     },
 
     // Middleware function to get details on a single pod from the cluster
@@ -90,7 +97,6 @@ const kubernetesController = {
 
     // Middleware function to get all nodes from the cluster
     getNodes: async (_req: Request, res: Response, next: NextFunction) => {
-        const allNodes = await (kubernetesService.getNodesFromCluster());
         interface ReturnedNode {
             name: String | undefined;
             namespace: String | undefined;
@@ -103,28 +109,35 @@ const kubernetesController = {
             conditions: k8s.V1NodeCondition[] | undefined,
             labels: {[key: string]: string} | undefined,
         }
-        const returnedNodes: ReturnedNode[] = [];
-        for (const node of allNodes) {
-            const newNode: ReturnedNode = {
-                creationTimestamp: node.metadata?.creationTimestamp,
-                name: node.metadata?.name,
-                namespace: node.metadata?.namespace,
-                labels: node.metadata?.labels,
-                podCIDR: node.spec?.podCIDR,
-                addresses: node.status?.addresses,
-                allocatable: node.status?.allocatable,
-                capacity: node.status?.capacity,
-                conditions: node.status?.conditions,
+        try {
+            const allNodes = await (kubernetesService.getNodesFromCluster());
+            const returnedNodes: ReturnedNode[] = [];
+            for (const node of allNodes) {
+                console.log(node.status?.conditions, node.status?.capacity);
+                const newNode: ReturnedNode = {
+                    creationTimestamp: node.metadata?.creationTimestamp,
+                    name: node.metadata?.name,
+                    namespace: node.metadata?.namespace,
+                    labels: node.metadata?.labels,
+                    podCIDR: node.spec?.podCIDR,
+                    addresses: node.status?.addresses,
+                    allocatable: node.status?.allocatable,
+                    capacity: node.status?.capacity,
+                    conditions: node.status?.conditions,
+                }
+                returnedNodes.push(newNode);
             }
-            returnedNodes.push(newNode);
+            res.locals.nodeData = returnedNodes;
+            next();
         }
-        res.locals.nodeData = returnedNodes;
-        next();
+        catch (error) {
+            console.log(error);
+            res.status(500).json({ message: 'Error fetching services from cluster'});
+        }
     },
 
     // Middleware function to get all services from the cluster
     getServices: async (_req: Request, res: Response, next: NextFunction) => {
-        const allServices = await (kubernetesService.getServicesFromCluster());
         interface ReturnedServices {
             name: String | undefined;
             namespace: String | undefined;
@@ -135,26 +148,31 @@ const kubernetesController = {
             selector: {[key: string]: string} | undefined;
             type: String | undefined;
         }
+        try {
+            const allServices = await (kubernetesService.getServicesFromCluster());
+            const returnedServices: ReturnedServices[] = [];
 
-        const returnedServices: ReturnedServices[] = [];
-
-        for(const services of allServices){
-            const newService: ReturnedServices = {
-                name: services.metadata?.name,
-                namespace: services.metadata?.namespace,
-                labels: services.metadata?.labels,
-                creationTimestamp: services.metadata?.creationTimestamp,
-                clusterIP: services.spec?.clusterIP,
-                ports: services.spec?.ports,
-                selector: services.spec?.selector,
-                type: services.spec?.type,
+            for(const services of allServices){
+                const newService: ReturnedServices = {
+                    name: services.metadata?.name,
+                    namespace: services.metadata?.namespace,
+                    labels: services.metadata?.labels,
+                    creationTimestamp: services.metadata?.creationTimestamp,
+                    clusterIP: services.spec?.clusterIP,
+                    ports: services.spec?.ports,
+                    selector: services.spec?.selector,
+                    type: services.spec?.type,
+                }
+                returnedServices.push(newService);
             }
-            returnedServices.push(newService);
+            res.locals.serviceData = returnedServices;
+            next();
         }
-        res.locals.serviceData = returnedServices;
-        next();
+        catch (error) {
+            console.log(error);
+            res.status(500).json({ message: 'Error fetching nodes from cluster'});
+        }
     }
-
 };
 
 // Exports the controller object for use as middleware

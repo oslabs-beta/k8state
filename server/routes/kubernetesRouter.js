@@ -1,16 +1,20 @@
 import { Router } from 'express';
-import { getPods, getPodDetails, getServices, getNodes } from '../controllers/kubernetesController';
+import kubernetesController from '../controllers/kubernetesController.js';
 const router = Router();
 // Route to get all pods in the cluster
-router.get('/pods', getPods, (req, res) => {
+router.get('/pods', kubernetesController.getPods, (_req, res) => {
+    res.status(200).json(res.locals.podData);
 });
 // Route to get all details of a specific pod
-router.get('/pods/:podName', getPodDetails, (req, res) => {
+router.get('/pods/:namespace/:podName', kubernetesController.getPodDetails, (_req, res) => {
+    res.status(200).json(res.locals.pod);
 });
 // Route to get all services in the cluster
-router.get('/services', getServices, (req, res) => {
+router.get('/services', kubernetesController.getServices, (_req, res) => {
+    res.status(200).json(res.locals.serviceData);
 });
 // Route to get all nodes in the cluster
-router.get('/nodes', getNodes, (req, res) => {
+router.get('/nodes', kubernetesController.getNodes, (_req, res) => {
+    res.status(200).json(res.locals.nodeData);
 });
 export default router;

@@ -23,9 +23,7 @@ export const clusterViewSlice = createAppSlice({
     generateNodesAsync: create.asyncThunk(
       async () => {
         try {
-          const response = await fetch(
-            "https://jsonplaceholder.typicode.com/todos/1",
-          )
+          const response = await fetch("http://localhost:8080/api/nodes")
           const data = (await response).json()
           return data
         } catch (error) {

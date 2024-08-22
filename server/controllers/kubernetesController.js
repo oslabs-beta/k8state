@@ -1,6 +1,7 @@
 import kubernetesService from '../services/kubernetesService.js';
 // Controller object that contains middleware functions
 const kubernetesController = {
+    // Middleware function to get all pods from the cluster
     getPods: async (_req, res, next) => {
         const allPods = await (kubernetesService.getPodsFromCluster());
         const returnedPods = [];
@@ -24,6 +25,7 @@ const kubernetesController = {
         res.locals.podData = returnedPods;
         next();
     },
+    // Middleware function to get details on a single pod from the cluster
     getPodDetails: async (req, res, next) => {
         const { podName, namespace } = req.params;
         try {
@@ -50,7 +52,8 @@ const kubernetesController = {
             throw new Error(`Error occurred while fetching pod data for pod: ${podName} in namespace: ${namespace}`);
         }
     },
-    getNodes: async (req, res, next) => {
+    // Middleware function to get all nodes from the cluster
+    getNodes: async (_req, res, next) => {
         const allNodes = await (kubernetesService.getNodesFromCluster());
         const returnedNodes = [];
         for (const node of allNodes) {
@@ -70,7 +73,8 @@ const kubernetesController = {
         res.locals.nodeData = returnedNodes;
         next();
     },
-    getServices: async (req, res, next) => {
+    // Middleware function to get all services from the cluster
+    getServices: async (_req, res, next) => {
         const allServices = await (kubernetesService.getServicesFromCluster());
         const returnedServices = [];
         for (const services of allServices) {

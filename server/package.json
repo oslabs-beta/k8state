@@ -14,6 +14,7 @@
 	"description": "",
 	"dependencies": {
 		"@kubernetes/client-node": "^0.21.0",
+		"axios": "^1.7.4",
 		"concurrently": "^8.2.2",
 		"cors": "^2.8.5",
 		"dotenv": "^16.4.5",
@@ -24,6 +25,7 @@
 		"vite": "^5.4.1"
 	},
 	"devDependencies": {
+		"@types/cors": "^2.8.17",
 		"nodemon": "^3.1.4"
 	}
 }

@@ -1,17 +1,22 @@
-# vite-template-redux
+# K8State: Kubernetes Dashboard
 
-Uses [Vite](https://vitejs.dev/), [Vitest](https://vitest.dev/), and [React Testing Library](https://github.com/testing-library/react-testing-library) to create a modern [React](https://react.dev/) app compatible with [Create React App](https://create-react-app.dev/)
+K8State is a comprehensive Kubernetes dashboard application designed to provide real-time insights into your Kubernetes clusters. With K8State, you can monitor, manage, and optimize your Kubernetes resources through a user-friendly interface built on modern web technologies.
 
-```sh
-npx degit reduxjs/redux-templates/packages/vite-template-redux my-app
-```
+## Features
 
-## Goals
+•	Real-Time Monitoring: View the status of pods, nodes, and services in real-time.
+•	Resource Visualization: Graphical representation of resource utilization, leveraging Prometheus and Grafana.
+•	Interactive UI: Built with React, Redux, React-Flow and Material-UI, offering a responsive and intuitive interface.
+•	Scalability: Designed to scale with your Kubernetes clusters, supporting multiple namespaces and contexts.
+•	Extensibility: Easily extendable through a modular architecture to accommodate custom metrics and features.
 
-- Easy migration from Create React App or Vite
-- As beginner friendly as Create React App
-- Optimized performance compared to Create React App
-- Customizable without ejecting
+## Prerequisites
+
+•	Node.js (version 14 or higher)
+•	npm or Yarn
+•	Kubernetes Cluster (with kubeconfig configured)
+•	Prometheus instance running in your Kubernetes cluster
+•	Grafana instance for visualizations
 
 ## Scripts
 
@@ -20,8 +25,60 @@ npx degit reduxjs/redux-templates/packages/vite-template-redux my-app
 - `preview` - locally preview production build
 - `test` - launch test runner
 
-## Inspiration
+## Installation
 
-- [Create React App](https://github.com/facebook/create-react-app/tree/main/packages/cra-template)
+1. Clone the Repository
+```sh
+git clone https://github.com/your-username/k8state.git
+cd k8state
+```
+
+2. Install Dependencies
+
+Using npm:
+```sh
+npm install
+```
+
+Using yarn:
+
+```sh
+yarn install
+```
+
+## Configuration
+
+Create a .env file in the root directory and add the following variables:
+
+```
+KUBERNETES_SERVER=http://kubernetes-server.com:00000
+KUBERNETES_TOKEN=Insert_Your_Token_Here
+```
+
+## Running the Application
+
+1. Start the Backend
+
+In the root directory:
+
+```sh
+cd server
+npm run server
+```
+Starts the server on http://localhost:8080
+
+
+2. Start the Frontend
+
+In the root directory:
+
+```sh
+cd client
+npm run build
+npm run start
+```
+Starts the client on http://localhost:3000
+
+<!-- - [Create React App](https://github.com/facebook/create-react-app/tree/main/packages/cra-template)
 - [Vite](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react)
-- [Vitest](https://github.com/vitest-dev/vitest/tree/main/examples/react-testing-lib)
+- [Vitest](https://github.com/vitest-dev/vitest/tree/main/examples/react-testing-lib) -->

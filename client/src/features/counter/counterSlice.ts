@@ -18,7 +18,7 @@ export const counterSlice = createAppSlice({
   name: "counter",
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
-  // The `reducers` field lets us define reducers and generate associated actions
+  // The `reducers` field lets us define reducers and generate associated  actions
   reducers: create => ({
     increment: create.reducer(state => {
       // Redux Toolkit allows us to write "mutating" logic in reducers. It

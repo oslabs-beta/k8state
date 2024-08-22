@@ -1,23 +1,21 @@
-// Lines 2 - 31 are just basic kubernetes API setup
+// Lines 2 - 33 are basic kubernetes API setup
 import * as k8s from '@kubernetes/client-node';
 import dotenv from 'dotenv';
 dotenv.config();
 // Creates the config file that the server will be using to communicate with the cluster
 const kc = new k8s.KubeConfig();
-const server = process.env.KUBERNETES_SERVER;
-const token = process.env.KUBERNETES_TOKEN;
 kc.loadFromOptions({
     clusters: [
         {
             name: 'main-cluster',
-            server: `${server}`,
+            server: `${process.env.KUBERNETES_SERVER}`,
             skipTLSVerify: true,
         },
     ],
     users: [
         {
             name: 'main-user',
-            token: `${token}`,
+            token: `${process.env.KUBERNETES_TOKEN}`,
         },
     ],
     contexts: [

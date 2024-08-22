@@ -1,11 +1,13 @@
 import express, { Request, Response, NextFunction } from 'express';
 import router from './routes/kubernetesRouter.js';
+import cors from 'cors';
 
 const app = express();
 const PORT = 8080;
 
-// Middleware example
+// Middleware
 app.use(express.json());
+app.use(cors());
 
 // Kubernetes Router Handler
 app.use('/api', router);

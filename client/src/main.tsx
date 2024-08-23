@@ -2,7 +2,9 @@ import React from "react"
 import { createRoot } from "react-dom/client"
 import { Provider } from "react-redux"
 import App from "./App"
+import LandingPage from "./features/landing-page/LandingPage"
 import { store } from "./app/store"
+import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import "./index.css"
 
 // import material UI fonts
@@ -10,6 +12,34 @@ import "@fontsource/roboto/300.css"
 import "@fontsource/roboto/400.css"
 import "@fontsource/roboto/500.css"
 import "@fontsource/roboto/700.css"
+
+import { createTheme, ThemeProvider } from "@mui/material/styles"
+import CssBaseline from "@mui/material/CssBaseline"
+
+const theme = createTheme({
+  typography: {
+    fontFamily: '"Roboto", sans-serif', // Set your desired font family here
+    h1: {
+      fontFamily: '"Oswald", sans-serif', // Customize font for specific variant
+      fontWeight: 900,
+    },
+    // body1: {
+    //   fontFamily: '"Arial", sans-serif', // Another example for body text
+    // },
+    // You can add more variants here...
+  },
+})
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <LandingPage />,
+  },
+  {
+    path: "/clusterui",
+    element: <App />,
+  },
+])
 
 const container = document.getElementById("root")
 
@@ -19,7 +49,9 @@ if (container) {
   root.render(
     <React.StrictMode>
       <Provider store={store}>
-        <App />
+        <ThemeProvider theme={theme}>
+          <RouterProvider router={router} />
+        </ThemeProvider>
       </Provider>
     </React.StrictMode>,
   )

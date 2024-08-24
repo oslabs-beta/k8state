@@ -48,7 +48,7 @@ export const clusterApi = createApi({
     getPods: builder.query<Pod[], void>({
       query: () => "pods",
     }),
-    getServices: builder.query<Pod[], void>({
+    getServices: builder.query<Services[], void>({
       query: () => "services",
     }),
   }),

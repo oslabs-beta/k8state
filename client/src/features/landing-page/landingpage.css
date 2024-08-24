@@ -1,0 +1,31 @@
+.landingpage {
+  display: flex;
+  min-height: calc(100vh - 64px); /* Adjusting for AppBar height */
+  align-items: center;
+}
+
+.logo-main {
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2))
+    drop-shadow(0 30px 80px rgba(93, 52, 200, 0.2))
+    drop-shadow(0 60px 20px rgba(128, 90, 213, 0.2));
+  /* drop-shadow(0 80px 10px rgba(5, 200, 178, 0.2)); */
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .logo-main {
+    animation: App-logo-float infinite 3s ease-in-out;
+  }
+}
+
+.footer {
+  background: #f8f8f8;
+  padding: 20px 0;
+  border-top: 1px solid #ddd;
+  text-align: center;
+  margin-top: auto;
+}
+
+footer p {
+  font-size: 0.9rem;
+  color: #666;
+}

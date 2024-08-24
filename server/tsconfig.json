@@ -12,6 +12,9 @@
 		"moduleDetection": "force",
 		"noEmit": false,
 
+		/* Interop Constraints */
+		"esModuleInterop": true, // added by Vince Aug 23
+
 		/* Linting */
 		"strict": true,
 		"noUnusedLocals": true,

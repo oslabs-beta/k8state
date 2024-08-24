@@ -80,7 +80,7 @@ export default function ClusterViewContainer() {
   return (
     // test chart render for React Flow chart
     <div id="clusterview-container" className="container">
-      <div style={{ width: "80vw", height: "60vh" }}>
+      <div style={{ width: "100vw", height: "100vh" }}>
         <ReactFlow nodes={reactFlowNodes} edges={reactFlowEdges} fitView>
           <Background />
           <Controls />

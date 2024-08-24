@@ -50,7 +50,7 @@ export default function LandingPage() {
         >
           <Grid item xs={12}>
             <img
-              className="logo-main"
+              className="logo-main App-logo-float"
               src={logoPNG}
               alt="App logo"
               style={{ width: "100%", maxWidth: "300px", marginBottom: "20px" }}

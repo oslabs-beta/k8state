@@ -40,5 +40,5 @@ export default function ClusterViewContainer() {
     ];
     return (
     // test chart render for React Flow chart
-    _jsx("div", { id: "clusterview-container", className: "container", children: _jsx("div", { style: { width: "80vw", height: "60vh" }, children: _jsxs(ReactFlow, { nodes: reactFlowNodes, edges: reactFlowEdges, fitView: true, children: [_jsx(Background, {}), _jsx(Controls, {})] }) }) }));
+    _jsx("div", { id: "clusterview-container", className: "container", children: _jsx("div", { style: { width: "100vw", height: "100vh" }, children: _jsxs(ReactFlow, { nodes: reactFlowNodes, edges: reactFlowEdges, fitView: true, children: [_jsx(Background, {}), _jsx(Controls, {})] }) }) }));
 }

@@ -23,10 +23,6 @@ const theme = createTheme({
       fontFamily: '"Oswald", sans-serif', // Customize font for specific variant
       fontWeight: 900,
     },
-    // body1: {
-    //   fontFamily: '"Arial", sans-serif', // Another example for body text
-    // },
-    // You can add more variants here...
   },
 })
 

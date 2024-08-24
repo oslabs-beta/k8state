@@ -6,35 +6,57 @@ import {
   Button,
   Container,
   Grid,
+  Box,
 } from "@mui/material"
-import logo from "../../public/images/logo.svg"
+import logoSVG from "../../public/logo.svg"
+import logoPNG from "../../public/logo.png"
 import "./landingpage.css"
 
 export default function LandingPage() {
   return (
-    <>
-      {/* Header */}
-      <AppBar position="static" color="transparent" elevation={0}>
-        <Toolbar>
+    <Box sx={{ minWidth: "750px" }}>
+      <AppBar
+        position="sticky"
+        sx={{
+          background:
+            "linear-gradient(to bottom, white 70%, rgba(255, 255, 255, 0))",
+          transition: "background-color 0.5s ease",
+        }}
+        color="transparent"
+        elevation={0}
+      >
+        <Toolbar sx={{ justifyContent: "space-between" }}>
           <img
-            src={logo}
+            src={logoSVG}
             alt="App logo"
             style={{ width: "50px", marginRight: "15px" }}
           />
-          <Typography variant="h6" component="div" sx={{ flexGrow: 5 }}>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             K8STATE
           </Typography>
-          {/* <Button color="inherit">Guide</Button> */}
-          {/* <Button color="inherit">Config</Button> */}
           <Button color="inherit">Meet The Team</Button>
           <Button color="inherit">Read Me</Button>
         </Toolbar>
       </AppBar>
-
       {/* Main Content */}
-      <Container className="landingpage" maxWidth="lg">
-        <Grid container spacing={4} alignItems="center" justifyContent="center">
-          <Grid item xs={12} md={6}>
+      <Container className="landingpage" maxWidth="lg" sx={{ pt: 6 }}>
+        <Grid
+          container
+          spacing={4}
+          alignItems="center"
+          justifyContent="center"
+          direction="column"
+          textAlign="center"
+        >
+          <Grid item xs={12}>
+            <img
+              className="logo-main"
+              src={logoPNG}
+              alt="App logo"
+              style={{ width: "100%", maxWidth: "300px", marginBottom: "20px" }}
+            />
+          </Grid>
+          <Grid item xs={12}>
             <Typography variant="h1" component="h1" gutterBottom>
               K<span style={{ color: "#ad97d0" }}>8</span>STATE
             </Typography>
@@ -62,17 +84,8 @@ export default function LandingPage() {
               Visit GitHub
             </Button>
           </Grid>
-          <Grid item xs={12} md={6}>
-            <img
-              className="logo-main"
-              src={logo}
-              alt="App logo"
-              style={{ width: "100%", maxWidth: "300px" }}
-            />
-          </Grid>
         </Grid>
       </Container>
-
       {/* Footer */}
       <footer className="footer">
         <Container maxWidth="lg">
@@ -87,6 +100,6 @@ export default function LandingPage() {
           </Typography>
         </Container>
       </footer>
-    </>
+    </Box>
   )
 }

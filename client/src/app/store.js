@@ -1,13 +1,13 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query/react";
 import { clusterApi } from "../features/cluster-view/clusterViewApiSlice";
 import clusterViewReducer from "../features/cluster-view/clusterViewApiSlice";
 // Combine the slices and RTK Query APIs into the root reducer
-const rootReducer = {
+const rootReducer = combineReducers({
     [clusterApi.reducerPath]: clusterApi.reducer, // Adding the RTK Query reducer
     clusterView: clusterViewReducer, // Adding the clusterView slice reducer
     // Add other slices and APIs here as needed
-};
+});
 // The store setup is wrapped in `makeStore` to allow reuse
 // when setting up tests that need the same store config
 export const makeStore = (preloadedState) => {

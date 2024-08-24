@@ -1,18 +1,18 @@
 import type { Action, ThunkAction } from "@reduxjs/toolkit"
-import { configureStore } from "@reduxjs/toolkit"
+import { configureStore, combineReducers } from "@reduxjs/toolkit"
 import { setupListeners } from "@reduxjs/toolkit/query/react"
 import { clusterApi } from "../features/cluster-view/clusterViewApiSlice"
 import clusterViewReducer from "../features/cluster-view/clusterViewApiSlice"
 
 // Combine the slices and RTK Query APIs into the root reducer
-const rootReducer = {
+const rootReducer = combineReducers({
   [clusterApi.reducerPath]: clusterApi.reducer, // Adding the RTK Query reducer
   clusterView: clusterViewReducer, // Adding the clusterView slice reducer
   // Add other slices and APIs here as needed
-}
+})
 
 // Infer the `RootState` type from the root reducer
-export type RootState = ReturnType<typeof store.getState>
+export type RootState = ReturnType<typeof rootReducer>
 
 // The store setup is wrapped in `makeStore` to allow reuse
 // when setting up tests that need the same store config
@@ -33,7 +33,7 @@ export const makeStore = (preloadedState?: Partial<RootState>) => {
 export const store = makeStore()
 
 // Infer the type of `store`
-export type AppStore = typeof store
+export type AppStore = ReturnType<typeof makeStore>
 // Infer the `AppDispatch` type from the store itself
 export type AppDispatch = AppStore["dispatch"]
 export type AppThunk<ThunkReturnType = void> = ThunkAction<

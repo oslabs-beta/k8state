@@ -95,7 +95,7 @@ export default function MiniDrawer() {
                 }, children: _jsxs(Toolbar, { children: [_jsx(IconButton, { color: "inherit", "aria-label": "open drawer", onClick: handleDrawerOpen, edge: "start", sx: {
                                 marginRight: 5,
                                 ...(open && { display: "none" }),
-                            }, children: _jsx(MenuIcon, {}) }), _jsxs(Typography, { variant: "h6", noWrap: true, component: "div", children: ["K", _jsx("span", { style: { color: "#ad97d0" }, children: "8" }), "STATE \u2014 Cluster View"] }), _jsx("img", { src: logoSVG, alt: "App logo", style: { width: "50px", marginLeft: "auto", marginRight: "15px" } })] }) }), _jsxs(Drawer, { variant: "permanent", open: open, children: [_jsx(DrawerHeader, { children: _jsx(IconButton, { onClick: handleDrawerClose, children: theme.direction === "rtl" ? (_jsx(ChevronRightIcon, {})) : (_jsx(ChevronLeftIcon, {})) }) }), _jsx(Divider, {}), _jsx(List, { children: ["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (_jsx(ListItem, { disablePadding: true, sx: { display: "block" }, children: _jsxs(ListItemButton, { sx: {
+                            }, children: _jsx(MenuIcon, {}) }), _jsxs(Typography, { variant: "h6", noWrap: true, component: "div", children: ["K", _jsx("span", { style: { color: "#ad97d0" }, children: "8" }), "STATE \u2014 Cluster View"] }), _jsx("img", { src: logoSVG, alt: "App logo", style: { width: "50px", marginLeft: "auto", marginRight: "15px" } })] }) }), _jsxs(Drawer, { variant: "permanent", open: open, children: [_jsx(DrawerHeader, { children: _jsx(IconButton, { onClick: handleDrawerClose, children: theme.direction === "rtl" ? (_jsx(ChevronRightIcon, {})) : (_jsx(ChevronLeftIcon, {})) }) }), _jsx(Divider, {}), _jsx(List, { children: ["Logs", "Nodes"].map((text, index) => (_jsx(ListItem, { disablePadding: true, sx: { display: "block" }, children: _jsxs(ListItemButton, { sx: {
                                     minHeight: 48,
                                     justifyContent: open ? "initial" : "center",
                                     px: 2.5,
@@ -103,7 +103,7 @@ export default function MiniDrawer() {
                                             minWidth: 0,
                                             mr: open ? 3 : "auto",
                                             justifyContent: "center",
-                                        }, children: index % 2 === 0 ? _jsx(InboxIcon, {}) : _jsx(MailIcon, {}) }), _jsx(ListItemText, { primary: text, sx: { opacity: open ? 1 : 0 } })] }) }, text))) }), _jsx(Divider, {}), _jsx(List, { children: ["All mail", "Trash", "Spam"].map((text, index) => (_jsx(ListItem, { disablePadding: true, sx: { display: "block" }, children: _jsxs(ListItemButton, { sx: {
+                                        }, children: index % 2 === 0 ? _jsx(InboxIcon, {}) : _jsx(MailIcon, {}) }), _jsx(ListItemText, { primary: text, sx: { opacity: open ? 1 : 0 } })] }) }, text))) }), _jsx(Divider, {}), _jsx(List, { children: ["Support", "Settings", "Logout"].map((text, index) => (_jsx(ListItem, { disablePadding: true, sx: { display: "block" }, children: _jsxs(ListItemButton, { sx: {
                                     minHeight: 48,
                                     justifyContent: open ? "initial" : "center",
                                     px: 2.5,

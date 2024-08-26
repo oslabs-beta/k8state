@@ -11,6 +11,18 @@
   /* drop-shadow(0 80px 10px rgba(5, 200, 178, 0.2)); */
 }
 
+@keyframes App-logo-float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .logo-main {
     animation: App-logo-float infinite 3s ease-in-out;

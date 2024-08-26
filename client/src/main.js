@@ -2,17 +2,19 @@ import { jsx as _jsx } from "react/jsx-runtime";
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
-import App from "./App";
 import LandingPage from "./features/landing-page/LandingPage";
 import { store } from "./app/store";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
+import CaptivePortal from "./features/captive-portal/CaptivePortal";
 // import material UI fonts
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import ProtectedRoute from "./features/captive-portal/ProtectedRoute";
+import ClusterViewContainer from "./features/cluster-view/containers/ClusterViewContainer";
 const theme = createTheme({
     typography: {
         fontFamily: '"Roboto", sans-serif', // Set your desired font family here
@@ -29,7 +31,11 @@ const router = createBrowserRouter([
     },
     {
         path: "/clusterui",
-        element: _jsx(App, {}),
+        element: _jsx(ProtectedRoute, { element: _jsx(ClusterViewContainer, {}) }),
+    },
+    {
+        path: "/portal",
+        element: _jsx(CaptivePortal, {}),
     },
 ]);
 const container = document.getElementById("root");

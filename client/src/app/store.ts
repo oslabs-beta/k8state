@@ -3,12 +3,14 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit"
 import { setupListeners } from "@reduxjs/toolkit/query/react"
 import { clusterApi } from "../features/cluster-view/clusterViewApiSlice"
 import clusterViewReducer from "../features/cluster-view/clusterViewApiSlice"
+import portalSliceReducer from "../features/captive-portal/captivePortalSlice"
 
 // Combine the slices and RTK Query APIs into the root reducer
 const rootReducer = combineReducers({
   [clusterApi.reducerPath]: clusterApi.reducer, // Adding the RTK Query reducer
   clusterView: clusterViewReducer, // Adding the clusterView slice reducer
   // Add other slices and APIs here as needed
+  portalSlice: portalSliceReducer,
 })
 
 // Infer the `RootState` type from the root reducer

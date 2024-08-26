@@ -6,6 +6,7 @@ import LandingPage from "./features/landing-page/LandingPage"
 import { store } from "./app/store"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import "./index.css"
+import CaptivePortal from "./features/captive-portal/CaptivePortal"
 
 // import material UI fonts
 import "@fontsource/roboto/300.css"
@@ -15,6 +16,9 @@ import "@fontsource/roboto/700.css"
 
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 import CssBaseline from "@mui/material/CssBaseline"
+import ProtectedRoute from "./features/captive-portal/ProtectedRoute"
+import MiniDrawer from "./features/mini-drawer/MiniDrawer"
+import ClusterViewContainer from "./features/cluster-view/containers/ClusterViewContainer"
 
 const theme = createTheme({
   typography: {
@@ -33,7 +37,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/clusterui",
-    element: <App />,
+    element: <ProtectedRoute element={<ClusterViewContainer/>}/>,
+  },
+  {
+    path: "/portal",
+    element: <CaptivePortal/>,
   },
 ])
 

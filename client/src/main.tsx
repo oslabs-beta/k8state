@@ -37,7 +37,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/clusterui",
-    element: <ProtectedRoute element={<ClusterViewContainer/>}/>,
+    element: <ProtectedRoute element={<App/>}/>,
   },
   {
     path: "/portal",

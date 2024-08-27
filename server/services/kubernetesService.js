@@ -1,6 +1,8 @@
 // Lines 2 - 33 are basic kubernetes API setup
 import * as k8s from '@kubernetes/client-node';
 import dotenv from 'dotenv';
+import fs from 'fs';
+import path from 'path';
 dotenv.config();
 // Creates the config file that the server will be using to communicate with the cluster
 const kc = new k8s.KubeConfig();
@@ -74,6 +76,38 @@ const kubernetesService = {
         catch (error) {
             console.log(error);
             throw new Error(`Error fetching all node data from the cluster.`);
+        }
+    },
+    checkAPI: async () => {
+        // console.log('previous' + process.env.KUBERNETES_SERVER);
+        // process.env.KUBERNETES_SERVER='https://192.168.1.134:8442';
+        // console.log('now' + process.env.KUBERNETES_SERVER);
+        //I need to build out 
+        try {
+            const res = await k8sApi.listNode();
+            //console.log(res.response, res.body);
+            return 'ok';
+        }
+        catch (error) {
+            //console.log(error);
+            if (error instanceof Error) {
+                //console.log(error.name);
+                //console.log(error);
+                return error;
+            }
+        }
+    },
+    checkEnv: async () => {
+        if (!process.env.KUBERNETES_SERVER || !process.env.KUBERNETES_TOKEN) {
+            const envPath = path.resolve(path.resolve('./.env'));
+            if (!fs.existsSync(envPath)) {
+                const defaultEnv = 'KUBERNETES_SERVER=\n' + 'KUBERNETES_TOKEN=';
+                fs.writeFileSync(envPath, defaultEnv.trim());
+                return 'init';
+            }
+        }
+        else {
+            return 'exist';
         }
     }
 };

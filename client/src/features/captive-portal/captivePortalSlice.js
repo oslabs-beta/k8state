@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     address: '',
-    key: ''
+    key: '',
+    init: false,
 };
 export const portalSlice = createSlice({
     name: 'portalSlice',
@@ -12,6 +13,9 @@ export const portalSlice = createSlice({
         },
         setKey: (state, action) => {
             state.key = action.payload;
+        },
+        setInit: (state, action) => {
+            state.init = action.payload;
         }
     }
 });

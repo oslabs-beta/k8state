@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import * as k8s from '@kubernetes/client-node';
 import kubernetesService from '../services/kubernetesService.js';
 
+
 // Controller object that contains middleware functions
 const kubernetesController = {
 
@@ -171,6 +172,34 @@ const kubernetesController = {
         catch (error) {
             console.log(error);
             res.status(500).json({ message: 'Error fetching nodes from cluster'});
+        }
+    },
+    checkAPI: async (_req: Request, res: Response, next: NextFunction) => {
+        try{
+            const check = await (kubernetesService.checkAPI());
+            console.log(check);
+            if(check === 'ok'){
+                next();
+            }
+            else{
+                res.status(500).json({ message: check });
+            }
+        }
+        catch (error){
+            console.log(error);
+            res.status(500).json({ message: 'error checking API '});
+        }
+    },
+    checkEnv: async (_req: Request, res: Response, next: NextFunction) => {
+        try{
+            const check = await (kubernetesService.checkEnv());
+            console.log(check);
+            res.locals.env = check;
+            next();
+        }
+        catch (error){
+            console.log(error);
+            res.status(500).json({ message: 'error checking env '});
         }
     }
 };

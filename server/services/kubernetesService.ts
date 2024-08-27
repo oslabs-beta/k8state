@@ -117,8 +117,9 @@ const kubernetesService = {
         }
     },
     checkEnv: async (): Promise<string | undefined> => {
-        console.log(process.env.KUBERNETES_SERVER);
-        console.log(process.env.KUBERNETES_TOKEN);
+        // console.log(process.env.KUBERNETES_SERVER);
+        // console.log(process.env.KUBERNETES_TOKEN);
+        console.log('envcheck run');
         if(!process.env.KUBERNETES_SERVER || !process.env.KUBERNETES_TOKEN){
             const envPath = path.resolve(path.resolve('./.env'));
             if(!fs.existsSync(envPath)){

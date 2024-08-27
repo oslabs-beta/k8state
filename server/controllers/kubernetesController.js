@@ -64,7 +64,7 @@ const kubernetesController = {
             const allNodes = await (kubernetesService.getNodesFromCluster());
             const returnedNodes = [];
             for (const node of allNodes) {
-                console.log(node.status?.conditions, node.status?.capacity);
+                //console.log(node.status?.conditions, node.status?.capacity);
                 const newNode = {
                     creationTimestamp: node.metadata?.creationTimestamp,
                     name: node.metadata?.name,

@@ -24,6 +24,7 @@ export interface Pod {
   podIP: string
   phase: string
   startTime: string
+  uid: string
 }
 
 export interface Services {

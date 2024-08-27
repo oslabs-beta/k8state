@@ -17,7 +17,7 @@ app.use('/', (_req, res) => {
 // Express Global Error Handler
 app.use((err, _req, res, _next) => {
     console.log(err);
-    res.status(500).send('Something broke!');
+    res.status(500).json(err);
 });
 // Starts the app on the given port
 app.listen(PORT, () => {

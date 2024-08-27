@@ -65,6 +65,8 @@ const kubernetesController = {
             const allNodes = await (kubernetesService.getNodesFromCluster());
             const returnedNodes = [];
             for (const node of allNodes) {
+                // console.log(node);
+                // console.log(node.status?.conditions, node.status?.capacity);
                 const newNode = {
                     creationTimestamp: node.metadata?.creationTimestamp,
                     name: node.metadata?.name,
@@ -112,15 +114,20 @@ const kubernetesController = {
             res.status(500).json({ message: 'Error fetching nodes from cluster' });
         }
     },
-    checkAPI: async (_req, res, next) => {
+    //middleware function to check if the user provided key and address are valid
+    checkAPI: async (req, res, next) => {
+        const key = req.body.key;
+        const address = req.body.address;
         try {
-            const check = await (kubernetesService.checkAPI());
-            console.log(check);
+            const check = await (kubernetesService.checkAPI(key, address));
             if (check === 'ok') {
                 next();
             }
+            else if (check === 'invalidkey') {
+                res.status(403).json({ message: 'invalid_key' });
+            }
             else {
-                res.status(500).json({ message: check });
+                res.status(500).json({ message: "unable to connect to cluster" });
             }
         }
         catch (error) {
@@ -128,6 +135,7 @@ const kubernetesController = {
             res.status(500).json({ message: 'error checking API ' });
         }
     },
+    //middleware function to check if the env file exists
     checkEnv: async (_req, res, next) => {
         ;
         try {

@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import fs from 'fs';
 import path from 'path';
 dotenv.config();
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 // Creates the config file that the server will be using to communicate with the cluster
 const kc = new k8s.KubeConfig();
@@ -96,30 +97,51 @@ const kubernetesService = {
             )
         }
     },
-
-    checkAPI: async (): Promise<Error | string | undefined> => {
+    
+    checkAPI: async (key: string, address: string): Promise<Error | string | object | undefined> => {
         // console.log('previous' + process.env.KUBERNETES_SERVER);
         // process.env.KUBERNETES_SERVER='https://192.168.1.134:8442';
         // console.log('now' + process.env.KUBERNETES_SERVER);
-        //I need to build out 
+        type err = {
+            name: string;
+            message: string;
+            stack: string;
+        }
         try {
-            const res = await k8sApi.listNode();
-            //console.log(res.response, res.body);
-            return 'ok';
+            const test = await fetch('https://' + address + '/api/v1/nodes', {
+                method: 'GET',
+                headers: {
+                    authorization: 'Bearer ' + key
+                }
+                
+            })
+            console.log(test);
+            if(test.status !== 200){
+                //console.log(test.status);
+                return 'invalidkey';
+            }
+            else{
+                return 'ok';
+            }
         }
         catch (error) {
             //console.log(error);
             if (error instanceof Error) {
-                //console.log(error.name);
-                //console.log(error);
                 return error;
+                // return {
+                //     name: error.name,
+                //     message: error.message,
+                //     //stack: error.stack
+                // } as err;
             }
         }
     },
-    checkEnv: async (): Promise<string | undefined> => {
+
+    //function that checks if the environment variables exist and if the env file exists, otherwise create it
+    checkEnv: (): string | undefined => {
         // console.log(process.env.KUBERNETES_SERVER);
         // console.log(process.env.KUBERNETES_TOKEN);
-        console.log('envcheck run');
+        //console.log('envcheck run');
         if(!process.env.KUBERNETES_SERVER || !process.env.KUBERNETES_TOKEN){
             const envPath = path.resolve(path.resolve('./.env'));
             if(!fs.existsSync(envPath)){
@@ -134,6 +156,9 @@ const kubernetesService = {
         else{
             return 'exist';
         }
+    },
+    writeEnv: () => {
+
     }
 
 };

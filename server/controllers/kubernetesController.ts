@@ -116,8 +116,8 @@ const kubernetesController = {
             const allNodes = await (kubernetesService.getNodesFromCluster());
             const returnedNodes: ReturnedNode[] = [];
             for (const node of allNodes) {
-                console.log(node);
-                console.log(node.status?.conditions, node.status?.capacity);
+                // console.log(node);
+                // console.log(node.status?.conditions, node.status?.capacity);
                 const newNode: ReturnedNode = {
                     creationTimestamp: node.metadata?.creationTimestamp,
                     name: node.metadata?.name,
@@ -177,15 +177,21 @@ const kubernetesController = {
             res.status(500).json({ message: 'Error fetching nodes from cluster'});
         }
     },
-    checkAPI: async (_req: Request, res: Response, next: NextFunction) => {
+
+    //middleware function to check if the user provided key and address are valid
+    checkAPI: async (req: Request, res: Response, next: NextFunction) => {
+        const key: string = req.body.key;
+        const address: string = req.body.address;
         try{
-            const check = await (kubernetesService.checkAPI());
-            console.log(check);
+            const check = await (kubernetesService.checkAPI(key, address));
             if(check === 'ok'){
                 next();
             }
+            else if(check === 'invalidkey'){
+                res.status(403).json({ message: 'invalid_key' });
+            }
             else{
-                res.status(500).json({ message: check });
+                res.status(500).json({ message: "unable to connect to cluster" });
             }
         }
         catch (error){
@@ -193,6 +199,8 @@ const kubernetesController = {
             res.status(500).json({ message: 'error checking API '});
         }
     },
+
+    //middleware function to check if the env file exists
     checkEnv: async (_req: Request, res: Response, next: NextFunction) => {
         interface addresskey {
             address: string;

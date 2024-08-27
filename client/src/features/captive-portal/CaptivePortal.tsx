@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import type React from "react";
+import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { setAddress, setKey } from './captivePortalSlice';
 import { TextField, Button } from "@mui/material";
@@ -24,28 +25,38 @@ export default function CaptivePortal() {
         // dispatch(setAddress(dest));
         // dispatch(setKey(bearer));
         fetch("http://localhost:8080/api/checkAPI", {
-            method: 'GET',
+            method: 'POST',
+            body: JSON.stringify({
+                key: bearer,
+                address: dest
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+            },
         })
         .then(response => response.json())
         .then(data => {
+            setError(JSON.stringify(data));
             //console.log(data.message);
-            if(data.message.statusCode === 200){
-                setSubmit(true);
-            }
-            else{
-                //setError(data.message);
-                console.log(data);
-            }
+            // if(data.message.statusCode === 200){
+            //     setSubmit(true);
+            // }
+            // else{
+            //     setError(JSON.stringify(data));
+            // }
         })
     };
-
+    //rerenders when error changes
+    useEffect(() => {
+        console.log(error);
+    }, [error])
     if(submit === true){
         return <Navigate to="/clusterui"/>
     }
     return(
         <div id="captive-portal" className="portal">
-            <form onSubmit={submitHandler}>
-                {error && <p>{error}</p>}
+            {error && <p>{error}</p>}
+            <form onSubmit={submitHandler}>   
                 <TextField id="outlined-basic" label="IP Address or URL" variant="outlined" onChange={(input) => setDest(input.target.value)}/>
                 <TextField id="outlined-basic" label="Bearer Token" variant="outlined" onChange={(input) => setBearer(input.target.value)}/>
                 <Button variant="contained" color="primary" type="submit">Submit</Button>

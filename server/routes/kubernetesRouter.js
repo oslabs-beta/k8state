@@ -17,8 +17,8 @@ kubernetesRouter.get('/services', kubernetesController.getServices, (_req, res) 
 kubernetesRouter.get('/nodes', kubernetesController.getNodes, (_req, res) => {
     res.status(200).json(res.locals.nodeData);
 });
-kubernetesRouter.get('/checkAPI', kubernetesController.checkAPI, (_req, res) => {
-    res.status(200).json({ message: { statusCode: 200 } });
+kubernetesRouter.post('/checkAPI', kubernetesController.checkAPI, (_req, res) => {
+    res.status(200).json({ message: 'ok' });
 });
 kubernetesRouter.get('/checkENV', kubernetesController.checkEnv, (_req, res) => {
     res.status(200).json(res.locals.env);

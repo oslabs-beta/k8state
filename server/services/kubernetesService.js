@@ -3,39 +3,43 @@ import * as k8s from '@kubernetes/client-node';
 import dotenv from 'dotenv';
 import fs from 'fs';
 import path from 'path';
-dotenv.config();
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-// Creates the config file that the server will be using to communicate with the cluster
-const kc = new k8s.KubeConfig();
-kc.loadFromOptions({
-    clusters: [
-        {
-            name: 'main-cluster',
-            server: `${process.env.KUBERNETES_SERVER}`,
-            skipTLSVerify: true,
-        },
-    ],
-    users: [
-        {
-            name: 'main-user',
-            token: `${process.env.KUBERNETES_TOKEN}`,
-        },
-    ],
-    contexts: [
-        {
-            name: 'main-context',
-            cluster: 'main-cluster',
-            user: 'main-user',
-        },
-    ],
-    currentContext: 'main-context',
-});
-// Creates an instance of a Kubernetes API Client to interact with the Kubernetes API
-const k8sApi = kc.makeApiClient(k8s.CoreV1Api);
+dotenv.config();
 // Defines helper functions that will connect middleware to the Kubernetes API Client functions
 const kubernetesService = {
+    createClient: () => {
+        // Creates the config file that the server will be using to communicate with the cluster
+        const kc = new k8s.KubeConfig();
+        kc.loadFromOptions({
+            clusters: [
+                {
+                    name: 'main-cluster',
+                    server: `${process.env.KUBERNETES_SERVER}`,
+                    skipTLSVerify: true,
+                },
+            ],
+            users: [
+                {
+                    name: 'main-user',
+                    token: `${process.env.KUBERNETES_TOKEN}`,
+                },
+            ],
+            contexts: [
+                {
+                    name: 'main-context',
+                    cluster: 'main-cluster',
+                    user: 'main-user',
+                },
+            ],
+            currentContext: 'main-context',
+        });
+        // Creates an instance of a Kubernetes API Client to interact with the Kubernetes API
+        const k8sApi = kc.makeApiClient(k8s.CoreV1Api);
+        return k8sApi;
+    },
     // Function that gets all pods from the cluster
     getPodsFromCluster: async () => {
+        const k8sApi = kubernetesService.createClient();
         try {
             const res = await k8sApi.listPodForAllNamespaces();
             return res.body.items;
@@ -48,6 +52,7 @@ const kubernetesService = {
     },
     // Function that gets a specific pod's details from the cluster
     getPodDetailsFromCluster: async (podName, namespace) => {
+        const k8sApi = kubernetesService.createClient();
         try {
             const res = await k8sApi.readNamespacedPod(podName, namespace);
             return res.body;
@@ -59,6 +64,7 @@ const kubernetesService = {
     },
     // Function that gets all services from the cluster
     getServicesFromCluster: async () => {
+        const k8sApi = kubernetesService.createClient();
         try {
             const res = await k8sApi.listServiceForAllNamespaces();
             return res.body.items;
@@ -70,6 +76,7 @@ const kubernetesService = {
     },
     // Function that gets all nodes from the cluster
     getNodesFromCluster: async () => {
+        const k8sApi = kubernetesService.createClient();
         try {
             const res = await k8sApi.listNode();
             return res.body.items;
@@ -87,7 +94,7 @@ const kubernetesService = {
                     authorization: 'Bearer ' + key
                 }
             });
-            console.log(test);
+            //console.log(test);
             if (test.status !== 200) {
                 //console.log(test.status);
                 return 'invalidkey';
@@ -128,7 +135,12 @@ const kubernetesService = {
             return 'exist';
         }
     },
-    writeEnv: () => {
+    writeEnv: (key, address) => {
+        const envPath = path.resolve(path.resolve('./.env'));
+        const fileEnv = 'KUBERNETES_SERVER=https://' + address + '\n' + 'KUBERNETES_TOKEN=' + key;
+        fs.writeFileSync(envPath, fileEnv, 'utf-8');
+        process.env.KUBERNETES_SERVER = 'https://' + address;
+        process.env.KUBERNETES_TOKEN = key;
     }
 };
 // Exports service object for use as helper functions

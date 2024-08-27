@@ -121,6 +121,7 @@ const kubernetesController = {
         try {
             const check = await (kubernetesService.checkAPI(key, address));
             if (check === 'ok') {
+                kubernetesService.writeEnv(key, address);
                 next();
             }
             else if (check === 'invalidkey') {
@@ -136,10 +137,10 @@ const kubernetesController = {
         }
     },
     //middleware function to check if the env file exists
-    checkEnv: async (_req, res, next) => {
+    checkEnv: (_req, res, next) => {
         ;
         try {
-            const check = await (kubernetesService.checkEnv());
+            const check = kubernetesService.checkEnv();
             if (check === 'exist') {
                 res.locals.env = {
                     address: process.env.KUBERNETES_SERVER,

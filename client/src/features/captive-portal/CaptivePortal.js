@@ -1,6 +1,7 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { setAddress, setKey } from './captivePortalSlice';
 import { TextField, Button } from "@mui/material";
 import { Navigate } from 'react-router-dom';
 export default function CaptivePortal() {
@@ -13,8 +14,6 @@ export default function CaptivePortal() {
     const address = useAppSelector((state) => state.portalSlice.address);
     const submitHandler = (event) => {
         event.preventDefault();
-        // dispatch(setAddress(dest));
-        // dispatch(setKey(bearer));
         fetch("http://localhost:8080/api/checkAPI", {
             method: 'POST',
             body: JSON.stringify({
@@ -27,20 +26,20 @@ export default function CaptivePortal() {
         })
             .then(response => response.json())
             .then(data => {
-            setError(JSON.stringify(data));
-            //console.log(data.message);
-            // if(data.message.statusCode === 200){
-            //     setSubmit(true);
-            // }
-            // else{
-            //     setError(JSON.stringify(data));
-            // }
+            if (data.message !== 'ok') {
+                setError(JSON.stringify(data));
+            }
+            else {
+                setSubmit(true);
+                dispatch(setAddress(dest));
+                dispatch(setKey(bearer));
+            }
         });
     };
-    //rerenders when error changes
-    useEffect(() => {
-        console.log(error);
-    }, [error]);
+    // //rerenders when error changes
+    // useEffect(() => {
+    //     console.log(error);
+    // }, [error])
     if (submit === true) {
         return _jsx(Navigate, { to: "/clusterui" });
     }

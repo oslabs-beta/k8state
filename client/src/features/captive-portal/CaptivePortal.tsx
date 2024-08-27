@@ -22,8 +22,7 @@ export default function CaptivePortal() {
     ;
     const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        // dispatch(setAddress(dest));
-        // dispatch(setKey(bearer));
+
         fetch("http://localhost:8080/api/checkAPI", {
             method: 'POST',
             body: JSON.stringify({
@@ -36,20 +35,20 @@ export default function CaptivePortal() {
         })
         .then(response => response.json())
         .then(data => {
-            setError(JSON.stringify(data));
-            //console.log(data.message);
-            // if(data.message.statusCode === 200){
-            //     setSubmit(true);
-            // }
-            // else{
-            //     setError(JSON.stringify(data));
-            // }
+            if(data.message !== 'ok'){
+                setError(JSON.stringify(data));
+            }
+            else{
+                setSubmit(true);
+                dispatch(setAddress(dest));
+                dispatch(setKey(bearer));
+            }
         })
     };
-    //rerenders when error changes
-    useEffect(() => {
-        console.log(error);
-    }, [error])
+    // //rerenders when error changes
+    // useEffect(() => {
+    //     console.log(error);
+    // }, [error])
     if(submit === true){
         return <Navigate to="/clusterui"/>
     }

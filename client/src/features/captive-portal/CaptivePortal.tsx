@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { setAddress, setKey } from '../captive-portal/captivePortalSlice';
+import { setAddress, setKey } from './captivePortalSlice';
 import { TextField, Button } from "@mui/material";
 import { Route, Navigate } from 'react-router-dom';
 import { useGetNodesQuery, useGetPodsQuery } from "../cluster-view/clusterViewApiSlice";

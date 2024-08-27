@@ -19,5 +19,5 @@ export const portalSlice = createSlice({
         }
     }
 });
-export const { setAddress, setKey } = portalSlice.actions;
+export const { setAddress, setKey, setInit } = portalSlice.actions;
 export default portalSlice.reducer;

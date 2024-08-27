@@ -129,10 +129,18 @@ const kubernetesController = {
         }
     },
     checkEnv: async (_req, res, next) => {
+        ;
         try {
             const check = await (kubernetesService.checkEnv());
-            console.log(check);
-            res.locals.env = check;
+            if (check === 'exist') {
+                res.locals.env = {
+                    address: process.env.KUBERNETES_SERVER,
+                    key: process.env.KUBERNETES_TOKEN,
+                };
+            }
+            else {
+                res.locals.env = check;
+            }
             next();
         }
         catch (error) {

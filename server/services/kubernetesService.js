@@ -98,12 +98,17 @@ const kubernetesService = {
         }
     },
     checkEnv: async () => {
+        console.log(process.env.KUBERNETES_SERVER);
+        console.log(process.env.KUBERNETES_TOKEN);
         if (!process.env.KUBERNETES_SERVER || !process.env.KUBERNETES_TOKEN) {
             const envPath = path.resolve(path.resolve('./.env'));
             if (!fs.existsSync(envPath)) {
                 const defaultEnv = 'KUBERNETES_SERVER=\n' + 'KUBERNETES_TOKEN=';
                 fs.writeFileSync(envPath, defaultEnv.trim());
                 return 'init';
+            }
+            else {
+                return 'noVar';
             }
         }
         else {

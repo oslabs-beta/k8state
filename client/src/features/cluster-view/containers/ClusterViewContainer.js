@@ -2,108 +2,106 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { ReactFlow, Background, Controls } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { useGetNodesQuery, useGetPodsQuery } from "../clusterViewApiSlice";
-// interface Cluster {
-//   cluster: Nodes[]
-// }
-// interface Nodes {
-//   name: string;
-//   pods: Pods[];
-// }
-// interface Pods {
-//   uid: string;
-//   name: string;
-//   nodeName: string;
-// }
+import { useState, useEffect } from 'react';
 // *******************
 // **   Component   **
 // *******************
 export default function ClusterViewContainer() {
-    // ** Hook into state
+    // ** Hook into state **
     const { data: nodes = [], error: nodesError, isLoading: nodesIsLoading, refetch: refetchNodes, } = useGetNodesQuery();
     const { data: pods = [], error: podsError, isLoading: podsIsLoading, refetch: refetchPods, } = useGetPodsQuery();
-    // function mapPodsToNodes(nodes: Node[], pods: Pods[]): Nodes[] {
-    //   const nodeMap: { [key: string]: Nodes } = {};
-    //   nodes.forEach(node => {
-    //     nodeMap[node.nodeName] = { ...node, pods: [] };
-    //   });
-    //   pods.forEach(pod => {
-    //     if (nodeMap[pod.nodeName]) {
-    //       nodeMap[pod.nodeName].pods?.push(pod);
-    //     }
-    //   });
-    //   return Object.values(nodeMap);
-    // }
+    // Creates local state for nodes array
+    const [mappedNodes, setMappedNodes] = useState([]);
+    // This function maps the pods array to the corresponding node
+    function mapPodsToNodes(nodes, pods) {
+        const nodeMap = {};
+        nodes.forEach((node) => {
+            nodeMap[node.name] = { ...node, pods: [] };
+        });
+        pods.forEach((pod) => {
+            if (nodeMap[pod.nodeName]) {
+                nodeMap[pod.nodeName].pods?.push(pod);
+            }
+        });
+        return Object.values(nodeMap);
+    }
+    // This is a helper function that adds a 'pods' array to each node in the nodes array
+    function initializeNodes(rawNodes) {
+        return rawNodes.map((node) => ({ ...node, pods: [] }));
+    }
+    // This calls the mapPodsToNodes function defined earlier on render
+    useEffect(() => {
+        if (nodes.length > 0 && pods.length > 0) {
+            // Creates pod arrays for each node
+            const initializedNodes = initializeNodes(nodes);
+            // Calls node mapping function and stores in a temp variable
+            const tempMappedNodes = mapPodsToNodes(initializedNodes, pods);
+            // Sets the mappedNodes state to the newly mapped nodes
+            setMappedNodes(tempMappedNodes);
+        }
+    }, [nodes, pods]);
     // **** dynamically create React Flow Nodes ****
     const reactFlowNodes = () => {
-        // const clusterContainer = mapPodsToNodes(nodes, pods);
-        // The resulting React Flow Nodes array with Cluster as the first node
+        // Adds Kubernetes Cluster as the first node by default
         const outputArray = [{
-                id: 'Cluster',
-                position: { x: ((nodes.length / 2) + 1) * 400, y: 0 },
-                data: { label: 'Cluster' }
+                id: "Cluster",
+                position: { x: ((mappedNodes.length / 2) + 1) * 400, y: 0 },
+                data: { label: "Cluster" },
             }];
-        // Adds nodes as nodes in the Array that React Flow will render
-        for (let i = 0; i < nodes.length; i++) {
+        // Iterates through the mapped nodes state array
+        mappedNodes.forEach((node, index) => {
+            // Adds the node to the output array first
             outputArray.push({
-                id: nodes[i].name,
-                position: { x: ((i + 1) * 300), y: 200 },
-                data: { label: nodes[i].name },
+                id: node.name,
+                position: { x: ((index + 1) * 300), y: 200 },
+                data: { label: node.name },
             });
-        }
-        const addPodsToReactFlowNodes = () => {
-            let increment = 3;
-            let podsPlaced = 0;
-            let row = 0;
-            const podSpacingX = 300;
-            const podSpacingY = 200;
-            while (podsPlaced < pods.length) {
-                const width = (increment - 1) * podSpacingX;
-                const startX = (width / 2) * -1;
-                for (let i = 0; i < increment && podsPlaced < pods.length; i++) {
+            // Helper variables for pod array iteration
+            let podsPerRow = 3;
+            let podValueY = 300;
+            let podCurrentIndex = 0;
+            // Conditional wrapper to start iteration of pods array for current node
+            while (podCurrentIndex < node.pods.length) {
+                const rowWidth = (podsPerRow - 1) * 200;
+                const startX = (index + 1) * 300 - rowWidth / 2;
+                // Iterates through the pods array for this node 
+                for (let i = 0; i < podsPerRow && podCurrentIndex < node.pods.length; i++) {
+                    // Adds pod to outputArray
                     outputArray.push({
-                        id: pods[podsPlaced].uid,
-                        position: { x: startX + (i * podSpacingX), y: (row * podSpacingY) + 500 },
-                        data: { label: pods[podsPlaced].name }
+                        id: node.pods[podCurrentIndex].uid,
+                        position: { x: startX + (i * 200), y: podValueY },
+                        data: { label: node.pods[podCurrentIndex].name },
                     });
-                    podsPlaced++;
+                    podCurrentIndex++;
                 }
-                increment += 2;
-                row++;
+                // Increments variables for new row
+                podValueY += 100;
+                podsPerRow += 2;
             }
-        };
-        addPodsToReactFlowNodes();
-        // // Adds pods as nodes in the Array that React Flow will render
-        // for (let i = 0; i < pods.length; i++) {
-        //   outputArray.push({
-        //     id: pods[i].uid,
-        //     position: { x: (i * 200) + (i * 100), y: 400 },
-        //     data: { label: pods[i].name}
-        //   });
-        // }
+        });
         return outputArray;
     };
     // **** dynamically create React Flow Edges ****
     const reactFlowEdges = () => {
         const outputArray = [];
         // Adds React Flow Edges connections between nodes and the cluster
-        for (let i = 0; i < nodes.length; i++) {
+        mappedNodes.forEach((node) => {
             outputArray.push({
-                id: `Cluster-${nodes[i].name}`,
+                id: `Cluster-${node.name}`,
                 source: 'Cluster',
-                target: `${nodes[i].name}`,
+                target: `${node.name}`,
                 animated: true,
             });
-        }
-        ;
+        });
         // Adds React Flow Edges connections between pods and nodes
-        for (let i = 0; i < pods.length; i++) {
+        pods.forEach((pod) => {
             outputArray.push({
-                id: `${pods[i].nodeName}-${pods[i].name}`,
-                source: `${pods[i].nodeName}`,
-                target: `${pods[i].uid}`,
+                id: `${pod.nodeName}-${pod.name}`,
+                source: `${pod.nodeName}`,
+                target: `${pod.uid}`,
                 animated: true,
             });
-        }
+        });
         return outputArray;
     };
     const nodesToRender = reactFlowNodes();

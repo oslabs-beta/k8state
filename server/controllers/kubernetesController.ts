@@ -21,6 +21,7 @@ const kubernetesController = {
             phase: string | undefined;
             conditions: k8s.V1PodCondition[] | undefined; //(Pod Health)
             startTime: Date | undefined;
+            uid: String | undefined;
         }
         try {
             const allPods = await (kubernetesService.getPodsFromCluster());
@@ -40,6 +41,7 @@ const kubernetesController = {
                     phase: pod.status?.phase || 'Unknown phase',
                     conditions: pod.status?.conditions || undefined, //(Pod Health)
                     startTime: pod.status?.startTime || undefined,
+                    uid: pod.metadata?.uid || undefined,
                 }
                 returnedPods.push(newPod);
             }
@@ -114,7 +116,8 @@ const kubernetesController = {
             const allNodes = await (kubernetesService.getNodesFromCluster());
             const returnedNodes: ReturnedNode[] = [];
             for (const node of allNodes) {
-                //console.log(node.status?.conditions, node.status?.capacity);
+                console.log(node);
+                console.log(node.status?.conditions, node.status?.capacity);
                 const newNode: ReturnedNode = {
                     creationTimestamp: node.metadata?.creationTimestamp,
                     name: node.metadata?.name,

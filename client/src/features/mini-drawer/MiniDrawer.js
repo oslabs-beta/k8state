@@ -19,10 +19,10 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import logoSVG from "../../public/logo.svg";
 import { Link } from "react-router-dom";
-import HubIcon from '@mui/icons-material/Hub';
-import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
-import SettingsIcon from '@mui/icons-material/Settings';
-import GitHubIcon from '@mui/icons-material/GitHub';
+import HubIcon from "@mui/icons-material/Hub";
+import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
+import SettingsIcon from "@mui/icons-material/Settings";
+import GitHubIcon from "@mui/icons-material/GitHub";
 // ****************************
 // **   Material UI Styling   **
 // ****************************

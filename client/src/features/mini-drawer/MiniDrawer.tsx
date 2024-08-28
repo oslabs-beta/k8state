@@ -152,7 +152,7 @@ export default function MiniDrawer() {
         </DrawerHeader>
         <Divider />
         <List>
-          {["Logs", "Nodes"].map((text, index) => (
+          {[ "ClusterUI", "Logs"].map((text, index) => (
             <ListItem
               component={Link}
               to={`/${text.toLowerCase()}`}
@@ -184,7 +184,7 @@ export default function MiniDrawer() {
         </List>
         <Divider />
         <List>
-          {["Support", "Settings", "Logout"].map((text, index) => (
+          {["Support", "Settings"].map((text, index) => (
             <ListItem
               component={Link}
               to={`/${text.toLowerCase()}`}

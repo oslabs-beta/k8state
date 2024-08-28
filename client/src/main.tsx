@@ -7,6 +7,7 @@ import { store } from "./app/store"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import "./index.css"
 import CaptivePortal from "./features/captive-portal/CaptivePortal"
+import LogPage from "./features/log-page/LogPage";
 
 // import material UI fonts
 import "@fontsource/roboto/300.css"
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
     path: "/portal",
     element: <CaptivePortal/>,
   },
+  {
+    path: "/logs",
+    element: <LogPage/>,
+  }
 ])
 
 const container = document.getElementById("root")

@@ -20,6 +20,10 @@ const generalController = {
             console.log(error);
             res.status(500).json({ message: 'error checking env ' });
         }
+    },
+    test: (_req, _res, next) => {
+        generalService.checkLogs();
+        next();
     }
 };
 export default generalController;

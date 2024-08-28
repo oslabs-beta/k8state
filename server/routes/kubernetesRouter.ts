@@ -28,5 +28,8 @@ kubernetesRouter.post('/checkAPI', kubernetesController.checkAPI, (_req, res) =>
 kubernetesRouter.get('/checkENV', generalController.checkEnv, (_req, res) => {
     res.status(200).json(res.locals.env);
 })
+kubernetesRouter.get('/test', generalController.test, (_req, res) => {
+    res.status(200).json('ok');
+})
 
 export default kubernetesRouter;

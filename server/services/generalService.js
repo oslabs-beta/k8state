@@ -25,5 +25,28 @@ const generalService = {
         process.env.KUBERNETES_SERVER = 'https://' + address;
         process.env.KUBERNETES_TOKEN = key;
     },
+    checkLogs: () => {
+        const logFolder = path.resolve(path.resolve('./logs/'));
+        //fs is async
+        fs.access(logFolder, (err) => {
+            if (err) {
+                fs.mkdir(logFolder, (err) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                });
+            }
+        });
+    },
+    writeLogs: (input) => {
+        const time = new Date();
+        const year = time.getFullYear();
+        const month = time.getMonth() + 1;
+        const day = time.getDate();
+        const logFile = path.resolve(path.resolve('./logs/log-' + year + '-' + month + '-' + day + '.json'));
+        if (!fs.existsSync(logFile)) {
+            fs.writeFileSync(logFile, '');
+        }
+    }
 };
 export default generalService;

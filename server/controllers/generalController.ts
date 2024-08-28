@@ -25,6 +25,10 @@ const generalController = {
             console.log(error);
             res.status(500).json({ message: 'error checking env '});
         }
+    },
+    test: (_req: Request, _res: Response, next: NextFunction) => {
+        generalService.checkLogs();
+        next();
     }
 };
 

@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import * as k8s from '@kubernetes/client-node';
 import kubernetesService from '../services/kubernetesService.js';
-
+import generalService from '../services/generalService.js';
 
 // Controller object that contains middleware functions
 const kubernetesController = {
@@ -185,7 +185,7 @@ const kubernetesController = {
         try{
             const check = await (kubernetesService.checkAPI(key, address));
             if(check === 'ok'){
-                kubernetesService.writeEnv(key, address);
+                generalService.writeEnv(key, address);
                 next();
             }
             else if(check === 'invalidkey'){
@@ -208,7 +208,7 @@ const kubernetesController = {
             key: string;
         };
         try{
-            const check =  kubernetesService.checkEnv();
+            const check =  generalService.checkEnv();
             if(check === 'exist'){
                 res.locals.env = {
                     address: process.env.KUBERNETES_SERVER,

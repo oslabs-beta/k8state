@@ -1,4 +1,5 @@
 import kubernetesService from '../services/kubernetesService.js';
+import generalService from '../services/generalService.js';
 // Controller object that contains middleware functions
 const kubernetesController = {
     // Middleware function to get all pods from the cluster
@@ -121,7 +122,7 @@ const kubernetesController = {
         try {
             const check = await (kubernetesService.checkAPI(key, address));
             if (check === 'ok') {
-                kubernetesService.writeEnv(key, address);
+                generalService.writeEnv(key, address);
                 next();
             }
             else if (check === 'invalidkey') {
@@ -140,7 +141,7 @@ const kubernetesController = {
     checkEnv: (_req, res, next) => {
         ;
         try {
-            const check = kubernetesService.checkEnv();
+            const check = generalService.checkEnv();
             if (check === 'exist') {
                 res.locals.env = {
                     address: process.env.KUBERNETES_SERVER,

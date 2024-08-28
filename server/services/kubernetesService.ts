@@ -138,34 +138,6 @@ const kubernetesService = {
         }
     },
 
-    //function that checks if the environment variables exist and if the env file exists, otherwise create it
-    checkEnv: (): string | undefined => {
-        // console.log(process.env.KUBERNETES_SERVER);
-        // console.log(process.env.KUBERNETES_TOKEN);
-        //console.log('envcheck run');
-        if(!process.env.KUBERNETES_SERVER || !process.env.KUBERNETES_TOKEN){
-            const envPath = path.resolve(path.resolve('./.env'));
-            if(!fs.existsSync(envPath)){
-                const defaultEnv = 'KUBERNETES_SERVER=\n' + 'KUBERNETES_TOKEN=';
-                fs.writeFileSync(envPath, defaultEnv.trim());
-                return 'init';
-            }
-            else{
-                return 'noVar';
-            }
-        }
-        else{
-            return 'exist';
-        }
-    },
-    writeEnv: (key: string, address: string) => {
-        const envPath = path.resolve(path.resolve('./.env'));
-        const fileEnv = 'KUBERNETES_SERVER=https://' + address + '\n' + 'KUBERNETES_TOKEN=' + key;
-        fs.writeFileSync(envPath, fileEnv, 'utf-8');
-        process.env.KUBERNETES_SERVER='https://' + address;
-        process.env.KUBERNETES_TOKEN=key;
-    }
-
 };
 
 // Exports service object for use as helper functions

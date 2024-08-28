@@ -22,6 +22,10 @@ import InboxIcon from "@mui/icons-material/MoveToInbox"
 import MailIcon from "@mui/icons-material/Mail"
 import logoSVG from "../../public/logo.svg"
 import { Link } from "react-router-dom"
+import HubIcon from '@mui/icons-material/Hub';
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
+import SettingsIcon from '@mui/icons-material/Settings';
+import GitHubIcon from '@mui/icons-material/GitHub';
 
 const drawerWidth = 240
 
@@ -175,7 +179,7 @@ export default function MiniDrawer() {
                     justifyContent: "center",
                   }}
                 >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                  { index % 2 === 0 ? <HubIcon /> : <ReceiptLongIcon />}
                 </ListItemIcon>
                 <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
@@ -184,7 +188,7 @@ export default function MiniDrawer() {
         </List>
         <Divider />
         <List>
-          {["Support", "Settings"].map((text, index) => (
+          {["Settings", "Github"].map((text, index) => (
             <ListItem
               component={Link}
               to={`/${text.toLowerCase()}`}
@@ -207,7 +211,7 @@ export default function MiniDrawer() {
                     justifyContent: "center",
                   }}
                 >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                  {index % 2 === 0 ? < SettingsIcon/> : <GitHubIcon />}
                 </ListItemIcon>
                 <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>

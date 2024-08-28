@@ -17,10 +17,12 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 import logoSVG from "../../public/logo.svg";
 import { Link } from "react-router-dom";
+import HubIcon from '@mui/icons-material/Hub';
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
+import SettingsIcon from '@mui/icons-material/Settings';
+import GitHubIcon from '@mui/icons-material/GitHub';
 const drawerWidth = 240;
 const openedMixin = (theme) => ({
     width: drawerWidth,
@@ -104,7 +106,7 @@ export default function MiniDrawer() {
                                             minWidth: 0,
                                             mr: open ? 3 : "auto",
                                             justifyContent: "center",
-                                        }, children: index % 2 === 0 ? _jsx(InboxIcon, {}) : _jsx(MailIcon, {}) }), _jsx(ListItemText, { primary: text, sx: { opacity: open ? 1 : 0 } })] }) }, text))) }), _jsx(Divider, {}), _jsx(List, { children: ["Support", "Settings"].map((text, index) => (_jsx(ListItem, { component: Link, to: `/${text.toLowerCase()}`, disablePadding: true, sx: { display: "block" }, style: { color: "black", textDecoration: "none" }, children: _jsxs(ListItemButton, { sx: {
+                                        }, children: index % 2 === 0 ? _jsx(HubIcon, {}) : _jsx(ReceiptLongIcon, {}) }), _jsx(ListItemText, { primary: text, sx: { opacity: open ? 1 : 0 } })] }) }, text))) }), _jsx(Divider, {}), _jsx(List, { children: ["Settings", "Github"].map((text, index) => (_jsx(ListItem, { component: Link, to: `/${text.toLowerCase()}`, disablePadding: true, sx: { display: "block" }, style: { color: "black", textDecoration: "none" }, children: _jsxs(ListItemButton, { sx: {
                                     minHeight: 48,
                                     justifyContent: open ? "initial" : "center",
                                     px: 2.5,
@@ -112,5 +114,5 @@ export default function MiniDrawer() {
                                             minWidth: 0,
                                             mr: open ? 3 : "auto",
                                             justifyContent: "center",
-                                        }, children: index % 2 === 0 ? _jsx(InboxIcon, {}) : _jsx(MailIcon, {}) }), _jsx(ListItemText, { primary: text, sx: { opacity: open ? 1 : 0 } })] }) }, text))) })] }), _jsx(Box, { component: "main", sx: { flexGrow: 1, p: 3 }, children: _jsx(DrawerHeader, {}) })] }));
+                                        }, children: index % 2 === 0 ? _jsx(SettingsIcon, {}) : _jsx(GitHubIcon, {}) }), _jsx(ListItemText, { primary: text, sx: { opacity: open ? 1 : 0 } })] }) }, text))) })] }), _jsx(Box, { component: "main", sx: { flexGrow: 1, p: 3 }, children: _jsx(DrawerHeader, {}) })] }));
 }

@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import * as k8s from '@kubernetes/client-node';
 import kubernetesService from '../services/kubernetesService.js';
-
+import generalService from '../services/generalService.js';
 
 // Controller object that contains middleware functions
 const kubernetesController = {
@@ -185,7 +185,7 @@ const kubernetesController = {
         try{
             const check = await (kubernetesService.checkAPI(key, address));
             if(check === 'ok'){
-                kubernetesService.writeEnv(key, address);
+                generalService.writeEnv(key, address);
                 next();
             }
             else if(check === 'invalidkey'){
@@ -201,30 +201,6 @@ const kubernetesController = {
         }
     },
 
-    //middleware function to check if the env file exists
-    checkEnv: (_req: Request, res: Response, next: NextFunction) => {
-        interface addresskey {
-            address: string;
-            key: string;
-        };
-        try{
-            const check =  kubernetesService.checkEnv();
-            if(check === 'exist'){
-                res.locals.env = {
-                    address: process.env.KUBERNETES_SERVER,
-                    key: process.env.KUBERNETES_TOKEN,
-                } as addresskey;
-            }
-            else{
-                res.locals.env = check;
-            }
-            next();
-        }
-        catch (error){
-            console.log(error);
-            res.status(500).json({ message: 'error checking env '});
-        }
-    }
 };
 
 // Exports the controller object for use as middleware

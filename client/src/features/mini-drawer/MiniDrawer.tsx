@@ -21,6 +21,7 @@ import ListItemText from "@mui/material/ListItemText"
 import InboxIcon from "@mui/icons-material/MoveToInbox"
 import MailIcon from "@mui/icons-material/Mail"
 import logoSVG from "../../public/logo.svg"
+import { Link } from "react-router-dom"
 
 const drawerWidth = 240
 
@@ -152,7 +153,14 @@ export default function MiniDrawer() {
         <Divider />
         <List>
           {["Logs", "Nodes"].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: "block" }}>
+            <ListItem
+              component={Link}
+              to={`/${text.toLowerCase()}`}
+              key={text}
+              disablePadding
+              sx={{ display: "block" }}
+              style={{ color: "black", textDecoration: "none" }}
+            >
               <ListItemButton
                 sx={{
                   minHeight: 48,
@@ -177,7 +185,14 @@ export default function MiniDrawer() {
         <Divider />
         <List>
           {["Support", "Settings", "Logout"].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: "block" }}>
+            <ListItem
+              component={Link}
+              to={`/${text.toLowerCase()}`}
+              key={text}
+              disablePadding
+              sx={{ display: "block" }}
+              style={{ color: "black", textDecoration: "none" }}
+            >
               <ListItemButton
                 sx={{
                   minHeight: 48,

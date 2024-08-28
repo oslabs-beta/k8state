@@ -14,10 +14,23 @@ const Settings = () => {
     <div
       className="container"
       id="settings-container"
-      style={{ textAlign: "center" }}
+      style={{
+        textAlign: "center",
+        backgroundColor: "lightGrey",
+        paddingBottom: "20px",
+      }}
     >
       <div className="container" id="current-settings-container">
-        <section className="settings" id="current-settings">
+        <section
+          className="settings"
+          id="current-settings"
+          style={{
+            paddingTop: "5px",
+            paddingBottom: "5px",
+            backgroundColor: "#ac96cf",
+            fontWeight: "bold",
+          }}
+        >
           Current Mode: {selectedOption}
         </section>
         <br />
@@ -25,7 +38,13 @@ const Settings = () => {
       <form
         className="settings"
         id="settings-menu"
-        style={{ display: "inline-block", textAlign: "left" }}
+        style={{
+          display: "inline-block",
+          textAlign: "left",
+          backgroundColor: "#c8eaeb",
+          padding: "10px",
+          paddingBottom: "10px",
+        }}
       >
         <label>Select Mode:</label>
         <br />

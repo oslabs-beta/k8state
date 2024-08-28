@@ -14,7 +14,10 @@ K8State is a comprehensive Kubernetes dashboard application designed to provide 
 
 •	Node.js (version 14 or higher)
 •	npm or Yarn
-•	Kubernetes Cluster (with kubeconfig configured)
+•	Kubernetes Cluster 
+
+## Optional
+
 •	Prometheus instance running in your Kubernetes cluster
 •	Grafana instance for visualizations
 
@@ -49,9 +52,11 @@ yarn install
 ## Configuration
 
 Create a .env file in the root directory and add the following variables:
-
+• The server address either an IP or a domain name
+• A bearer token generated from the kubernetes cluster.
+https://kubernetes.io/docs/reference/kubectl/generated/kubectl_create/kubectl_create_token/
 ```
-KUBERNETES_SERVER=http://kubernetes-server.com:00000
+KUBERNETES_SERVER=https://kubernetes-server.com:00000
 KUBERNETES_TOKEN=Insert_Your_Token_Here
 ```
 

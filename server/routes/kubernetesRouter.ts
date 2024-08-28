@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import kubernetesController from '../controllers/kubernetesController.js';
-import generalService from '../services/generalService.js';
+import generalController from '../controllers/generalController.js';
 const kubernetesRouter = Router();
 
 // Route to get all pods in the cluster
@@ -25,7 +25,7 @@ kubernetesRouter.get('/nodes', kubernetesController.getNodes, (_req, res) => {
 kubernetesRouter.post('/checkAPI', kubernetesController.checkAPI, (_req, res) => {
     res.status(200).json({ message: 'ok' });
 })
-kubernetesRouter.get('/checkENV', kubernetesController.checkEnv, (_req, res) => {
+kubernetesRouter.get('/checkENV', generalController.checkEnv, (_req, res) => {
     res.status(200).json(res.locals.env);
 })
 

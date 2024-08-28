@@ -100,14 +100,6 @@ const kubernetesService = {
     },
     
     checkAPI: async (key: string, address: string): Promise<Error | string | object | undefined> => {
-        // console.log('previous' + process.env.KUBERNETES_SERVER);
-        // process.env.KUBERNETES_SERVER='https://192.168.1.134:8442';
-        // console.log('now' + process.env.KUBERNETES_SERVER);
-        type err = {
-            name: string;
-            message: string;
-            stack: string;
-        }
         try {
             const test = await fetch('https://' + address + '/api/v1/nodes', {
                 method: 'GET',
@@ -129,11 +121,6 @@ const kubernetesService = {
             //console.log(error);
             if (error instanceof Error) {
                 return error;
-                // return {
-                //     name: error.name,
-                //     message: error.message,
-                //     //stack: error.stack
-                // } as err;
             }
         }
     },

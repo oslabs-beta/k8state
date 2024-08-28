@@ -137,27 +137,6 @@ const kubernetesController = {
             res.status(500).json({ message: 'error checking API ' });
         }
     },
-    //middleware function to check if the env file exists
-    checkEnv: (_req, res, next) => {
-        ;
-        try {
-            const check = generalService.checkEnv();
-            if (check === 'exist') {
-                res.locals.env = {
-                    address: process.env.KUBERNETES_SERVER,
-                    key: process.env.KUBERNETES_TOKEN,
-                };
-            }
-            else {
-                res.locals.env = check;
-            }
-            next();
-        }
-        catch (error) {
-            console.log(error);
-            res.status(500).json({ message: 'error checking env ' });
-        }
-    }
 };
 // Exports the controller object for use as middleware
 export default kubernetesController;

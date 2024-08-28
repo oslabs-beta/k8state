@@ -23,6 +23,9 @@ import HubIcon from '@mui/icons-material/Hub';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import SettingsIcon from '@mui/icons-material/Settings';
 import GitHubIcon from '@mui/icons-material/GitHub';
+// ****************************
+// **   Material UI Styling   **
+// ****************************
 const drawerWidth = 240;
 const openedMixin = (theme) => ({
     width: drawerWidth,
@@ -84,8 +87,12 @@ const Drawer = styled(MuiDrawer, {
         "& .MuiDrawer-paper": closedMixin(theme),
     }),
 }));
+// *************************
+// **   Component Render  **
+// *************************
 export default function MiniDrawer() {
     const theme = useTheme();
+    // ** create state
     const [open, setOpen] = React.useState(false);
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -114,5 +121,5 @@ export default function MiniDrawer() {
                                             minWidth: 0,
                                             mr: open ? 3 : "auto",
                                             justifyContent: "center",
-                                        }, children: index % 2 === 0 ? _jsx(SettingsIcon, {}) : _jsx(GitHubIcon, {}) }), _jsx(ListItemText, { primary: text, sx: { opacity: open ? 1 : 0 } })] }) }, text))) })] }), _jsx(Box, { component: "main", sx: { flexGrow: 1, p: 3 }, children: _jsx(DrawerHeader, {}) })] }));
+                                        }, children: index % 2 === 0 ? _jsx(SettingsIcon, {}) : _jsx(GitHubIcon, {}) }), _jsx(ListItemText, { primary: text, sx: { opacity: open ? 1 : 0 } })] }) }, text))) })] }), _jsxs(Drawer, { variant: "persistent", anchor: "right", open: open, children: [_jsx(DrawerHeader, { children: _jsx(IconButton, { onClick: handleDrawerClose, children: theme.direction === "rtl" ? (_jsx(ChevronRightIcon, {})) : (_jsx(ChevronLeftIcon, {})) }) }), _jsx(Typography, { children: "Testing" })] })] }));
 }

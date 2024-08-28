@@ -2,7 +2,6 @@ import generalService from '../services/generalService.js';
 const generalController = {
     //middleware function to check if the env file exists
     checkEnv: (_req, res, next) => {
-        ;
         try {
             const check = generalService.checkEnv();
             if (check === 'exist') {
@@ -17,9 +16,9 @@ const generalController = {
             next();
         }
         catch (error) {
-            console.log(error);
+            console.log('generalController: ', error);
             res.status(500).json({ message: 'error checking env ' });
         }
-    }
+    },
 };
 export default generalController;

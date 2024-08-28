@@ -41,7 +41,7 @@ const router = createBrowserRouter([
     {
         path: "/logs",
         element: _jsx(LogPage, {}),
-    }
+    },
 ]);
 const container = document.getElementById("root");
 if (container) {

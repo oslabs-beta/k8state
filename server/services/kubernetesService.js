@@ -46,7 +46,6 @@ const kubernetesService = {
             console.log(error);
             throw new Error(`Error fetching all pod details from the cluster.`);
         }
-        ;
     },
     // Function that gets a specific pod's details from the cluster
     getPodDetailsFromCluster: async (podName, namespace) => {
@@ -89,8 +88,8 @@ const kubernetesService = {
             const test = await fetch('https://' + address + '/api/v1/nodes', {
                 method: 'GET',
                 headers: {
-                    authorization: 'Bearer ' + key
-                }
+                    authorization: 'Bearer ' + key,
+                },
             });
             //console.log(test);
             if (test.status !== 200) {

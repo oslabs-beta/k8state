@@ -27,6 +27,18 @@ import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import SettingsIcon from '@mui/icons-material/Settings';
 import GitHubIcon from '@mui/icons-material/GitHub';
 
+// ****************************
+// **   Create Interface's   **
+// ****************************
+
+interface AppBarProps extends MuiAppBarProps {
+  open?: boolean
+}
+
+// ****************************
+// **   Material UI Styling   **
+// ****************************
+
 const drawerWidth = 240
 
 const openedMixin = (theme: Theme): CSSObject => ({
@@ -58,10 +70,6 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }))
-
-interface AppBarProps extends MuiAppBarProps {
-  open?: boolean
-}
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: prop => prop !== "open",
@@ -98,8 +106,14 @@ const Drawer = styled(MuiDrawer, {
   }),
 }))
 
+// *************************
+// **   Component Render  **
+// *************************
+
 export default function MiniDrawer() {
   const theme = useTheme()
+
+  // ** create state
   const [open, setOpen] = React.useState(false)
 
   const handleDrawerOpen = () => {
@@ -219,9 +233,21 @@ export default function MiniDrawer() {
           ))}
         </List>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <DrawerHeader />
-      </Box>
+
+      {/* DRAWER 2 */}
+
+      <Drawer variant="persistent" anchor="right" open={open}>
+        <DrawerHeader>
+          <IconButton onClick={handleDrawerClose}>
+            {theme.direction === "rtl" ? (
+              <ChevronRightIcon />
+            ) : (
+              <ChevronLeftIcon />
+            )}
+          </IconButton>
+        </DrawerHeader>
+        <Typography>Testing</Typography>
+      </Drawer>
     </Box>
   )
 }

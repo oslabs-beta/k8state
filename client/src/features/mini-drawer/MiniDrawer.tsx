@@ -258,7 +258,7 @@ export default function MiniDrawer() {
         </DrawerHeader>
         <Typography>Testing</Typography>
       </Drawer>
-      <main style={{ marginLeft: 200, padding: 20 }}>
+      <main>
         {selectedPage === "ClusterUI" && <ClusterViewContainer />}
         {selectedPage === "Logs" && <LogPage />}
         {selectedPage === "Settings" && <Settings />}

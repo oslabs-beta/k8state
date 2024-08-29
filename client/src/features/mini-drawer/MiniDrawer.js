@@ -18,11 +18,15 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import logoSVG from "../../public/logo.svg";
-import { Link } from "react-router-dom";
 import HubIcon from "@mui/icons-material/Hub";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import SettingsIcon from "@mui/icons-material/Settings";
 import GitHubIcon from "@mui/icons-material/GitHub";
+import { useState } from "react";
+import ClusterViewContainer from "../cluster-view/containers/ClusterViewContainer";
+import LogPage from "../log-page/LogPage";
+import Settings from "../settings/settings";
+import LandingPage from "../landing-page/LandingPage";
 // ****************************
 // **   Material UI Styling   **
 // ****************************
@@ -94,6 +98,11 @@ export default function MiniDrawer() {
     const theme = useTheme();
     // ** create state
     const [open, setOpen] = React.useState(false);
+    const [selectedPage, setSelectedPage] = useState(null);
+    const handleMenuSelect = (page) => {
+        console.log(page);
+        setSelectedPage(page);
+    };
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -105,7 +114,13 @@ export default function MiniDrawer() {
                 }, children: _jsxs(Toolbar, { children: [_jsx(IconButton, { color: "inherit", "aria-label": "open drawer", onClick: handleDrawerOpen, edge: "start", sx: {
                                 marginRight: 5,
                                 ...(open && { display: "none" }),
-                            }, children: _jsx(MenuIcon, {}) }), _jsxs(Typography, { variant: "h6", noWrap: true, component: "div", children: ["K", _jsx("span", { style: { color: "#ad97d0" }, children: "8" }), "STATE \u2014 Cluster View"] }), _jsx("img", { src: logoSVG, alt: "App logo", style: { width: "50px", marginLeft: "auto", marginRight: "15px" } })] }) }), _jsxs(Drawer, { variant: "permanent", open: open, children: [_jsx(DrawerHeader, { children: _jsx(IconButton, { onClick: handleDrawerClose, children: theme.direction === "rtl" ? (_jsx(ChevronRightIcon, {})) : (_jsx(ChevronLeftIcon, {})) }) }), _jsx(Divider, {}), _jsx(List, { children: ["ClusterUI", "Logs"].map((text, index) => (_jsx(ListItem, { component: Link, to: `/${text.toLowerCase()}`, disablePadding: true, sx: { display: "block" }, style: { color: "black", textDecoration: "none" }, children: _jsxs(ListItemButton, { sx: {
+                            }, children: _jsx(MenuIcon, {}) }), _jsxs(Typography, { variant: "h6", noWrap: true, component: "div", children: ["K", _jsx("span", { style: { color: "#ad97d0" }, children: "8" }), "STATE \u2014 Cluster View"] }), _jsx("img", { src: logoSVG, alt: "App logo", style: { width: "50px", marginLeft: "auto", marginRight: "15px" } })] }) }), _jsxs(Drawer, { variant: "permanent", open: open, children: [_jsx(DrawerHeader, { children: _jsx(IconButton, { onClick: handleDrawerClose, children: theme.direction === "rtl" ? (_jsx(ChevronRightIcon, {})) : (_jsx(ChevronLeftIcon, {})) }) }), _jsx(Divider, {}), _jsx(List, { children: ["ClusterUI", "Logs"].map((text, index) => (_jsx(ListItem
+                        // component={Link}
+                        // to={`/${text.toLowerCase()}`}
+                        , { 
+                            // component={Link}
+                            // to={`/${text.toLowerCase()}`}
+                            onClick: () => handleMenuSelect(text), disablePadding: true, sx: { display: "block" }, style: { color: "black", textDecoration: "none" }, children: _jsxs(ListItemButton, { sx: {
                                     minHeight: 48,
                                     justifyContent: open ? "initial" : "center",
                                     px: 2.5,
@@ -113,7 +128,13 @@ export default function MiniDrawer() {
                                             minWidth: 0,
                                             mr: open ? 3 : "auto",
                                             justifyContent: "center",
-                                        }, children: index % 2 === 0 ? _jsx(HubIcon, {}) : _jsx(ReceiptLongIcon, {}) }), _jsx(ListItemText, { primary: text, sx: { opacity: open ? 1 : 0 } })] }) }, text))) }), _jsx(Divider, {}), _jsx(List, { children: ["Settings", "Github"].map((text, index) => (_jsx(ListItem, { component: Link, to: `/${text.toLowerCase()}`, disablePadding: true, sx: { display: "block" }, style: { color: "black", textDecoration: "none" }, children: _jsxs(ListItemButton, { sx: {
+                                        }, children: index % 2 === 0 ? _jsx(HubIcon, {}) : _jsx(ReceiptLongIcon, {}) }), _jsx(ListItemText, { primary: text, sx: { opacity: open ? 1 : 0 } })] }) }, text))) }), _jsx(Divider, {}), _jsx(List, { children: ["Settings", "Github"].map((text, index) => (_jsx(ListItem
+                        // component={Link}
+                        // to={`/${text.toLowerCase()}`}
+                        , { 
+                            // component={Link}
+                            // to={`/${text.toLowerCase()}`}
+                            onClick: () => handleMenuSelect(text), disablePadding: true, sx: { display: "block" }, style: { color: "black", textDecoration: "none" }, children: _jsxs(ListItemButton, { sx: {
                                     minHeight: 48,
                                     justifyContent: open ? "initial" : "center",
                                     px: 2.5,
@@ -121,5 +142,5 @@ export default function MiniDrawer() {
                                             minWidth: 0,
                                             mr: open ? 3 : "auto",
                                             justifyContent: "center",
-                                        }, children: index % 2 === 0 ? _jsx(SettingsIcon, {}) : _jsx(GitHubIcon, {}) }), _jsx(ListItemText, { primary: text, sx: { opacity: open ? 1 : 0 } })] }) }, text))) })] }), _jsxs(Drawer, { variant: "persistent", anchor: "right", open: open, children: [_jsx(DrawerHeader, { children: _jsx(IconButton, { onClick: handleDrawerClose, children: theme.direction === "rtl" ? (_jsx(ChevronRightIcon, {})) : (_jsx(ChevronLeftIcon, {})) }) }), _jsx(Typography, { children: "Testing" })] })] }));
+                                        }, children: index % 2 === 0 ? _jsx(SettingsIcon, {}) : _jsx(GitHubIcon, {}) }), _jsx(ListItemText, { primary: text, sx: { opacity: open ? 1 : 0 } })] }) }, text))) })] }), _jsxs(Drawer, { variant: "persistent", anchor: "right", open: open, children: [_jsx(DrawerHeader, { children: _jsx(IconButton, { onClick: handleDrawerClose, children: theme.direction === "rtl" ? (_jsx(ChevronRightIcon, {})) : (_jsx(ChevronLeftIcon, {})) }) }), _jsx(Typography, { children: "Testing" })] }), _jsxs("main", { style: { marginLeft: 200, padding: 20 }, children: [selectedPage === "ClusterUI" && _jsx(ClusterViewContainer, {}), selectedPage === "Logs" && _jsx(LogPage, {}), selectedPage === "Settings" && _jsx(Settings, {}), selectedPage === "Github" && _jsx(LandingPage, {})] })] }));
 }

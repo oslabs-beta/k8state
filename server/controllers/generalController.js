@@ -22,7 +22,7 @@ const generalController = {
             res.status(500).json({ message: 'error checking env ' });
         }
     },
-    getWriteLog: async (_req, res, next) => {
+    writeLog: async (_req, res, next) => {
         ;
         generalService.checkLogs();
         const pods = res.locals.podData;
@@ -37,6 +37,15 @@ const generalController = {
         generalService.writeLogs(logs);
         res.locals.logs = logs;
         next();
-    }
+    },
+    getDirectoryLogs: (_req, res, next) => {
+        generalService.checkLogs();
+        const result = generalService.getDirLogs();
+        res.locals.dirLogs = result;
+        //console.log(result);
+        next();
+    },
+    getSpecificLog: (_req, res, next) => {
+    },
 };
 export default generalController;

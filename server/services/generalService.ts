@@ -60,6 +60,11 @@ const generalService = {
             else{
                 fs.writeFileSync(logFile, JSON.stringify(input, null, 2));
             }
+        },
+        getDirLogs: (): string[] => {
+            const logDir: string = path.resolve(path.resolve('./logs/'));
+            const filesInDir: string[] = fs.readdirSync(logDir);
+            return filesInDir;
         }
 }
 

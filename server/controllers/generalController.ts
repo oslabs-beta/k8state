@@ -27,14 +27,14 @@ const generalController = {
             res.status(500).json({ message: 'error checking env '});
         }
     },
-    getWriteLog: async (_req: Request, res: Response, next: NextFunction) => {
+    writeLog: async (_req: Request, res: Response, next: NextFunction) => {
         interface info {
             name: string;
             namespace: string;
         };
         generalService.checkLogs();
         const pods = res.locals.podData;
-        const podNames = [];
+        const podNames: info[] = [];
         for(let element of pods){
             podNames.push({
                 name: element.name,
@@ -45,7 +45,17 @@ const generalController = {
         generalService.writeLogs(logs);
         res.locals.logs = logs;
         next();
-    }
+    },
+    getDirectoryLogs: (_req: Request, res: Response, next: NextFunction) => {
+        generalService.checkLogs();
+        const result: string[] = generalService.getDirLogs();
+        res.locals.dirLogs = result;
+        //console.log(result);
+        next();
+    },
+    getSpecificLog: (_req: Request, res: Response, next: NextFunction) => {
+
+    },
 };
 
 export default generalController;

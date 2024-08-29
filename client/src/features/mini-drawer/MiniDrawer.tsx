@@ -26,6 +26,11 @@ import HubIcon from "@mui/icons-material/Hub"
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong"
 import SettingsIcon from "@mui/icons-material/Settings"
 import GitHubIcon from "@mui/icons-material/GitHub"
+import { useState } from "react"
+import ClusterViewContainer from "../cluster-view/containers/ClusterViewContainer"
+import LogPage from "../log-page/LogPage"
+import Settings from "../settings/settings"
+import LandingPage from "../landing-page/LandingPage"
 
 // ****************************
 // **   Create Interface's   **
@@ -116,6 +121,13 @@ export default function MiniDrawer() {
   // ** create state
   const [open, setOpen] = React.useState(false)
 
+  const [selectedPage, setSelectedPage] = useState<string | null>(null)
+
+  const handleMenuSelect = (page: string) => {
+    console.log(page)
+    setSelectedPage(page)
+  }
+
   const handleDrawerOpen = () => {
     setOpen(true)
   }
@@ -172,8 +184,9 @@ export default function MiniDrawer() {
         <List>
           {["ClusterUI", "Logs"].map((text, index) => (
             <ListItem
-              component={Link}
-              to={`/${text.toLowerCase()}`}
+              // component={Link}
+              // to={`/${text.toLowerCase()}`}
+              onClick={() => handleMenuSelect(text)}
               key={text}
               disablePadding
               sx={{ display: "block" }}
@@ -204,8 +217,9 @@ export default function MiniDrawer() {
         <List>
           {["Settings", "Github"].map((text, index) => (
             <ListItem
-              component={Link}
-              to={`/${text.toLowerCase()}`}
+              // component={Link}
+              // to={`/${text.toLowerCase()}`}
+              onClick={() => handleMenuSelect(text)}
               key={text}
               disablePadding
               sx={{ display: "block" }}
@@ -248,6 +262,12 @@ export default function MiniDrawer() {
         </DrawerHeader>
         <Typography>Testing</Typography>
       </Drawer>
+      <main style={{ marginLeft: 200, padding: 20 }}>
+        {selectedPage === "ClusterUI" && <ClusterViewContainer />}
+        {selectedPage === "Logs" && <LogPage />}
+        {selectedPage === "Settings" && <Settings />}
+        {selectedPage === "Github" && <LandingPage />}
+      </main>
     </Box>
   )
 }

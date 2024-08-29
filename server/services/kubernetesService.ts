@@ -1,11 +1,18 @@
 // Lines 2 - 33 are basic kubernetes API setup
 import * as k8s from '@kubernetes/client-node';
 import dotenv from 'dotenv';
-import fs from 'fs';
-import path from 'path';
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 dotenv.config();
 
+interface info {
+    name: string;
+    namespace: string;
+};
+interface data {
+    name: string;
+    namespace: string;
+    logs: string;
+}
 // Defines helper functions that will connect middleware to the Kubernetes API Client functions
 const kubernetesService = {
     createClient: (): k8s.CoreV1Api => {
@@ -124,6 +131,29 @@ const kubernetesService = {
             }
         }
     },
+    getLogs: async (input: info[]): Promise< data[] | undefined> => {
+
+        const k8sApi = kubernetesService.createClient();
+        try{
+            const logs: data[] = [];
+            for(let i = 0; i < input.length; i++){
+                if(input[i].namespace !== 'kube-system' && input[i].namespace !== 'monitoring'){
+                    const result = await k8sApi.readNamespacedPodLog(input[i].name, input[i].namespace);
+                    logs.push({
+                        name: input[i].name,
+                        namespace: input[i].namespace,
+                        logs:result.body
+                    } as data);
+                }
+
+            }
+            //console.log(logs);
+            return logs
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
 
 };
 

@@ -43,9 +43,13 @@ const generalService = {
         const year = time.getFullYear();
         const month = time.getMonth() + 1;
         const day = time.getDate();
+        console.log(input);
         const logFile = path.resolve(path.resolve('./logs/log-' + year + '-' + month + '-' + day + '.json'));
         if (!fs.existsSync(logFile)) {
-            fs.writeFileSync(logFile, '');
+            fs.writeFileSync(logFile, JSON.stringify(input, null, 2));
+        }
+        else {
+            fs.appendFileSync(logFile, JSON.stringify(input, null, 2));
         }
     }
 };

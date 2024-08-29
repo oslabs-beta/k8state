@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import generalService from '../services/generalService.js';
+import kubernetesService from '../services/kubernetesService.js';
 
 const generalController = {
     //middleware function to check if the env file exists
@@ -26,8 +27,23 @@ const generalController = {
             res.status(500).json({ message: 'error checking env '});
         }
     },
-    test: (_req: Request, _res: Response, next: NextFunction) => {
+    getWriteLog: async (_req: Request, res: Response, next: NextFunction) => {
+        interface info {
+            name: string;
+            namespace: string;
+        };
         generalService.checkLogs();
+        const pods = res.locals.podData;
+        const podNames = [];
+        for(let element of pods){
+            podNames.push({
+                name: element.name,
+                namespace: element.namespace
+            } as info);
+        }
+        const logs = await kubernetesService.getLogs(podNames);
+        //console.log(logs);
+        generalService.writeLogs(logs);
         next();
     }
 };

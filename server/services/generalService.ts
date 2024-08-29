@@ -1,6 +1,12 @@
 import fs from 'fs';
 import path from 'path';
 
+interface data {
+    name: string;
+    namespace: string;
+    logs: string;
+}
+
 const generalService = {
         //function that checks if the environment variables exist and if the env file exists, otherwise create it
         checkEnv: (): string | undefined => {
@@ -39,15 +45,18 @@ const generalService = {
                 }
             });
         },
-        writeLogs: (input: object) => {
+        writeLogs: (input: data[] | undefined) => {
             const time = new Date();
             const year = time.getFullYear();
             const month = time.getMonth() + 1;
             const day = time.getDate();
-
+            console.log(input);
             const logFile = path.resolve(path.resolve('./logs/log-' + year + '-' + month + '-' + day + '.json'));
             if(!fs.existsSync(logFile)){
-                fs.writeFileSync(logFile, '');
+                fs.writeFileSync(logFile, JSON.stringify(input, null, 2));
+            }
+            else{
+                fs.appendFileSync(logFile, JSON.stringify(input, null, 2));
             }
         }
 }

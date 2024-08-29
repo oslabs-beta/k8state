@@ -3,6 +3,7 @@ import * as k8s from '@kubernetes/client-node';
 import dotenv from 'dotenv';
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 dotenv.config();
+;
 // Defines helper functions that will connect middleware to the Kubernetes API Client functions
 const kubernetesService = {
     createClient: () => {
@@ -108,6 +109,27 @@ const kubernetesService = {
             }
         }
     },
+    getLogs: async (input) => {
+        const k8sApi = kubernetesService.createClient();
+        try {
+            const logs = [];
+            for (let i = 0; i < input.length; i++) {
+                if (input[i].namespace !== 'kube-system' && input[i].namespace !== 'monitoring') {
+                    const result = await k8sApi.readNamespacedPodLog(input[i].name, input[i].namespace);
+                    logs.push({
+                        name: input[i].name,
+                        namespace: input[i].namespace,
+                        logs: result.body
+                    });
+                }
+            }
+            //console.log(logs);
+            return logs;
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
 };
 // Exports service object for use as helper functions
 export default kubernetesService;

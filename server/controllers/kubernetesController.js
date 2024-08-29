@@ -5,7 +5,7 @@ const kubernetesController = {
     // Middleware function to get all pods from the cluster
     getPods: async (_req, res, next) => {
         try {
-            const allPods = await (kubernetesService.getPodsFromCluster());
+            const allPods = await kubernetesService.getPodsFromCluster();
             const returnedPods = [];
             for (const pod of allPods) {
                 const newPod = {
@@ -63,11 +63,10 @@ const kubernetesController = {
     // Middleware function to get all nodes from the cluster
     getNodes: async (_req, res, next) => {
         try {
-            const allNodes = await (kubernetesService.getNodesFromCluster());
+            const allNodes = await kubernetesService.getNodesFromCluster();
             const returnedNodes = [];
             for (const node of allNodes) {
-                // console.log(node);
-                // console.log(node.status?.conditions, node.status?.capacity);
+                console.log(node.status?.conditions, node.status?.capacity);
                 const newNode = {
                     creationTimestamp: node.metadata?.creationTimestamp,
                     name: node.metadata?.name,
@@ -92,7 +91,7 @@ const kubernetesController = {
     // Middleware function to get all services from the cluster
     getServices: async (_req, res, next) => {
         try {
-            const allServices = await (kubernetesService.getServicesFromCluster());
+            const allServices = await kubernetesService.getServicesFromCluster();
             const returnedServices = [];
             for (const services of allServices) {
                 const newService = {
@@ -120,7 +119,7 @@ const kubernetesController = {
         const key = req.body.key;
         const address = req.body.address;
         try {
-            const check = await (kubernetesService.checkAPI(key, address));
+            const check = await kubernetesService.checkAPI(key, address);
             if (check === 'ok') {
                 generalService.writeEnv(key, address);
                 next();
@@ -129,7 +128,7 @@ const kubernetesController = {
                 res.status(403).json({ message: 'invalid_key' });
             }
             else {
-                res.status(500).json({ message: "unable to connect to cluster" });
+                res.status(500).json({ message: 'unable to connect to cluster' });
             }
         }
         catch (error) {

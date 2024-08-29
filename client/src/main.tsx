@@ -7,7 +7,7 @@ import { store } from "./app/store"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import "./index.css"
 import CaptivePortal from "./features/captive-portal/CaptivePortal"
-import LogPage from "./features/log-page/LogPage";
+import LogPage from "./features/log-page/LogPage"
 
 // import material UI fonts
 import "@fontsource/roboto/300.css"
@@ -38,16 +38,16 @@ const router = createBrowserRouter([
   },
   {
     path: "/clusterui",
-    element: <ProtectedRoute element={<App/>}/>,
+    element: <ProtectedRoute element={<App />} />,
   },
   {
     path: "/portal",
-    element: <CaptivePortal/>,
+    element: <CaptivePortal />,
   },
   {
     path: "/logs",
-    element: <LogPage/>,
-  }
+    element: <LogPage />,
+  },
 ])
 
 const container = document.getElementById("root")

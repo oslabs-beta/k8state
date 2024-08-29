@@ -5,19 +5,19 @@ export const clusterApi = createApi({
     reducerPath: "clusterApi",
     baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8080/api" }),
     endpoints: builder => ({
-        getNodes: builder.query({
+        getKubernetesNodes: builder.query({
             query: () => "nodes",
         }),
-        getPods: builder.query({
+        getKubernetesPods: builder.query({
             query: () => "pods",
         }),
-        getServices: builder.query({
+        getKubernetesServices: builder.query({
             query: () => "services",
         }),
     }),
 });
 // Auto-generated hooks for the API queries
-export const { useGetNodesQuery, useGetPodsQuery, useGetServicesQuery } = clusterApi;
+export const { useGetKubernetesNodesQuery, useGetKubernetesPodsQuery, useGetKubernetesServicesQuery, } = clusterApi;
 const initialState = {
     pods: ["pod_1"],
 };

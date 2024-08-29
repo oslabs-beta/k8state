@@ -2,18 +2,20 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 import { createSlice } from "@reduxjs/toolkit"
 
 // Define the structure of the Node object
-export interface Node {
+export interface KubernetesNode {
   creationTimestamp: string
   name: string
   labels: { [key: string]: string }
   podCIDR: string
   addresses: { type: string; address: string }[]
   allocatable: { [key: string]: string }
-  capacity: { [key: string]: string }
+  capacity: {
+    [key: string]: string
+  }
   conditions: { type: string; status: string }[]
 }
 
-export interface Pod {
+export interface KubernetesPod {
   name: string
   creationTimestamp: string
   namespace: string
@@ -27,7 +29,7 @@ export interface Pod {
   uid: string
 }
 
-export interface Services {
+export interface KubernetesServices {
   name: String
   namespace: String
   labels: { [key: string]: string } | undefined
@@ -43,21 +45,24 @@ export const clusterApi = createApi({
   reducerPath: "clusterApi",
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8080/api" }),
   endpoints: builder => ({
-    getNodes: builder.query<Node[], void>({
+    getKubernetesNodes: builder.query<KubernetesNode[], void>({
       query: () => "nodes",
     }),
-    getPods: builder.query<Pod[], void>({
+    getKubernetesPods: builder.query<KubernetesPod[], void>({
       query: () => "pods",
     }),
-    getServices: builder.query<Services[], void>({
+    getKubernetesServices: builder.query<KubernetesServices[], void>({
       query: () => "services",
     }),
   }),
 })
 
 // Auto-generated hooks for the API queries
-export const { useGetNodesQuery, useGetPodsQuery, useGetServicesQuery } =
-  clusterApi
+export const {
+  useGetKubernetesNodesQuery,
+  useGetKubernetesPodsQuery,
+  useGetKubernetesServicesQuery,
+} = clusterApi
 
 export interface ClusterViewState {
   pods: string[]

@@ -1,8 +1,6 @@
 // Lines 2 - 33 are basic kubernetes API setup
 import * as k8s from '@kubernetes/client-node';
 import dotenv from 'dotenv';
-import fs from 'fs';
-import path from 'path';
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 dotenv.config();
 
@@ -104,15 +102,12 @@ const kubernetesService = {
 					authorization: 'Bearer ' + key,
 				},
 			});
-			//console.log(test);
 			if (test.status !== 200) {
-				//console.log(test.status);
 				return 'invalidkey';
 			} else {
 				return 'ok';
 			}
 		} catch (error) {
-			//console.log(error);
 			if (error instanceof Error) {
 				return error;
 			}

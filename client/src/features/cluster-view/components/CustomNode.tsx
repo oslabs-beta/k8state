@@ -1,17 +1,8 @@
 import type React from "react"
 import { useState } from "react"
-import { useSelector } from "react-redux"
 import { Handle, Position } from "@xyflow/react"
-
-import Button from "@mui/material/Button"
 import Popover from "@mui/material/Popover"
 import Typography from "@mui/material/Typography"
-
-import {
-  useGetKubernetesNodesQuery,
-  useGetKubernetesPodsQuery,
-} from "../clusterViewApiSlice"
-
 import type { customObject } from "../containers/ClusterViewContainer"
 
 // CREATE TYPE INTERFACE FOR DATA
@@ -140,31 +131,7 @@ const CustomNode = ({ data }: customObject) => {
         </Popover>
       )}
 
-      {/* <Popover
-        id={id}
-        open={open}
-        anchorEl={anchorEl}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
-      >
-        <Typography sx={{ p: 2 }}>
-          <strong>Name:</strong> {data.name}
-          <br />
-          <strong>Time Created:</strong>
-          {data.creationTimestamp ? data.creationTimestamp : null}
-          <br />
-          <strong>CPU: </strong> {data.capacity?.cpu.toString()}
-          <br />
-          <strong>phase:</strong> {data.phase}
-          <br />
-          <strong>restartPolicy:</strong> {data.restartPolicy}
-          <br />
-          <strong>uid:</strong> {data.uid}
-        </Typography>
-      </Popover> */}
+
     </>
   )
 }

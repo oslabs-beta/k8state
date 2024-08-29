@@ -1,6 +1,6 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useState } from "react";
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { useAppDispatch } from '../../app/hooks';
 import { setAddress, setKey } from './captivePortalSlice';
 import { TextField, Button } from "@mui/material";
 import { Navigate } from 'react-router-dom';
@@ -10,8 +10,6 @@ export default function CaptivePortal() {
     const [bearer, setBearer] = useState('');
     const [submit, setSubmit] = useState(false);
     const [error, setError] = useState('');
-    const key = useAppSelector((state) => state.portalSlice.key);
-    const address = useAppSelector((state) => state.portalSlice.address);
     const submitHandler = (event) => {
         event.preventDefault();
         fetch("http://localhost:8080/api/checkAPI", {
@@ -36,10 +34,6 @@ export default function CaptivePortal() {
             }
         });
     };
-    // //rerenders when error changes
-    // useEffect(() => {
-    //     console.log(error);
-    // }, [error])
     if (submit === true) {
         return _jsx(Navigate, { to: "/clusterui" });
     }

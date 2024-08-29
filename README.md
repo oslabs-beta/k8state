@@ -14,7 +14,7 @@ K8State is a comprehensive Kubernetes dashboard application designed to provide 
 
 •	Node.js (version 14 or higher)
 •	npm or Yarn
-•	Kubernetes Cluster 
+•	Kubernetes Cluster URL / Bearer Token
 
 ## Optional
 
@@ -23,10 +23,8 @@ K8State is a comprehensive Kubernetes dashboard application designed to provide 
 
 ## Scripts
 
-- `dev`/`start` - start dev server and open browser
-- `build` - build for production
-- `preview` - locally preview production build
-- `test` - launch test runner
+- `dev` - start dev server on port 3000
+- `server` - start backend server on port 8080
 
 ## Installation
 
@@ -49,16 +47,14 @@ Using yarn:
 yarn install
 ```
 
-## Configuration
+## Necessary Information
 
-Create a .env file in the root directory and add the following variables:
+This application requires the following information to function properly.
 • The server address either an IP or a domain name
 • A bearer token generated from the kubernetes cluster.
+
+More information about how to generate a bearer token:
 https://kubernetes.io/docs/reference/kubectl/generated/kubectl_create/kubectl_create_token/
-```
-KUBERNETES_SERVER=https://kubernetes-server.com:00000
-KUBERNETES_TOKEN=Insert_Your_Token_Here
-```
 
 ## Running the Application
 
@@ -83,7 +79,3 @@ npm run build
 npm run start
 ```
 Starts the client on http://localhost:3000
-
-<!-- - [Create React App](https://github.com/facebook/create-react-app/tree/main/packages/cra-template)
-- [Vite](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react)
-- [Vitest](https://github.com/vitest-dev/vitest/tree/main/examples/react-testing-lib) -->

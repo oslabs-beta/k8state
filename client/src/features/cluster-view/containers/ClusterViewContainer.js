@@ -10,8 +10,16 @@ import CustomNode from "../components/CustomNode"; // Import your custom node
 export default function ClusterViewContainer() {
     // **** Global State ****
     // Hooks into Kubernets Cluster Data via RTK Query
-    const { data: kubernetesNodes = [], error: kubernetesNodesError, isLoading: kubernetesNodesIsLoading, refetch: refetchKubernetesNodes, } = useGetKubernetesNodesQuery();
-    const { data: kubernetesPods = [], error: kubernetsPodsError, isLoading: kubernetsPodsIsLoading, refetch: refetchKubernetsPods, } = useGetKubernetesPodsQuery();
+    const { data: kubernetesNodes = [],
+    // error: kubernetesNodesError,
+    // isLoading: kubernetesNodesIsLoading,
+    // refetch: refetchKubernetesNodes,
+     } = useGetKubernetesNodesQuery();
+    const { data: kubernetesPods = [],
+    // error: kubernetsPodsError,
+    // isLoading: kubernetsPodsIsLoading,
+    // refetch: refetchKubernetsPods,
+     } = useGetKubernetesPodsQuery();
     // **** Local State ****
     // Sets state for nodes array ****
     const [mappedNodes, setMappedNodes] = useState([]);

@@ -5,7 +5,6 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { setInit, setAddress, setKey } from './captivePortalSlice';
 export default function ProtectedRoute(props) {
     const dispatch = useAppDispatch();
-    //const [status, setStatus] = useState('');
     const [loading, setLoading] = useState(true);
     const init = useAppSelector((state) => state.portalSlice.init);
     fetch("http://localhost:8080/api/checkenv", {
@@ -13,7 +12,6 @@ export default function ProtectedRoute(props) {
     })
         .then(response => response.json())
         .then(data => {
-        //console.log(data);
         if (data.address && data.key) {
             dispatch(setInit(true));
             dispatch(setKey(data.key));
@@ -24,7 +22,6 @@ export default function ProtectedRoute(props) {
     if (loading) {
         return _jsx("div", { children: "Loading..." });
     }
-    //console.log(status);
     if (init === true) {
         return props.element;
     }

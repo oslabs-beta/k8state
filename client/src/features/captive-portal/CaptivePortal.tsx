@@ -1,25 +1,18 @@
 import type React from "react";
-import { useState, useEffect } from "react";
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { useState } from "react";
+import { useAppDispatch } from '../../app/hooks';
 import { setAddress, setKey } from './captivePortalSlice';
 import { TextField, Button } from "@mui/material";
-import { Route, Navigate } from 'react-router-dom';
-import { useGetNodesQuery, useGetPodsQuery } from "../cluster-view/clusterViewApiSlice";
+import { Navigate } from 'react-router-dom';
 
 export default function CaptivePortal() {
-    type Body = {
-        key: string;
-        address: string;
-    }
+
     const dispatch = useAppDispatch()
     const [dest, setDest] = useState('');
     const [bearer, setBearer] = useState('');
     const [submit, setSubmit] = useState(false);
     const [error, setError] = useState('');
-
-    const key = useAppSelector((state) => state.portalSlice.key);
-    const address = useAppSelector((state) => state.portalSlice.address)
-    ;
+    
     const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
@@ -45,10 +38,7 @@ export default function CaptivePortal() {
             }
         })
     };
-    // //rerenders when error changes
-    // useEffect(() => {
-    //     console.log(error);
-    // }, [error])
+
     if(submit === true){
         return <Navigate to="/clusterui"/>
     }

@@ -18,9 +18,9 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ProtectedRoute from "./features/captive-portal/ProtectedRoute";
 const theme = createTheme({
     typography: {
-        fontFamily: '"Roboto", sans-serif', // Set your desired font family here
+        fontFamily: '"Roboto", sans-serif',
         h1: {
-            fontFamily: '"Oswald", sans-serif', // Customize font for specific variant
+            fontFamily: '"Oswald", sans-serif',
             fontWeight: 900,
         },
     },

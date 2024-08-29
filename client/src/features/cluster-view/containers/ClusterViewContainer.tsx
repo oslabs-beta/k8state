@@ -53,15 +53,15 @@ export default function ClusterViewContainer() {
   // Hooks into Kubernets Cluster Data via RTK Query
   const {
     data: kubernetesNodes = [],
-    error: kubernetesNodesError,
-    isLoading: kubernetesNodesIsLoading,
-    refetch: refetchKubernetesNodes,
+    // error: kubernetesNodesError,
+    // isLoading: kubernetesNodesIsLoading,
+    // refetch: refetchKubernetesNodes,
   } = useGetKubernetesNodesQuery()
   const {
     data: kubernetesPods = [],
-    error: kubernetsPodsError,
-    isLoading: kubernetsPodsIsLoading,
-    refetch: refetchKubernetsPods,
+    // error: kubernetsPodsError,
+    // isLoading: kubernetsPodsIsLoading,
+    // refetch: refetchKubernetsPods,
   } = useGetKubernetesPodsQuery()
 
   // **** Local State ****
@@ -202,7 +202,7 @@ export default function ClusterViewContainer() {
         <ReactFlow
           nodes={nodesToRender}
           edges={edgesToRender}
-          nodeTypes={nodeTypes} // Pass the custom node types here
+          nodeTypes={nodeTypes}
           fitView
         >
           <Background />

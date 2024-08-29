@@ -22,10 +22,22 @@ import InboxIcon from "@mui/icons-material/MoveToInbox"
 import MailIcon from "@mui/icons-material/Mail"
 import logoSVG from "../../public/logo.svg"
 import { Link } from "react-router-dom"
-import HubIcon from '@mui/icons-material/Hub';
-import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
-import SettingsIcon from '@mui/icons-material/Settings';
-import GitHubIcon from '@mui/icons-material/GitHub';
+import HubIcon from "@mui/icons-material/Hub"
+import ReceiptLongIcon from "@mui/icons-material/ReceiptLong"
+import SettingsIcon from "@mui/icons-material/Settings"
+import GitHubIcon from "@mui/icons-material/GitHub"
+
+// ****************************
+// **   Create Interface's   **
+// ****************************
+
+interface AppBarProps extends MuiAppBarProps {
+  open?: boolean
+}
+
+// ****************************
+// **   Material UI Styling   **
+// ****************************
 
 const drawerWidth = 240
 
@@ -58,10 +70,6 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }))
-
-interface AppBarProps extends MuiAppBarProps {
-  open?: boolean
-}
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: prop => prop !== "open",
@@ -98,8 +106,14 @@ const Drawer = styled(MuiDrawer, {
   }),
 }))
 
+// *************************
+// **   Component Render  **
+// *************************
+
 export default function MiniDrawer() {
   const theme = useTheme()
+
+  // ** create state
   const [open, setOpen] = React.useState(false)
 
   const handleDrawerOpen = () => {
@@ -156,7 +170,7 @@ export default function MiniDrawer() {
         </DrawerHeader>
         <Divider />
         <List>
-          {[ "ClusterUI", "Logs"].map((text, index) => (
+          {["ClusterUI", "Logs"].map((text, index) => (
             <ListItem
               component={Link}
               to={`/${text.toLowerCase()}`}
@@ -179,7 +193,7 @@ export default function MiniDrawer() {
                     justifyContent: "center",
                   }}
                 >
-                  { index % 2 === 0 ? <HubIcon /> : <ReceiptLongIcon />}
+                  {index % 2 === 0 ? <HubIcon /> : <ReceiptLongIcon />}
                 </ListItemIcon>
                 <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
@@ -211,7 +225,7 @@ export default function MiniDrawer() {
                     justifyContent: "center",
                   }}
                 >
-                  {index % 2 === 0 ? < SettingsIcon/> : <GitHubIcon />}
+                  {index % 2 === 0 ? <SettingsIcon /> : <GitHubIcon />}
                 </ListItemIcon>
                 <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
@@ -219,9 +233,21 @@ export default function MiniDrawer() {
           ))}
         </List>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <DrawerHeader />
-      </Box>
+
+      {/* DRAWER 2 */}
+
+      <Drawer variant="persistent" anchor="right" open={open}>
+        <DrawerHeader>
+          <IconButton onClick={handleDrawerClose}>
+            {theme.direction === "rtl" ? (
+              <ChevronRightIcon />
+            ) : (
+              <ChevronLeftIcon />
+            )}
+          </IconButton>
+        </DrawerHeader>
+        <Typography>Testing</Typography>
+      </Drawer>
     </Box>
   )
 }

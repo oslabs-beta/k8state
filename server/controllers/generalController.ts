@@ -42,8 +42,8 @@ const generalController = {
             } as info);
         }
         const logs = await kubernetesService.getLogs(podNames);
-        //console.log(logs);
         generalService.writeLogs(logs);
+        res.locals.logs = logs;
         next();
     }
 };

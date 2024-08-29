@@ -1,22 +1,32 @@
 import express, { Request, Response, NextFunction } from 'express';
+import kubernetesRouter from './routes/kubernetesRouter.js';
+import prometheusRouter from './routes/prometheusRouter.js';
+import cors from 'cors';
 
 const app = express();
-const port = 8080;
+const PORT = 8080;
 
-// Middleware example
 app.use(express.json());
+app.use(cors());
 
-// Basic route example
-app.get('/api', (_req: Request, res: Response) => {
-	res.send('Hello, TypeScript with Express!');
+// Kubernetes Router Handler
+app.use('/api', kubernetesRouter);
+
+// Prometheus Router Handler
+app.use('/prom', prometheusRouter);
+
+// Kubernetes 404 Route Handler
+app.use('/', (_req, res) => {
+	res.status(404).send('Error page not found!');
 });
 
-// Error handling middleware
+// Express Global Error Handler
 app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
-	console.error(err.stack);
-	res.status(500).send('Something broke!');
+	console.log(err);
+	res.status(500).json(err);
 });
 
-app.listen(port, () => {
-	console.log(`Server is running on http://localhost:${port}`);
+// Starts the app on the given port
+app.listen(PORT, () => {
+	console.log(`Server is running on http://localhost:${PORT}`);
 });

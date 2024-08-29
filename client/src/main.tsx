@@ -2,8 +2,50 @@ import React from "react"
 import { createRoot } from "react-dom/client"
 import { Provider } from "react-redux"
 import App from "./App"
+import LandingPage from "./features/landing-page/LandingPage"
 import { store } from "./app/store"
+import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import "./index.css"
+import CaptivePortal from "./features/captive-portal/CaptivePortal"
+import LogPage from "./features/log-page/LogPage"
+
+// import material UI fonts
+import "@fontsource/roboto/300.css"
+import "@fontsource/roboto/400.css"
+import "@fontsource/roboto/500.css"
+import "@fontsource/roboto/700.css"
+
+import { createTheme, ThemeProvider } from "@mui/material/styles"
+import ProtectedRoute from "./features/captive-portal/ProtectedRoute"
+
+const theme = createTheme({
+  typography: {
+    fontFamily: '"Roboto", sans-serif',
+    h1: {
+      fontFamily: '"Oswald", sans-serif',
+      fontWeight: 900,
+    },
+  },
+})
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <LandingPage />,
+  },
+  {
+    path: "/clusterui",
+    element: <ProtectedRoute element={<App />} />,
+  },
+  {
+    path: "/portal",
+    element: <CaptivePortal />,
+  },
+  {
+    path: "/logs",
+    element: <LogPage />,
+  },
+])
 
 const container = document.getElementById("root")
 
@@ -13,7 +55,9 @@ if (container) {
   root.render(
     <React.StrictMode>
       <Provider store={store}>
-        <App />
+        <ThemeProvider theme={theme}>
+          <RouterProvider router={router} />
+        </ThemeProvider>
       </Provider>
     </React.StrictMode>,
   )

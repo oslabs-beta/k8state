@@ -1,27 +1,119 @@
-// Lines 2 - 7 are just basic kubernetes API setup
+// Lines 2 - 33 are basic kubernetes API setup
 import * as k8s from '@kubernetes/client-node';
+import dotenv from 'dotenv';
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+dotenv.config();
 
-const kc = new k8s.KubeConfig();
-kc.loadFromDefault();
+// Defines helper functions that will connect middleware to the Kubernetes API Client functions
+const kubernetesService = {
+	createClient: (): k8s.CoreV1Api => {
+		// Creates the config file that the server will be using to communicate with the cluster
+		const kc = new k8s.KubeConfig();
+		kc.loadFromOptions({
+			clusters: [
+				{
+					name: 'main-cluster',
+					server: `${process.env.KUBERNETES_SERVER}`,
+					skipTLSVerify: true,
+				},
+			],
+			users: [
+				{
+					name: 'main-user',
+					token: `${process.env.KUBERNETES_TOKEN}`,
+				},
+			],
+			contexts: [
+				{
+					name: 'main-context',
+					cluster: 'main-cluster',
+					user: 'main-user',
+				},
+			],
+			currentContext: 'main-context',
+		});
 
-const k8sApi = kc.makeApiClient(k8s.CoreV1Api);
+		// Creates an instance of a Kubernetes API Client to interact with the Kubernetes API
+		const k8sApi = kc.makeApiClient(k8s.CoreV1Api);
+		return k8sApi;
+	},
 
-// Function that gets all pods from the cluster
-export const getPodsFromCluster = () => {
+	// Function that gets all pods from the cluster
+	getPodsFromCluster: async (): Promise<k8s.V1Pod[]> => {
+		const k8sApi = kubernetesService.createClient();
+		try {
+			const res = await k8sApi.listPodForAllNamespaces();
+			return res.body.items;
+		} catch (error) {
+			console.log(error);
+			throw new Error(`Error fetching all pod details from the cluster.`);
+		}
+	},
 
-}
+	// Function that gets a specific pod's details from the cluster
+	getPodDetailsFromCluster: async (
+		podName: string,
+		namespace: string
+	): Promise<k8s.V1Pod> => {
+		const k8sApi = kubernetesService.createClient();
+		try {
+			const res = await k8sApi.readNamespacedPod(podName, namespace);
+			return res.body;
+		} catch (error) {
+			console.log(error);
+			throw new Error(
+				`Error fetching pod details from the cluster for pod name: ${podName} in namespace: ${namespace}.`
+			);
+		}
+	},
 
-// Function that gets a specific pod's details from the cluster
-export const getPodDetailsFromCluster = () => {
+	// Function that gets all services from the cluster
+	getServicesFromCluster: async (): Promise<k8s.V1Service[]> => {
+		const k8sApi = kubernetesService.createClient();
+		try {
+			const res = await k8sApi.listServiceForAllNamespaces();
+			return res.body.items;
+		} catch (error) {
+			console.log(error);
+			throw new Error(`Error fetching all service data from the cluster.`);
+		}
+	},
 
-}
+	// Function that gets all nodes from the cluster
+	getNodesFromCluster: async (): Promise<k8s.V1Node[]> => {
+		const k8sApi = kubernetesService.createClient();
+		try {
+			const res = await k8sApi.listNode();
+			return res.body.items;
+		} catch (error) {
+			console.log(error);
+			throw new Error(`Error fetching all node data from the cluster.`);
+		}
+	},
 
-// Function that gets all services from the cluster
-export const getServicesFromCluster = () => {
+	checkAPI: async (
+		key: string,
+		address: string
+	): Promise<Error | string | object | undefined> => {
+		try {
+			const test = await fetch('https://' + address + '/api/v1/nodes', {
+				method: 'GET',
+				headers: {
+					authorization: 'Bearer ' + key,
+				},
+			});
+			if (test.status !== 200) {
+				return 'invalidkey';
+			} else {
+				return 'ok';
+			}
+		} catch (error) {
+			if (error instanceof Error) {
+				return error;
+			}
+		}
+	},
+};
 
-}
-
-// Function that gets all nodes from the cluster
-export const getNodesFromCluster = () => {
-
-}
+// Exports service object for use as helper functions
+export default kubernetesService;

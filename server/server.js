@@ -1,25 +1,25 @@
-// Importing required dependencies and functions
 import express from 'express';
+import kubernetesRouter from './routes/kubernetesRouter.js';
+import prometheusRouter from './routes/prometheusRouter.js';
 import cors from 'cors';
-import kubernetesRouter from './routes/kubernetesRouter';
-
 const app = express();
 const PORT = 8080;
-
-// Middleware Setup
 app.use(express.json());
 app.use(cors());
-
-
 // Kubernetes Router Handler
 app.use('/api', kubernetesRouter);
-
-// Global Error Handler
-app.use((err, _req, res, _next) => {
-  res.status(500).send('Unknown error caught by express global error handler.');
+// Prometheus Router Handler
+app.use('/prom', prometheusRouter);
+// Kubernetes 404 Route Handler
+app.use('/', (_req, res) => {
+    res.status(404).send('Error page not found!');
 });
-
-// Starts the server on the given port
+// Express Global Error Handler
+app.use((err, _req, res, _next) => {
+    console.log(err);
+    res.status(500).json(err);
+});
+// Starts the app on the given port
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`Server is running on http://localhost:${PORT}`);
 });

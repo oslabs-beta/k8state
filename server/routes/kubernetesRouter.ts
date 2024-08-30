@@ -42,7 +42,10 @@ kubernetesRouter.get('/createLogs', kubernetesController.getPods, generalControl
 kubernetesRouter.get('/getLogs', generalController.getDirectoryLogs, (_req, res) => {
     res.status(200).json(res.locals.dirLogs);
 })
-kubernetesRouter.get('/getLogs/:log',  (_req, res) => {
-    res.status(200).json(res.locals.dirLog);
+kubernetesRouter.get('/getDownloadLogs/:log', generalController.getDownloadSpecificLog, (_req, res) => {
+    res.status(200);
+})
+kubernetesRouter.get('/getLogs/:log', generalController.getReadSpecificLog, (_req, res) => {
+    res.status(200).json(res.locals.specificLog);
 })
 export default kubernetesRouter;

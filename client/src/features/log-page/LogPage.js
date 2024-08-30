@@ -11,19 +11,36 @@ export default function LogPage() {
             .then(data => {
             console.log(data);
             setdirInfo(data);
+        })
+            .catch(error => {
+            console.log(error);
         });
     }, [log]);
+    // const refreshHandler = () => {
+    //     fetch("http://localhost:8080/api/getLogs")
+    //     .then(process => process.json())
+    //     .then(data => {
+    //         console.log(data);
+    //         setdirInfo(data);
+    //     })
+    //     .catch(error => {
+    //         console.log(error);
+    //     });
+    // }
     const createLogHandler = () => {
         fetch("http://localhost:8080/api/createLogs")
             .then(process => process.json())
             .then(data => {
             console.log(data);
             setLog(data);
+        })
+            .catch(error => {
+            console.log(error);
         });
     };
     const store = [];
     for (const element of dirInfo) {
-        store.push(_jsx(Row, { logName: element }));
+        store.push(_jsx(Row, { logName: element }, crypto.randomUUID()));
     }
     return (_jsxs("div", { children: [_jsx(Button, { variant: "contained", color: "primary", type: "button", onClick: createLogHandler, children: "Create a Log" }), store] }));
 }

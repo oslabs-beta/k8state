@@ -1,5 +1,7 @@
 import generalService from '../services/generalService.js';
 import kubernetesService from '../services/kubernetesService.js';
+import fs from 'fs';
+import path from 'path';
 const generalController = {
     //middleware function to check if the env file exists
     checkEnv: (_req, res, next) => {
@@ -45,7 +47,23 @@ const generalController = {
         //console.log(result);
         next();
     },
-    getSpecificLog: (_req, res, next) => {
+    getDownloadSpecificLog: (req, res, next) => {
+        const logDir = path.resolve(path.resolve('./logs/') + '/' + req.params.log);
+        res.download(logDir, (err) => {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                next();
+            }
+        });
+    },
+    getReadSpecificLog: (req, res, next) => {
+        const logDir = path.resolve(path.resolve('./logs/') + '/' + req.params.log);
+        const info = fs.readFileSync(logDir, 'utf-8');
+        //console.log(info);
+        res.locals.specificLog = info;
+        next();
     },
 };
 export default generalController;

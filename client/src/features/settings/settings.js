@@ -1,25 +1,61 @@
-import { jsxs as _jsxs, jsx as _jsx } from "react/jsx-runtime";
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useState } from "react";
 const Settings = () => {
-    const [selectedOption, setSelectedOption] = useState("Kubernetes API (default)");
-    const handleSettingSelect = (event) => {
-        setSelectedOption(event.target.value);
+    // state for mode option functionality
+    // const [selectedOption, setSelectedOption] = useState<string>(
+    //   "Kubernetes API (default)",
+    // )
+    // setting selector function for mode option functionality
+    // const handleSettingSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //   setSelectedOption(event.target.value)
+    // }
+    const [envOption, setEnvOption] = useState(false);
+    const [envAddress, setEnvAddress] = useState(null);
+    const [envKey, setEnvKey] = useState(null);
+    const [envToolTip, setEnvToolTip] = useState(null);
+    const [envToolTipMessage, setEnvToolTipMessage] = useState(null);
+    const handleEditClick = () => {
+        setEnvOption(true);
     };
-    return (_jsxs("div", { className: "container", id: "settings-container", style: {
+    const handleEnvSubmit = (event) => {
+        event.preventDefault();
+        fetch("http://localhost:8080/api/checkAPI", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                key: envKey,
+                address: envAddress,
+            }),
+        })
+            .then(response => response.json())
+            .then(data => {
+            if (data.message === "cannot connect to cluster") {
+                setEnvToolTipMessage("Cannot connect to cluster, please try again with different credentials");
+                setEnvToolTip(true);
+                setTimeout(() => setEnvToolTip(false), 5000);
+            }
+            else if (data.message === "invalid_key") {
+                setEnvToolTipMessage("Invalid Key, please try again with different credentials");
+                setEnvToolTip(true);
+                setTimeout(() => setEnvToolTip(false), 5000);
+            }
+            else {
+                setEnvToolTipMessage("Success!");
+                setEnvToolTip(true);
+                setTimeout(() => setEnvToolTip(false), 5000);
+            }
+        });
+        setEnvOption(false);
+    };
+    return (_jsx("div", { className: "container", id: "settings-container", style: {
+            position: "sticky",
+            marginTop: "100px",
+            marginLeft: "300px",
             textAlign: "center",
-            backgroundColor: "lightGrey",
+            backgroundColor: "#ac96cf",
             paddingBottom: "20px",
-        }, children: [_jsxs("div", { className: "container", id: "current-settings-container", children: [_jsxs("section", { className: "settings", id: "current-settings", style: {
-                            paddingTop: "5px",
-                            paddingBottom: "5px",
-                            backgroundColor: "#ac96cf",
-                            fontWeight: "bold",
-                        }, children: ["Current Mode: ", selectedOption] }), _jsx("br", {})] }), _jsxs("form", { className: "settings", id: "settings-menu", style: {
-                    display: "inline-block",
-                    textAlign: "left",
-                    backgroundColor: "#c8eaeb",
-                    padding: "10px",
-                    paddingBottom: "10px",
-                }, children: [_jsx("label", { children: "Select Mode:" }), _jsx("br", {}), _jsx("input", { type: "radio", id: "kubernetes-setting", name: "kubernetes-mode", value: "Kubernetes API", onChange: handleSettingSelect, checked: selectedOption === "Kubernetes API" }), _jsx("label", { htmlFor: "kubernetes-setting", children: "Kubernetes API" }), _jsx("br", {}), _jsx("input", { type: "radio", id: "prometheus-setting", name: "prometheus-mode", value: "Prometheus API", onChange: handleSettingSelect, checked: selectedOption === "Prometheus API" }), _jsx("label", { htmlFor: "prometheus-setting", children: "Prometheus API" }), _jsx("br", {}), _jsx("input", { type: "radio", id: "grafana-setting", name: "grafana-mode", value: "Grafana API", onChange: handleSettingSelect, checked: selectedOption === "Grafana API" }), _jsx("label", { htmlFor: "grafana-setting", children: "Grafana API" })] })] }));
+        }, children: _jsx("div", { className: "container", id: "env-settings-container", style: { margin: "15px", padding: "5px" }, children: _jsxs("section", { children: [_jsx("h2", { style: { textDecoration: "underline" }, children: ".ENV settings for API access" }), _jsxs("form", { className: "env-settings", id: "env-settings-form", children: [_jsx("br", {}), _jsx("label", { style: { fontWeight: "bold" }, children: "Create new .ENV settings for API access" }), _jsx("br", {}), _jsx("button", { type: "button", style: { borderRadius: "10px", marginTop: "10px" }, onClick: handleEditClick, children: "Edit" }), _jsx("br", {}), _jsxs("div", { className: "container", id: "env-settings-input", style: { marginTop: "20px" }, children: [envOption && (_jsx("input", { type: "text", placeholder: "Cluster Address", onChange: (e) => setEnvAddress(e.target.value) })), _jsx("br", {}), envOption && (_jsx("input", { type: "text", placeholder: "Cluster Key", onChange: (e) => setEnvKey(e.target.value) })), _jsx("br", {}), envOption && (_jsx("button", { type: "submit", onClick: e => handleEnvSubmit(e), children: "Submit" })), _jsx("br", {}), envToolTip && (_jsx("div", { className: "settings-tooltip", id: "settings-env-tooltip", style: { marginTop: "10px" }, children: envToolTipMessage }))] })] })] }) }) }));
 };
 export default Settings;

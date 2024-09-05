@@ -1,6 +1,6 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import * as React from "react";
-import { styled, useTheme, Box, Toolbar, List, CssBaseline, Typography, Divider, IconButton, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import { styled, useTheme, Box, Toolbar, List, CssBaseline, Typography, Divider, IconButton, ListItem, ListItemButton, ListItemIcon, ListItemText, } from "@mui/material";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -89,8 +89,8 @@ export default function MiniDrawer() {
     const [open, setOpen] = React.useState(false);
     const [selectedPage, setSelectedPage] = useState(null);
     const handleMenuSelect = (page) => {
-        console.log(page);
         setSelectedPage(page);
+        setOpen(false);
     };
     const handleDrawerOpen = () => {
         setOpen(true);

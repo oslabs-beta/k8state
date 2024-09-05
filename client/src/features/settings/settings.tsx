@@ -42,19 +42,20 @@ const Settings = () => {
             "Cannot connect to cluster, please try again with different credentials",
           )
           setEnvToolTip(true)
+          setTimeout(() => setEnvToolTip(false), 5000)
         } else if (data.message === "invalid_key") {
           setEnvToolTipMessage(
             "Invalid Key, please try again with different credentials",
           )
           setEnvToolTip(true)
+          setTimeout(() => setEnvToolTip(false), 5000)
         } else {
           setEnvToolTipMessage("Success!")
           setEnvToolTip(true)
+          setTimeout(() => setEnvToolTip(false), 5000)
         }
       })
     setEnvOption(false)
-    setEnvToolTip(false)
-    setEnvToolTipMessage(null)
   }
 
   return (

@@ -21,7 +21,7 @@ const Settings = () => {
   )
 
   const handleEditClick = () => {
-    setEnvOption(true)
+    setEnvOption(envOption === false ? true : false)
   }
   const handleEnvSubmit = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault()

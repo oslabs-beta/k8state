@@ -12,7 +12,6 @@ const queryPrometheus = async (query) => {
         return response.data.data.result;
     }
     catch (error) {
-        console.log(error);
         throw error;
     }
 };

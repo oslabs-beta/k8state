@@ -3,21 +3,27 @@ import { createSlice } from "@reduxjs/toolkit";
 // Define an API service for the cluster view
 export const clusterApi = createApi({
     reducerPath: "clusterApi",
-    baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8080/api" }),
+    baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8080/" }),
     endpoints: builder => ({
         getKubernetesNodes: builder.query({
-            query: () => "nodes",
+            query: () => "api/nodes",
         }),
         getKubernetesPods: builder.query({
-            query: () => "pods",
+            query: () => "api/pods",
         }),
         getKubernetesServices: builder.query({
-            query: () => "services",
+            query: () => "api/services",
+        }),
+        getPrometheusCpuUsage: builder.query({
+            query: () => 'prometheus/metrics/cpu'
+        }),
+        getPrometheusMemoryUsage: builder.query({
+            query: () => 'prometheus/metrics/memory'
         }),
     }),
 });
 // Auto-generated hooks for the API queries
-export const { useGetKubernetesNodesQuery, useGetKubernetesPodsQuery, useGetKubernetesServicesQuery, } = clusterApi;
+export const { useGetKubernetesNodesQuery, useGetKubernetesPodsQuery, useGetKubernetesServicesQuery, useGetPrometheusCpuUsageQuery, useGetPrometheusMemoryUsageQuery, } = clusterApi;
 const initialState = {
     pods: ["pod_1"],
 };

@@ -1,6 +1,6 @@
 import kubernetesService from '../services/kubernetesService.js';
 import generalService from '../services/generalService.js';
-// Controller object that contains middleware functions
+// ***** Controller Object *****
 const kubernetesController = {
     // Middleware function to get all pods from the cluster
     getPods: async (_req, res, next) => {
@@ -19,7 +19,7 @@ const kubernetesController = {
                     hostIP: pod.status?.hostIP || 'Unknown host IP',
                     podIP: pod.status?.podIP || 'Unknown pod IP',
                     phase: pod.status?.phase || 'Unknown phase',
-                    conditions: pod.status?.conditions || undefined, //(Pod Health)
+                    conditions: pod.status?.conditions || undefined,
                     startTime: pod.status?.startTime || undefined,
                     uid: pod.metadata?.uid || undefined,
                 };
@@ -49,7 +49,7 @@ const kubernetesController = {
                 hostIP: pod.status?.hostIP || 'Unknown host IP',
                 podIP: pod.status?.podIP || 'Unknown pod IP',
                 phase: pod.status?.phase || 'Unknown phase',
-                // conditions: pod.status?.conditions || undefined, //(Pod Health)
+                conditions: pod.status?.conditions || undefined, //(Pod Health)
                 startTime: pod.status?.startTime || undefined,
             };
             res.locals.pod = newPod;

@@ -65,5 +65,17 @@ const generalController = {
         res.locals.specificLog = info;
         next();
     },
+    deleteSpecificLog: (req, res, next) => {
+        const logDir = path.resolve(path.resolve('./logs/') + '/' + req.params.log);
+        try {
+            fs.unlinkSync(logDir);
+            res.locals.deletedLog = req.params.log;
+        }
+        catch (error) {
+            console.log(error);
+            res.locals.deletedLog = 'failed to delete';
+        }
+        next();
+    }
 };
 export default generalController;

@@ -38,6 +38,17 @@ export default function Row(props) {
         });
     };
     const deleteLogHandler = () => {
+        fetch('http://localhost:8080/api/deleteLogs/' + props.logName, {
+            method: 'GET',
+        })
+            .then(response => response.json())
+            .then(data => {
+            props.setDeleted(data);
+            console.log(data);
+        })
+            .catch(error => {
+            console.log(error);
+        });
     };
     return (_jsxs("div", { className: 'rows', children: [_jsxs("div", { className: 'logName', children: ["Log Name: ", props.logName] }), _jsx(Button, { variant: "contained", color: "primary", type: "button", onClick: readLogHandler, children: "read" }), _jsx(Button, { variant: "contained", color: "primary", type: "button", onClick: downloadLogHandler, children: "Download" }), _jsx(Button, { variant: "contained", color: "primary", type: "button", onClick: deleteLogHandler, children: "Delete" }), appear === true && (_jsxs("div", { className: "popup", children: [log, _jsx(Button, { variant: "contained", color: "primary", type: "button", onClick: () => setAppear(false), children: "X" })] })), _jsx("hr", {})] }));
 }

@@ -4,7 +4,7 @@ import { List, ListItem, ListItemAvatar, Avatar, ListItemText, Grid, Typography,
 import FolderIcon from '@mui/icons-material/Folder';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-export default function Row (props: { logName: never }) {
+export default function Row (props: { logName: never,  setDeleted: React.Dispatch<React.SetStateAction<string>> }) {
     const [appear, setAppear] = useState(false);
     const [log, setLog] = useState('');
     const downloadLogHandler = () => {
@@ -43,7 +43,17 @@ export default function Row (props: { logName: never }) {
     };
 
     const deleteLogHandler = () => {
-
+        fetch('http://localhost:8080/api/deleteLogs/' + props.logName, {
+            method: 'GET',
+        })
+        .then(response => response.json())
+        .then(data => {
+            props.setDeleted(data);
+            console.log(data);
+        })
+        .catch(error => {
+            console.log(error);
+        })
     };
     return(
         <div className = 'rows'>

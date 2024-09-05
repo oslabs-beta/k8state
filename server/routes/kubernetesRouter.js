@@ -36,4 +36,7 @@ kubernetesRouter.get('/getDownloadLogs/:log', generalController.getDownloadSpeci
 kubernetesRouter.get('/getLogs/:log', generalController.getReadSpecificLog, (_req, res) => {
     res.status(200).json(res.locals.specificLog);
 });
+kubernetesRouter.get('/deleteLogs/:log', generalController.deleteSpecificLog, (_req, res) => {
+    res.status(200).json(res.locals.deletedLog);
+});
 export default kubernetesRouter;

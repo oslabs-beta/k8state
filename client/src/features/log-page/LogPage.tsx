@@ -6,6 +6,7 @@ import Row from './Row';
 export default function LogPage () {
     const [dirInfo, setdirInfo] = useState([]);
     const [log, setLog] = useState([]);
+    const [deleted, setDeleted] = useState('');
 
     useEffect(() => {
         fetch("http://localhost:8080/api/getLogs")
@@ -17,19 +18,7 @@ export default function LogPage () {
         .catch(error => {
             console.log(error);
         })
-    }, [log]);
-
-    // const refreshHandler = () => {
-    //     fetch("http://localhost:8080/api/getLogs")
-    //     .then(process => process.json())
-    //     .then(data => {
-    //         console.log(data);
-    //         setdirInfo(data);
-    //     })
-    //     .catch(error => {
-    //         console.log(error);
-    //     });
-    // }
+    }, [log, deleted]);
 
     const createLogHandler = () => {
         fetch("http://localhost:8080/api/createLogs")
@@ -44,12 +33,11 @@ export default function LogPage () {
     };
     const store: JSX.Element[] = [];
     for(const element of dirInfo){
-        store.push(<Row logName={element} key={crypto.randomUUID()}/>);
+        store.push(<Row logName={element} setDeleted={setDeleted} key={crypto.randomUUID()}/>);
     }
     return(
         <div>
             <Button variant="contained" color="primary" type="button" onClick={createLogHandler}>Create a Log</Button>
-            {/* <Button variant="contained" color="primary" type="button" onClick={refreshHandler}>RefreshTest</Button> */}
             {store}
         </div>
     );

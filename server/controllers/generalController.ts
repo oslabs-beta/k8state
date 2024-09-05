@@ -68,11 +68,23 @@ const generalController = {
     },
     getReadSpecificLog: (req: Request, res: Response, next: NextFunction) => {
         const logDir: string = path.resolve(path.resolve('./logs/') + '/' + req.params.log);
-        const info = fs.readFileSync(logDir, 'utf-8');
+        const info: string = fs.readFileSync(logDir, 'utf-8');
         //console.log(info);
         res.locals.specificLog = info;
         next();
     },
+    deleteSpecificLog: (req: Request, res: Response, next: NextFunction) => {
+        const logDir: string = path.resolve(path.resolve('./logs/') + '/' + req.params.log);
+        try{
+            fs.unlinkSync(logDir);
+            res.locals.deletedLog = req.params.log;
+        }
+        catch (error) {
+            console.log(error);
+            res.locals.deletedLog = 'failed to delete';
+        }
+        next();
+    }
 };
 
 export default generalController;

@@ -70,12 +70,12 @@ const Settings = () => {
       >
         <section>
           <h2 style={{ textDecoration: "underline" }}>
-            .ENV settings for API access
+            Settings for API access
           </h2>
           <form className="env-settings" id="env-settings-form">
             <br />
             <label style={{ fontWeight: "bold" }}>
-              Set new .ENV Address and Key
+              Set new Address and Key
             </label>
             <br />
             <button

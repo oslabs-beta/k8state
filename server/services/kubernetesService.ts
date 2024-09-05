@@ -4,6 +4,15 @@ import dotenv from 'dotenv';
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 dotenv.config();
 
+interface info {
+    name: string;
+    namespace: string;
+};
+interface data {
+    name: string;
+    namespace: string;
+    logs: string;
+}
 // Defines helper functions that will connect middleware to the Kubernetes API Client functions
 const kubernetesService = {
 	createClient: (): k8s.CoreV1Api => {
@@ -79,40 +88,70 @@ const kubernetesService = {
 		}
 	},
 
-	// Function that gets all nodes from the cluster
-	getNodesFromCluster: async (): Promise<k8s.V1Node[]> => {
-		const k8sApi = kubernetesService.createClient();
-		try {
-			const res = await k8sApi.listNode();
-			return res.body.items;
-		} catch (error) {
-			console.log(error);
-			throw new Error(`Error fetching all node data from the cluster.`);
-		}
-	},
+    // Function that gets all nodes from the cluster
+    getNodesFromCluster: async (): Promise<k8s.V1Node[]> => {
+        const k8sApi = kubernetesService.createClient();
+        try {
+            const res = await k8sApi.listNode();
+            return res.body.items;
+        }
+        catch (error) {
+            console.log(error);
+            throw new Error(
+                `Error fetching all node data from the cluster.`
+            )
+        }
+    },
+    
+    checkAPI: async (key: string, address: string): Promise<Error | string | object | undefined> => {
+        try {
+            const test = await fetch('https://' + address + '/api/v1/nodes', {
+                method: 'GET',
+                headers: {
+                    authorization: 'Bearer ' + key
+                }
+                
+            })
+            //console.log(test);
+            if(test.status !== 200){
+                //console.log(test.status);
+                return 'invalidkey';
+            }
+            else{
+                return 'ok';
+            }
+        }
+        catch (error) {
+            //console.log(error);
+            if (error instanceof Error) {
+                return error;
+            }
+        }
+    },
+    getLogs: async (input: info[]): Promise< data[] | undefined> => {
 
-	checkAPI: async (
-		key: string,
-		address: string
-	): Promise<Error | string | object | undefined> => {
-		try {
-			const test = await fetch('https://' + address + '/api/v1/nodes', {
-				method: 'GET',
-				headers: {
-					authorization: 'Bearer ' + key,
-				},
-			});
-			if (test.status !== 200) {
-				return 'invalidkey';
-			} else {
-				return 'ok';
-			}
-		} catch (error) {
-			if (error instanceof Error) {
-				return error;
-			}
-		}
-	},
+        const k8sApi = kubernetesService.createClient();
+        try{
+            const logs: data[] = [];
+            for(let i = 0; i < input.length; i++){
+                if(input[i].namespace !== 'kube-system' && input[i].namespace !== 'monitoring'){
+                    const result = await k8sApi.readNamespacedPodLog(input[i].name, input[i].namespace);
+                    logs.push({
+                        name: input[i].name,
+                        namespace: input[i].namespace,
+                        logs:result.body
+                    } as data);
+                }
+
+            }
+            //console.log(logs);
+            return logs
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+
 };
 
 // Exports service object for use as helper functions

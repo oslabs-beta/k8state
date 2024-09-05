@@ -110,7 +110,6 @@ const kubernetesService = {
                 headers: {
                     authorization: 'Bearer ' + key
                 }
-                
             })
             //console.log(test);
             if(test.status !== 200){

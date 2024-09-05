@@ -118,10 +118,12 @@ const kubernetesController = {
     checkAPI: async (req, res, next) => {
         const key = req.body.key;
         const address = req.body.address;
+        const cleanAddress = address.replace("https://", "");
+        console.log(cleanAddress);
         try {
-            const check = await kubernetesService.checkAPI(key, address);
+            const check = await kubernetesService.checkAPI(key, cleanAddress);
             if (check === 'ok') {
-                generalService.writeEnv(key, address);
+                generalService.writeEnv(key, cleanAddress);
                 next();
             }
             else if (check === 'invalidkey') {

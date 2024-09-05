@@ -27,6 +27,7 @@ export interface KubernetesPod {
   phase: string
   startTime: string
   uid: string
+  conditions: Conditions[]
 }
 
 export interface KubernetesServices {
@@ -40,19 +41,46 @@ export interface KubernetesServices {
   type: String | undefined
 }
 
+interface Conditions {
+  lastProbeTime: string | null
+  lastTransitionTime: Date
+  status: Boolean
+  type: string
+}
+
+export interface PrometheusCpuUsage {
+  lastHeartbeatTime: Date
+  lastTransitionTime: Date
+  message: string
+  reason: string
+  status: string
+  type: string
+}
+
+export interface PrometheusMemoryUsage {
+  metric: { pod?: string}
+  value: number[] | string[]
+}
+
 // Define an API service for the cluster view
 export const clusterApi = createApi({
   reducerPath: "clusterApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8080/api" }),
+  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8080/" }),
   endpoints: builder => ({
     getKubernetesNodes: builder.query<KubernetesNode[], void>({
-      query: () => "nodes",
+      query: () => "api/nodes",
     }),
     getKubernetesPods: builder.query<KubernetesPod[], void>({
-      query: () => "pods",
+      query: () => "api/pods",
     }),
     getKubernetesServices: builder.query<KubernetesServices[], void>({
-      query: () => "services",
+      query: () => "api/services",
+    }),
+    getPrometheusCpuUsage: builder.query<PrometheusCpuUsage[], void>({
+      query: () => 'prometheus/metrics/cpu'
+    }),
+    getPrometheusMemoryUsage: builder.query<PrometheusMemoryUsage[], void>({
+      query: () => 'prometheus/metrics/memory'
     }),
   }),
 })
@@ -62,6 +90,8 @@ export const {
   useGetKubernetesNodesQuery,
   useGetKubernetesPodsQuery,
   useGetKubernetesServicesQuery,
+  useGetPrometheusCpuUsageQuery,
+  useGetPrometheusMemoryUsageQuery,
 } = clusterApi
 
 export interface ClusterViewState {

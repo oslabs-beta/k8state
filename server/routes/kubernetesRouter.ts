@@ -36,7 +36,7 @@ kubernetesRouter.post('/checkAPI', kubernetesController.checkAPI, (_req, res) =>
 kubernetesRouter.get('/checkENV', generalController.checkEnv, (_req, res) => {
 	res.status(200).json(res.locals.env);
 });
-kubernetesRouter.get('/createLogs', kubernetesController.getPods, generalController.writeLog, (_req, res) => {
+kubernetesRouter.post('/createLogs', kubernetesController.getPods, generalController.writeLog, (_req, res) => {
     res.status(200).json(res.locals.logs);
 })
 kubernetesRouter.get('/getLogs', generalController.getDirectoryLogs, (_req, res) => {
@@ -48,7 +48,7 @@ kubernetesRouter.get('/getDownloadLogs/:log', generalController.getDownloadSpeci
 kubernetesRouter.get('/getLogs/:log', generalController.getReadSpecificLog, (_req, res) => {
     res.status(200).json(res.locals.specificLog);
 })
-kubernetesRouter.get('/deleteLogs/:log', generalController.deleteSpecificLog, (_req, res) => {
+kubernetesRouter.delete('/deleteLogs/:log', generalController.deleteSpecificLog, (_req, res) => {
     res.status(200).json(res.locals.deletedLog);
 })
 export default kubernetesRouter;

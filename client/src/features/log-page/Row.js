@@ -30,6 +30,9 @@ export default function Row(props) {
             .then(response => response.json())
             .then(data => {
             //console.log(data);
+            // for(const element of data){
+            //     element.log()
+            // }
             setLog(data);
             setAppear(true);
         })
@@ -39,7 +42,7 @@ export default function Row(props) {
     };
     const deleteLogHandler = () => {
         fetch('http://localhost:8080/api/deleteLogs/' + props.logName, {
-            method: 'GET',
+            method: 'DELETE',
         })
             .then(response => response.json())
             .then(data => {

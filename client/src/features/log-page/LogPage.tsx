@@ -21,7 +21,9 @@ export default function LogPage () {
     }, [log, deleted]);
 
     const createLogHandler = () => {
-        fetch("http://localhost:8080/api/createLogs")
+        fetch("http://localhost:8080/api/createLogs", {
+            method: 'POST'
+        })
         .then(process => process.json())
         .then(data => {
             console.log(data);

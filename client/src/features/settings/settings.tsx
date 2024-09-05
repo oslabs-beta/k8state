@@ -2,12 +2,59 @@ import type React from "react"
 import { useState } from "react"
 
 const Settings = () => {
-  const [selectedOption, setSelectedOption] = useState<string>(
-    "Kubernetes API (default)",
+  // state for mode option functionality
+  // const [selectedOption, setSelectedOption] = useState<string>(
+  //   "Kubernetes API (default)",
+  // )
+
+  // setting selector function for mode option functionality
+  // const handleSettingSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   setSelectedOption(event.target.value)
+  // }
+
+  const [envOption, setEnvOption] = useState<boolean>(false)
+  const [envAddress, setEnvAddress] = useState<string | null>(null)
+  const [envKey, setEnvKey] = useState<string | null>(null)
+  const [envToolTip, setEnvToolTip] = useState<boolean | null>(null)
+  const [envToolTipMessage, setEnvToolTipMessage] = useState<string | null>(
+    null,
   )
 
-  const handleSettingSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedOption(event.target.value)
+  const handleEditClick = () => {
+    setEnvOption(true)
+  }
+  const handleEnvSubmit = (event: React.MouseEvent<HTMLElement>) => {
+    event.preventDefault()
+    fetch("http://localhost:8080/api/checkAPI", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        key: envKey,
+        address: envAddress,
+      }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.message === "cannot connect to cluster") {
+          setEnvToolTipMessage(
+            "Cannot connect to cluster, please try again with different credentials",
+          )
+          setEnvToolTip(true)
+        } else if (data.message === "invalid_key") {
+          setEnvToolTipMessage(
+            "Invalid Key, please try again with different credentials",
+          )
+          setEnvToolTip(true)
+        } else {
+          setEnvToolTipMessage("Success!")
+          setEnvToolTip(true)
+        }
+      })
+    setEnvOption(false)
+    setEnvToolTip(false)
+    setEnvToolTipMessage(null)
   }
 
   return (
@@ -15,11 +62,82 @@ const Settings = () => {
       className="container"
       id="settings-container"
       style={{
+        position: "sticky",
+        marginTop: "100px",
+        marginLeft: "300px",
         textAlign: "center",
-        backgroundColor: "lightGrey",
+        backgroundColor: "#ac96cf",
         paddingBottom: "20px",
       }}
     >
+      <div
+        className="container"
+        id="env-settings-container"
+        style={{ margin: "15px", padding: "5px" }}
+      >
+        <section>
+          <h2 style={{ textDecoration: "underline" }}>
+            .ENV settings for API access
+          </h2>
+          <form className="env-settings" id="env-settings-form">
+            <br />
+            <label style={{ fontWeight: "bold" }}>
+              Create new .ENV settings for API access
+            </label>
+            <br />
+            <button
+              type="button"
+              style={{ borderRadius: "10px", marginTop: "10px" }}
+              onClick={handleEditClick}
+            >
+              Edit
+            </button>
+            <br />
+            <div
+              className="container"
+              id="env-settings-input"
+              style={{ marginTop: "20px" }}
+            >
+              {envOption && (
+                <input
+                  type="text"
+                  placeholder="Cluster Address"
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    setEnvAddress(e.target.value)
+                  }
+                />
+              )}
+              <br />
+              {envOption && (
+                <input
+                  type="text"
+                  placeholder="Cluster Key"
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    setEnvKey(e.target.value)
+                  }
+                />
+              )}
+              <br />
+              {envOption && (
+                <button type="submit" onClick={e => handleEnvSubmit(e)}>
+                  Submit
+                </button>
+              )}
+              <br />
+              {envToolTip && (
+                <div
+                  className="settings-tooltip"
+                  id="settings-env-tooltip"
+                  style={{ marginTop: "10px" }}
+                >
+                  {envToolTipMessage}
+                </div>
+              )}
+            </div>
+          </form>
+        </section>
+      </div>
+      {/* TSX component for mode option functionality
       <div className="container" id="current-settings-container">
         <section
           className="settings"
@@ -77,7 +195,7 @@ const Settings = () => {
           checked={selectedOption === "Grafana API"}
         />
         <label htmlFor="grafana-setting">Grafana API</label>
-      </form>
+      </form> */}
     </div>
   )
 }

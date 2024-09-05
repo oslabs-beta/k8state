@@ -1,19 +1,19 @@
 import * as React from "react"
-import { 
-  styled, 
-  useTheme, 
-  Box, 
-  Toolbar, 
-  List, 
-  CssBaseline, 
-  Typography, 
-  Divider, 
+import {
+  styled,
+  useTheme,
+  Box,
+  Toolbar,
+  List,
+  CssBaseline,
+  Typography,
+  Divider,
   IconButton,
-ListItem,
-ListItemButton,
-ListItemIcon,
-ListItemText
-} from '@mui/material'
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+} from "@mui/material"
 import type { Theme, CSSObject } from "@mui/material/styles"
 import MuiDrawer from "@mui/material/Drawer"
 import type { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar"
@@ -124,8 +124,8 @@ export default function MiniDrawer() {
   const [selectedPage, setSelectedPage] = useState<string | null>(null)
 
   const handleMenuSelect = (page: string) => {
-    console.log(page)
     setSelectedPage(page)
+    setOpen(false)
   }
 
   const handleDrawerOpen = () => {

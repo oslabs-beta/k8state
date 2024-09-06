@@ -38,6 +38,11 @@ const router = createBrowserRouter([
         path: "/portal",
         element: _jsx(CaptivePortal, {}),
     },
+    // temp route to redesign Captive Portal
+    // {
+    //   path: "/portal",
+    //   element: <SignInSide />,
+    // },
     {
         path: "/logs",
         element: _jsx(LogPage, {}),

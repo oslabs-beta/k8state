@@ -1,7 +1,8 @@
 import type React from "react";
 import { useState, useEffect } from "react";
-import { TextField, Button } from "@mui/material";
+import { TextField, Button, Box, Grid, Paper } from "@mui/material";
 import Row from './Row';
+import './logpage.css';
 
 export default function LogPage () {
     const [dirInfo, setdirInfo] = useState([]);
@@ -35,12 +36,25 @@ export default function LogPage () {
     };
     const store: JSX.Element[] = [];
     for(const element of dirInfo){
-        store.push(<Row logName={element} setDeleted={setDeleted} key={crypto.randomUUID()}/>);
+        store.push(
+        <Grid item xs={12} sm={6} md={4}>
+            <Row logName={element} setDeleted={setDeleted} key={crypto.randomUUID()}/>
+        </Grid>);
     }
     return(
+        // <Box component="section" sx={{ p: 2, border: '1px solid black' }}>
+        //     <p>Logs</p>
+        //     <Button variant="contained" color="primary" type="button" onClick={createLogHandler}>Create a Log</Button>
+        //     {store}
+        // </Box>
         <div>
-            <Button variant="contained" color="primary" type="button" onClick={createLogHandler}>Create a Log</Button>
-            {store}
+            <p style={{ marginBottom: '16px'}}>Logs</p>
+            <Button style={{ marginBottom: '16px'}} variant="contained" color="primary" type="button" onClick={createLogHandler}>Create a Log</Button>
+            <Grid container direction="column" spacing={4}>
+                {store}
+            </Grid>
         </div>
+
+
     );
 };

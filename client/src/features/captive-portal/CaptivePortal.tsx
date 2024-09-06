@@ -5,6 +5,36 @@ import { setAddress, setKey } from './captivePortalSlice';
 import { TextField, Button } from "@mui/material";
 import { Navigate } from 'react-router-dom';
 
+import Stack from '@mui/material/Stack';
+import SignInCard from './sign-in-side/SignInCard';
+import Content from './sign-in-side/Content';
+import MuiCard from '@mui/material/Card';
+import Typography from '@mui/material/Typography';
+import FormLabel from '@mui/material/FormLabel';
+import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+
+
+import { styled } from '@mui/material/styles';
+
+const Card = styled(MuiCard)(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'column',
+    alignSelf: 'center',
+    width: '100%',
+    padding: theme.spacing(4),
+    gap: theme.spacing(2),
+    boxShadow:
+      'hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px',
+    [theme.breakpoints.up('sm')]: {
+      width: '450px',
+    },
+    ...theme.applyStyles('dark', {
+      boxShadow:
+        'hsla(220, 30%, 5%, 0.5) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.08) 0px 15px 35px -5px',
+    }),
+  }));
+
 export default function CaptivePortal() {
 
     const dispatch = useAppDispatch()
@@ -43,14 +73,91 @@ export default function CaptivePortal() {
         return <Navigate to="/clusterui"/>
     }
     return(
-        <div id="captive-portal" className="portal">
-            {error && <p>{error}</p>}
-            <form onSubmit={submitHandler}>   
-                <TextField id="outlined-basic" label="IP Address or URL" variant="outlined" onChange={(input) => setDest(input.target.value)}/>
-                <TextField id="outlined-basic" label="Bearer Token" variant="outlined" onChange={(input) => setBearer(input.target.value)}/>
-                <Button variant="contained" color="primary" type="submit">Submit</Button>
-            </form>
-            
-        </div>
+        <>
+        <Card variant="outlined">
+            <Typography
+            component="h1"
+            variant="h4"
+            sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}
+            >
+            Input Cluster Credentials
+            </Typography>
+            <div id="captive-portal" className="portal">
+                {error && <p>{error}</p>}
+                <form onSubmit={submitHandler}>   
+                    <TextField id="outlined-basic" label="IP Address or URL" variant="outlined" onChange={(input) => setDest(input.target.value)}/>
+                    <TextField id="outlined-basic" label="Bearer Token" variant="outlined" onChange={(input) => setBearer(input.target.value)}/>
+                    <Button variant="contained" color="primary" type="submit">Submit</Button>
+                </form>
+            </div>
+        </Card>
+
+        *****REBUILDING FORM HERE:******
+        <Card variant="outlined">
+            <Typography
+            component="h1"
+            variant="h4"
+            sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}
+            >
+            Input Cluster Credentials
+            </Typography>
+
+            <FormControl>
+                <FormLabel htmlFor="email">IP Address or URL</FormLabel>
+                    <TextField
+                        // error={emailError}
+                        // helperText={emailErrorMessage}
+                        id="email"
+                        type="email"
+                        name="email"
+                        placeholder="IP Address or URL"
+                        autoComplete="email"
+                        autoFocus
+                        required
+                        fullWidth
+                        variant="outlined"
+                        // color={emailError ? 'error' : 'primary'}
+                        sx={{ ariaLabel: 'email' }}
+                    />
+            </FormControl>
+        </Card>
+
+
+        <Stack
+          direction="column"
+          component="main"
+          sx={[
+            {
+              justifyContent: 'space-between',
+              height: { xs: 'auto', md: '100%' },
+            },
+            (theme) => ({
+              backgroundImage:
+                'radial-gradient(ellipse at 70% 51%, hsl(210, 100%, 97%), hsl(0, 0%, 100%))',
+              backgroundSize: 'cover',
+              ...theme.applyStyles('dark', {
+                backgroundImage:
+                  'radial-gradient(at 70% 51%, hsla(210, 100%, 16%, 0.5), hsl(220, 30%, 5%))',
+              }),
+            }),
+          ]}
+        >
+          <Stack
+            direction={{ xs: 'column-reverse', md: 'row' }}
+            sx={{
+              justifyContent: 'center',
+              gap: { xs: 6, sm: 12 },
+              p: 2,
+              m: 'auto',
+            }}
+          >
+            <Content />
+            <SignInCard />
+          </Stack>
+        </Stack>
+        </>
+
+
+
     );
 }

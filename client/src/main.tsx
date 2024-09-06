@@ -6,7 +6,10 @@ import LandingPage from "./features/landing-page/LandingPage"
 import { store } from "./app/store"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import "./index.css"
+
 import CaptivePortal from "./features/captive-portal/CaptivePortal"
+import SignInSide from "./features/captive-portal/sign-in-side/SignInSide"
+
 import LogPage from "./features/log-page/LogPage"
 
 // import material UI fonts
@@ -41,6 +44,11 @@ const router = createBrowserRouter([
     path: "/portal",
     element: <CaptivePortal />,
   },
+  // temp route to redesign Captive Portal
+  // {
+  //   path: "/portal",
+  //   element: <SignInSide />,
+  // },
   {
     path: "/logs",
     element: <LogPage />,

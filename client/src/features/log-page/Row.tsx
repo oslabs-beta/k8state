@@ -70,7 +70,7 @@ export default function Row (props: { logName: never,  setDeleted: React.Dispatc
                     <Button variant="contained" color="primary" type="button" onClick={() => setAppear(false)}>X</Button> 
                 </div>
             )}
-            <hr></hr>
+            {/* <hr></hr> */}
         </div>
     )
 }

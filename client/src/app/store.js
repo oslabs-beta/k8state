@@ -5,8 +5,8 @@ import clusterViewReducer from "../features/cluster-view/clusterViewApiSlice";
 import portalSliceReducer from "../features/captive-portal/captivePortalSlice";
 // Combine the slices and RTK Query APIs into the root reducer
 const rootReducer = combineReducers({
-    [clusterApi.reducerPath]: clusterApi.reducer,
-    clusterView: clusterViewReducer,
+    [clusterApi.reducerPath]: clusterApi.reducer, // Adding the RTK Query reducer
+    clusterView: clusterViewReducer, // Adding the clusterView slice reducer
     // Add other slices and APIs here as needed
     portalSlice: portalSliceReducer,
 });
@@ -15,7 +15,7 @@ const rootReducer = combineReducers({
 export const makeStore = (preloadedState) => {
     const store = configureStore({
         reducer: rootReducer,
-        middleware: getDefaultMiddleware => getDefaultMiddleware().concat(clusterApi.middleware),
+        middleware: getDefaultMiddleware => getDefaultMiddleware().concat(clusterApi.middleware), // Adding RTK Query middleware
         preloadedState,
     });
     // configure listeners using the provided defaults

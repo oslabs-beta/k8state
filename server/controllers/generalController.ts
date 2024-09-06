@@ -40,7 +40,7 @@ const generalController = {
         for(let element of pods){
             podNames.push({
                 name: element.name,
-                namespace: element.namespace
+                namespace: element.namespace,
             } as info);
         }
         const logs = await kubernetesService.getLogs(podNames);

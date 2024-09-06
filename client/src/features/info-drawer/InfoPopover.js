@@ -11,8 +11,8 @@ export default function BasicPopover() {
     };
     const open = Boolean(anchorEl);
     const id = open ? "simple-popover" : undefined;
-    return (_jsxs("div", { children: [_jsx(Button, { "aria-describedby": id, variant: "contained", onClick: handleClick, children: "Open Popover" }, void 0), _jsx(Popover, { id: id, open: open, anchorEl: anchorEl, onClose: handleClose, anchorOrigin: {
+    return (_jsxs("div", { children: [_jsx(Button, { "aria-describedby": id, variant: "contained", onClick: handleClick, children: "Open Popover" }), _jsx(Popover, { id: id, open: open, anchorEl: anchorEl, onClose: handleClose, anchorOrigin: {
                     vertical: "bottom",
                     horizontal: "left",
-                }, children: _jsx(Typography, { sx: { p: 2 }, children: "The content of the Popover." }, void 0) }, void 0)] }, void 0));
+                }, children: _jsx(Typography, { sx: { p: 2 }, children: "The content of the Popover." }) })] }));
 }

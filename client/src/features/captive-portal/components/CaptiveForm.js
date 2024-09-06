@@ -55,14 +55,14 @@ export default function CaptiveForm() {
             }
         });
     };
-    const invalidKeyError = _jsx("p", { children: "The URL of the Bearer Token entered is invalid. " }, void 0);
+    const invalidKeyError = _jsx("p", { children: "The URL of the Bearer Token entered is invalid. " });
     if (submit === true) {
-        return _jsx(Navigate, { to: "/clusterui" }, void 0);
+        return _jsx(Navigate, { to: "/clusterui" });
     }
     return (_jsx(_Fragment, { children: _jsxs("form", { onSubmit: submitHandler, children: [" ", _jsx(Stack, { direction: { xs: 'column-reverse', md: 'row' }, sx: {
                         justifyContent: 'center',
                         gap: { xs: 6, sm: 12 },
                         p: 2,
                         m: 'auto',
-                    }, children: _jsxs(Card, { variant: "outlined", children: [_jsxs(FormControl, { children: [_jsx(FormLabel, { htmlFor: "ip_or_url", children: "IP Address or URL" }, void 0), _jsx(TextField, { id: "ip_or_url", type: "url", name: "ip_or_url", placeholder: "http://192.168.1.1 or http://yourURL.com", onChange: (input) => setDest(input.target.value), autoFocus: true, required: true, fullWidth: true, variant: "outlined", error: !!error, sx: { ariaLabel: 'ip_or_url' } }, void 0)] }, void 0), _jsxs(FormControl, { children: [_jsx(Box, { sx: { display: 'flex', justifyContent: 'space-between' }, children: _jsx(FormLabel, { htmlFor: "bearer_token", children: "Bearer Token" }, void 0) }, void 0), _jsx(TextField, { name: "bearer_token", placeholder: "Bearer Token", type: "text", id: "password", required: true, fullWidth: true, variant: "outlined", error: !!error, onChange: (input) => setBearer(input.target.value) }, void 0)] }, void 0), _jsx(Button, { type: "submit", fullWidth: true, variant: "contained", color: "violet", children: "View Cluster" }, void 0), error && invalidKeyError] }, void 0) }, void 0)] }, void 0) }, void 0));
+                    }, children: _jsxs(Card, { variant: "outlined", children: [_jsxs(FormControl, { children: [_jsx(FormLabel, { htmlFor: "ip_or_url", children: "IP Address or URL" }), _jsx(TextField, { id: "ip_or_url", type: "url", name: "ip_or_url", placeholder: "http://192.168.1.1 or http://yourURL.com", onChange: (input) => setDest(input.target.value), autoFocus: true, required: true, fullWidth: true, variant: "outlined", error: !!error, sx: { ariaLabel: 'ip_or_url' } })] }), _jsxs(FormControl, { children: [_jsx(Box, { sx: { display: 'flex', justifyContent: 'space-between' }, children: _jsx(FormLabel, { htmlFor: "bearer_token", children: "Bearer Token" }) }), _jsx(TextField, { name: "bearer_token", placeholder: "Bearer Token", type: "text", id: "password", required: true, fullWidth: true, variant: "outlined", error: !!error, onChange: (input) => setBearer(input.target.value) })] }), _jsx(Button, { type: "submit", fullWidth: true, variant: "contained", color: "violet", children: "View Cluster" }), error && invalidKeyError] }) })] }) }));
 }

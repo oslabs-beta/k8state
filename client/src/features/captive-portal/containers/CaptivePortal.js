@@ -8,5 +8,5 @@ export default function CaptivePortal() {
             justifyContent: 'center',
             alignItems: 'center',
             height: '100vh', // Full viewport height
-        }, children: [_jsx(CaptiveFormContent, {}, void 0), _jsx(CaptiveForm, {}, void 0)] }, void 0));
+        }, children: [_jsx(CaptiveFormContent, {}), _jsx(CaptiveForm, {})] }));
 }

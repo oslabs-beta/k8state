@@ -3,7 +3,7 @@ import { screen, waitFor } from "@testing-library/react";
 import App from "./App";
 import { renderWithProviders } from "./utils/test-utils";
 test("App should have correct initial render", () => {
-    renderWithProviders(_jsx(App, {}, void 0));
+    renderWithProviders(_jsx(App, {}));
     // The app should be rendered correctly
     expect(screen.getByText(/Welcome to k8State/i)).toBeInTheDocument();
     // Initial state: count should be 0, incrementValue should be 2
@@ -11,7 +11,7 @@ test("App should have correct initial render", () => {
     expect(screen.getByLabelText("Set increment amount")).toHaveValue(2);
 });
 test("Increment value and Decrement value should work as expected", async () => {
-    const { user } = renderWithProviders(_jsx(App, {}, void 0));
+    const { user } = renderWithProviders(_jsx(App, {}));
     // Click on "+" => Count should be 1
     await user.click(screen.getByLabelText("Increment value"));
     expect(screen.getByLabelText("Count")).toHaveTextContent("1");
@@ -20,7 +20,7 @@ test("Increment value and Decrement value should work as expected", async () => 
     expect(screen.getByLabelText("Count")).toHaveTextContent("0");
 });
 test("Add Amount should work as expected", async () => {
-    const { user } = renderWithProviders(_jsx(App, {}, void 0));
+    const { user } = renderWithProviders(_jsx(App, {}));
     // "Add Amount" button is clicked => Count should be 2
     await user.click(screen.getByText("Add Amount"));
     expect(screen.getByLabelText("Count")).toHaveTextContent("2");
@@ -37,7 +37,7 @@ test("Add Amount should work as expected", async () => {
     expect(screen.getByLabelText("Count")).toHaveTextContent("3");
 });
 it("Add Async should work as expected", async () => {
-    const { user } = renderWithProviders(_jsx(App, {}, void 0));
+    const { user } = renderWithProviders(_jsx(App, {}));
     // "Add Async" button is clicked => Count should be 2
     await user.click(screen.getByText("Add Async"));
     await waitFor(() => expect(screen.getByLabelText("Count")).toHaveTextContent("2"));
@@ -54,7 +54,7 @@ it("Add Async should work as expected", async () => {
     await waitFor(() => expect(screen.getByLabelText("Count")).toHaveTextContent("3"));
 });
 test("Add If Odd should work as expected", async () => {
-    const { user } = renderWithProviders(_jsx(App, {}, void 0));
+    const { user } = renderWithProviders(_jsx(App, {}));
     // "Add If Odd" button is clicked => Count should stay 0
     await user.click(screen.getByText("Add If Odd"));
     expect(screen.getByLabelText("Count")).toHaveTextContent("0");

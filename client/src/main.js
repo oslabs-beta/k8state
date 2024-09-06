@@ -38,15 +38,15 @@ const theme = createTheme({
 const router = createBrowserRouter([
     {
         path: "/",
-        element: _jsx(LandingPage, {}, void 0),
+        element: _jsx(LandingPage, {}),
     },
     {
         path: "/clusterui",
-        element: _jsx(ProtectedRoute, { element: _jsx(App, {}, void 0) }, void 0),
+        element: _jsx(ProtectedRoute, { element: _jsx(App, {}) }),
     },
     {
         path: "/portal",
-        element: _jsx(CaptivePortal, {}, void 0),
+        element: _jsx(CaptivePortal, {}),
     },
     // temp route to redesign Captive Portal
     // {
@@ -55,13 +55,13 @@ const router = createBrowserRouter([
     // },
     {
         path: "/logs",
-        element: _jsx(LogPage, {}, void 0),
+        element: _jsx(LogPage, {}),
     },
 ]);
 const container = document.getElementById("root");
 if (container) {
     const root = createRoot(container);
-    root.render(_jsx(React.StrictMode, { children: _jsx(Provider, { store: store, children: _jsx(ThemeProvider, { theme: theme, children: _jsx(RouterProvider, { router: router }, void 0) }, void 0) }, void 0) }, void 0));
+    root.render(_jsx(React.StrictMode, { children: _jsx(Provider, { store: store, children: _jsx(ThemeProvider, { theme: theme, children: _jsx(RouterProvider, { router: router }) }) }) }));
 }
 else {
     throw new Error("Root element with ID 'root' was not found in the document. Ensure there is a corresponding HTML element with the ID 'root' in your HTML file.");

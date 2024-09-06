@@ -12,7 +12,7 @@ export default function Row (props: { logName: string,  setDeleted: React.Dispat
     const [log, setLog] = useState([]);
     const [name, setName] = useState([]);
     const [namespace, setNamespace] = useState([]);
-    const downloadLogHandler = () => {
+    const downloadLogHandler = (): void => {
         fetch('http://localhost:8080/api/getDownloadLogs/' + props.logName, {
             method: 'GET',
         })
@@ -32,7 +32,7 @@ export default function Row (props: { logName: string,  setDeleted: React.Dispat
             window.URL.revokeObjectURL(url); //cleans up the URL
         })
     };
-    const readLogHandler = () => {
+    const readLogHandler = (): void => {
         interface dataObj {
             name: string;
             namespace: string;
@@ -64,7 +64,7 @@ export default function Row (props: { logName: string,  setDeleted: React.Dispat
             });
         }
     }
-    const deleteLogHandler = () => {
+    const deleteLogHandler = (): void => {
         fetch('http://localhost:8080/api/deleteLogs/' + props.logName, {
             method: 'DELETE',
         })
@@ -77,21 +77,19 @@ export default function Row (props: { logName: string,  setDeleted: React.Dispat
             console.log(error);
         })
     };
-    const dateManager = () => {
-        interface Month {
-            [key: string]: string;
-        }
+    const dateManager = (): string | undefined => {
         const regex = /(\d{4})-(\d{1,2})-(\d{1,2})-(\d{1,2})-(\d{1,2})-(\d{1,2})/;
         const dateInfo = props.logName.match(regex);
         if(dateInfo){
             const [_, year, month, day] = dateInfo;
             const date = new Date(`${year}-${month}-${day}`);
+            return date.toLocaleDateString();
         }
     }
     return(
         <div className = 'rows'>
             <h3>Log Name: {props.logName}</h3>
-            <h4>Created on: {} </h4>
+            <h4>Created on: {dateManager()} </h4>
             <Button style={{ marginBottom: '16px' }} variant="contained" color="primary" type="button" onClick={readLogHandler}>Read</Button>
             <Button style={{ marginBottom: '16px' }} variant="contained" color="primary" type="button" onClick={downloadLogHandler}>Download</Button>
             <Button style={{ marginBottom: '16px' }} variant="contained" color="primary" type="button" onClick={deleteLogHandler}>Delete</Button> 

@@ -1,6 +1,6 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useState } from "react";
-import { Button } from "@mui/material";
+import { Grid, Button } from "@mui/material";
 export default function Row(props) {
     const [appear, setAppear] = useState(false);
     const [log, setLog] = useState([]);
@@ -37,13 +37,13 @@ export default function Row(props) {
                 .then(data => {
                 console.log(data);
                 setName(data.map((element, i) => {
-                    return _jsxs("div", { children: [element.name, _jsx("br", {})] }, i + 303030303);
+                    return _jsx(Grid, { item: true, xs: 12, sm: 6, md: 4, children: element.name }, i + 303030303);
                 }));
                 setNamespace(data.map((element, i) => {
-                    return _jsxs("div", { children: [element.namespace, _jsx("br", {})] }, i + 101010101);
+                    return _jsx(Grid, { item: true, xs: 12, sm: 6, md: 4, children: element.namespace }, i + 101010101);
                 }));
                 setLog(data.map((element, i) => {
-                    return _jsxs("div", { children: [element.log, _jsx("br", {})] }, i + 202020202);
+                    return _jsx(Grid, { item: true, xs: 12, sm: 6, md: 4, children: element.logs }, i + 202020202);
                 }));
                 setAppear(true);
             })
@@ -65,5 +65,5 @@ export default function Row(props) {
             console.log(error);
         });
     };
-    return (_jsxs("div", { className: 'rows', children: [_jsxs("h3", { children: ["Log Name: ", props.logName] }), _jsx(Button, { style: { marginBottom: '16px' }, variant: "contained", color: "primary", type: "button", onClick: readLogHandler, children: "Read" }), _jsx(Button, { style: { marginBottom: '16px' }, variant: "contained", color: "primary", type: "button", onClick: downloadLogHandler, children: "Download" }), _jsx(Button, { style: { marginBottom: '16px' }, variant: "contained", color: "primary", type: "button", onClick: deleteLogHandler, children: "Delete" }), appear === true && (_jsxs("div", { className: "popup", children: [name, namespace, log] }))] }));
+    return (_jsxs("div", { className: 'rows', children: [_jsxs("h3", { children: ["Log Name: ", props.logName] }), _jsx(Button, { style: { marginBottom: '16px' }, variant: "contained", color: "primary", type: "button", onClick: readLogHandler, children: "Read" }), _jsx(Button, { style: { marginBottom: '16px' }, variant: "contained", color: "primary", type: "button", onClick: downloadLogHandler, children: "Download" }), _jsx(Button, { style: { marginBottom: '16px' }, variant: "contained", color: "primary", type: "button", onClick: deleteLogHandler, children: "Delete" }), appear === true && (_jsx("div", { className: "popup", children: _jsxs(Grid, { container: true, direction: "row", sx: {}, children: [_jsxs(Grid, { item: true, style: { marginRight: '16px ' }, children: [_jsx("h4", { children: "Node Name" }), _jsx(Grid, { container: true, direction: "column", spacing: 4, children: name })] }), _jsxs(Grid, { item: true, style: { marginRight: '32px ' }, children: [_jsx("h4", { children: "Namespace" }), _jsx(Grid, { container: true, direction: "column", spacing: 4, children: namespace })] }), _jsxs(Grid, { item: true, children: [_jsx("h4", { children: "Log" }), _jsx(Grid, { container: true, direction: "column", spacing: 4, children: log })] })] }) }))] }));
 }

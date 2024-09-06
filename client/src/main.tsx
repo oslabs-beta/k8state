@@ -7,8 +7,7 @@ import { store } from "./app/store"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import "./index.css"
 
-import CaptivePortal from "./features/captive-portal/CaptivePortal"
-import SignInSide from "./features/captive-portal/sign-in-side/SignInSide"
+import CaptivePortal from "./features/captive-portal/containers/CaptivePortal"
 
 import LogPage from "./features/log-page/LogPage"
 

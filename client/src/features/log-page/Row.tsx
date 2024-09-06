@@ -1,6 +1,6 @@
 import type React from "react";
 import { useState, useEffect } from "react";
-import { List, ListItem, ListItemAvatar, Avatar, ListItemText, Grid, Typography, IconButton, Button } from "@mui/material";
+import { Box, Grid, Typography, IconButton, Button } from "@mui/material";
 import FolderIcon from '@mui/icons-material/Folder';
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -33,7 +33,7 @@ export default function Row (props: { logName: string,  setDeleted: React.Dispat
         interface dataObj {
             name: string;
             namespace: string;
-            log: string;
+            logs: string;
         }
         if(appear){
             setAppear(false);
@@ -46,13 +46,13 @@ export default function Row (props: { logName: string,  setDeleted: React.Dispat
             .then(data => {
                 console.log(data);
                 setName(data.map((element: dataObj, i: number) => {
-                    return <div key={i + 303030303}>{element.name}<br/></div>;
+                    return <Grid item xs={12} sm={6} md={4} key={i + 303030303}>{element.name}</Grid>;
                 }));
                 setNamespace(data.map((element: dataObj, i: number) => {
-                    return <div key={i + 101010101}>{element.namespace}<br/></div>;
+                    return <Grid item xs={12} sm={6} md={4} key={i + 101010101}>{element.namespace}</Grid>;
                 }));
                 setLog(data.map((element: dataObj, i: number) => {
-                    return <div key={i + 202020202}>{element.log}<br/></div>;
+                    return <Grid item xs={12} sm={6} md={4} key={i + 202020202}>{element.logs}</Grid>;
                 }));
                 setAppear(true);
             })
@@ -82,9 +82,26 @@ export default function Row (props: { logName: string,  setDeleted: React.Dispat
             <Button style={{ marginBottom: '16px' }} variant="contained" color="primary" type="button" onClick={deleteLogHandler}>Delete</Button> 
             {appear === true && (
                 <div className="popup"> 
-                    {name}
-                    {namespace}
-                    {log}
+                    <Grid container direction="row" sx={{}}>
+                        <Grid item style={{ marginRight: '16px '}}>
+                            <h4>Node Name</h4>
+                            <Grid container direction="column" spacing={4} >
+                                {name}
+                            </Grid>
+                        </Grid>
+                        <Grid item style={{ marginRight: '32px ' }}>
+                            <h4>Namespace</h4>
+                            <Grid container direction="column" spacing={4}>
+                                {namespace}
+                            </Grid>
+                        </Grid>
+                        <Grid item>
+                            <h4>Log</h4>
+                            <Grid container direction="column" spacing={4}>
+                                {log}
+                            </Grid>
+                        </Grid>
+                    </Grid>
                 </div>
             )}
         </div>

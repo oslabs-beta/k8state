@@ -11,7 +11,7 @@ const generalService = {
         //function that checks if the environment variables exist and if the env file exists, otherwise create it
         checkEnv: (): string | undefined => {
             if(!process.env.KUBERNETES_SERVER || !process.env.KUBERNETES_TOKEN){
-                const envPath = path.resolve(path.resolve('./.env'));
+                const envPath = path.resolve('./.env');
                 if(!fs.existsSync(envPath)){
                     const defaultEnv = 'KUBERNETES_SERVER=\n' + 'KUBERNETES_TOKEN=';
                     fs.writeFileSync(envPath, defaultEnv.trim());
@@ -26,14 +26,15 @@ const generalService = {
             }
         },
         writeEnv: (key: string, address: string) => {
-            const envPath = path.resolve(path.resolve('./.env'));
+            const envPath = path.resolve('./.env');
             const fileEnv = 'KUBERNETES_SERVER=https://' + address + '\n' + 'KUBERNETES_TOKEN=' + key;
             fs.writeFileSync(envPath, fileEnv, 'utf-8');
             process.env.KUBERNETES_SERVER='https://' + address;
             process.env.KUBERNETES_TOKEN=key;
         },
         checkLogs: () => {
-            const logFolder = path.resolve(path.resolve('./logs/'));
+            const logFolder = path.resolve('../logs/');
+            //console.log(logFolder);
             //fs is async
             fs.access(logFolder, (err) => {
                 if(err){
@@ -53,7 +54,7 @@ const generalService = {
             const hours = time.getHours();
             const minutes = time.getMinutes();
             //console.log(input);
-            const logFile = path.resolve(path.resolve(`./logs/log-${year}-${month}-${day}-${hours}-${minutes}.json`));
+            const logFile = path.resolve(path.resolve(`../logs/log-${year}-${month}-${day}-${hours}-${minutes}.json`));
             if(!fs.existsSync(logFile)){
                 fs.writeFileSync(logFile, JSON.stringify(input, null, 2));
             }
@@ -62,7 +63,7 @@ const generalService = {
             }
         },
         getDirLogs: (): string[] => {
-            const logDir: string = path.resolve(path.resolve('./logs/'));
+            const logDir: string = path.resolve('../logs/');
             const filesInDir: string[] = fs.readdirSync(logDir);
             return filesInDir;
         }

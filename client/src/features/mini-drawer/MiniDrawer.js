@@ -87,7 +87,7 @@ export default function MiniDrawer() {
     const theme = useTheme();
     // ** create state
     const [open, setOpen] = React.useState(false);
-    const [selectedPage, setSelectedPage] = useState(null);
+    const [selectedPage, setSelectedPage] = useState("ClusterUI");
     const handleMenuSelect = (page) => {
         setSelectedPage(page);
         setOpen(false);

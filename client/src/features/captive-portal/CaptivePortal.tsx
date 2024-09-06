@@ -13,6 +13,8 @@ import Typography from '@mui/material/Typography';
 import FormLabel from '@mui/material/FormLabel';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import Box from '@mui/material/Box';
+
 
 
 import { styled } from '@mui/material/styles';
@@ -85,45 +87,85 @@ export default function CaptivePortal() {
             <div id="captive-portal" className="portal">
                 {error && <p>{error}</p>}
                 <form onSubmit={submitHandler}>   
-                    <TextField id="outlined-basic" label="IP Address or URL" variant="outlined" onChange={(input) => setDest(input.target.value)}/>
-                    <TextField id="outlined-basic" label="Bearer Token" variant="outlined" onChange={(input) => setBearer(input.target.value)}/>
+                    <TextField 
+                      id="outlined-basic" 
+                      label="IP Address or URL" 
+                      variant="outlined" 
+                      onChange={(input) => setDest(input.target.value)}
+                    />
+                    <TextField 
+                      id="outlined-basic" 
+                      label="Bearer Token" 
+                      variant="outlined" 
+                      onChange={(input) => setBearer(input.target.value)}
+                    />
                     <Button variant="contained" color="primary" type="submit">Submit</Button>
                 </form>
             </div>
         </Card>
 
         *****REBUILDING FORM HERE:******
+
+        <form onSubmit={submitHandler}> {/* Form wrapper with submit handler */}
+      <Stack
+        direction={{ xs: 'column-reverse', md: 'row' }}
+        sx={{
+          justifyContent: 'center',
+          gap: { xs: 6, sm: 12 },
+          p: 2,
+          m: 'auto',
+        }}
+      >
         <Card variant="outlined">
-            <Typography
+          <Typography
             component="h1"
             variant="h4"
             sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}
-            >
+          >
             Input Cluster Credentials
-            </Typography>
+          </Typography>
 
-            <FormControl>
-                <FormLabel htmlFor="email">IP Address or URL</FormLabel>
-                    <TextField
-                        // error={emailError}
-                        // helperText={emailErrorMessage}
-                        id="email"
-                        type="email"
-                        name="email"
-                        placeholder="IP Address or URL"
-                        autoComplete="email"
-                        autoFocus
-                        required
-                        fullWidth
-                        variant="outlined"
-                        // color={emailError ? 'error' : 'primary'}
-                        sx={{ ariaLabel: 'email' }}
-                    />
-            </FormControl>
+          <FormControl>
+            <FormLabel htmlFor="ip_or_url">IP Address or URL</FormLabel>
+            <TextField
+              id="ip_or_url"
+              type="url"
+              name="ip_or_url"
+              placeholder="http://192.168.1.1 or http://yourURL.com"
+              onChange={(input) => setDest(input.target.value)}
+              autoFocus
+              required
+              fullWidth
+              variant="outlined"
+              sx={{ ariaLabel: 'ip_or_url' }}
+            />
+          </FormControl>
+
+          <FormControl>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+              <FormLabel htmlFor="password">Bearer Token</FormLabel>
+            </Box>
+            <TextField
+              name="bearer_token"
+              placeholder="Bearer Token"
+              type="text"
+              id="password"
+              required
+              fullWidth
+              variant="outlined"
+              onChange={(input) => setBearer(input.target.value)}
+            />
+          </FormControl>
+
+          <Button type="submit" fullWidth variant="contained">
+            View Cluster
+          </Button>
         </Card>
+      </Stack>
+    </form>
 
 
-        <Stack
+        {/* <Stack
           direction="column"
           component="main"
           sx={[
@@ -154,7 +196,7 @@ export default function CaptivePortal() {
             <Content />
             <SignInCard />
           </Stack>
-        </Stack>
+        </Stack> */}
         </>
 
 

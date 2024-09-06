@@ -4,9 +4,11 @@ import { List, ListItem, ListItemAvatar, Avatar, ListItemText, Grid, Typography,
 import FolderIcon from '@mui/icons-material/Folder';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-export default function Row (props: { logName: never,  setDeleted: React.Dispatch<React.SetStateAction<string>> }) {
+export default function Row (props: { logName: string,  setDeleted: React.Dispatch<React.SetStateAction<string>> }) {
     const [appear, setAppear] = useState(false);
-    const [log, setLog] = useState('');
+    const [log, setLog] = useState([]);
+    const [name, setName] = useState([]);
+    const [namespace, setNamespace] = useState([]);
     const downloadLogHandler = () => {
         fetch('http://localhost:8080/api/getDownloadLogs/' + props.logName, {
             method: 'GET',
@@ -28,23 +30,37 @@ export default function Row (props: { logName: never,  setDeleted: React.Dispatc
         })
     };
     const readLogHandler = () => {
-        fetch('http://localhost:8080/api/getLogs/' + props.logName, {
-            method: 'GET',
-        })
-        .then(response => response.json())
-        .then(data => {
-            //console.log(data);
-            // for(const element of data){
-            //     element.log()
-            // }
-            setLog(data);
-            setAppear(true);
-        })
-        .catch(error => {
-            console.log(error);
-        })
-    };
-
+        interface dataObj {
+            name: string;
+            namespace: string;
+            log: string;
+        }
+        if(appear){
+            setAppear(false);
+        }
+        else{
+            fetch('http://localhost:8080/api/getLogs/' + props.logName, {
+                method: 'GET',
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                setName(data.map((element: dataObj, i: number) => {
+                    return <div key={i + 303030303}>{element.name}<br/></div>;
+                }));
+                setNamespace(data.map((element: dataObj, i: number) => {
+                    return <div key={i + 101010101}>{element.namespace}<br/></div>;
+                }));
+                setLog(data.map((element: dataObj, i: number) => {
+                    return <div key={i + 202020202}>{element.log}<br/></div>;
+                }));
+                setAppear(true);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        }
+    }
     const deleteLogHandler = () => {
         fetch('http://localhost:8080/api/deleteLogs/' + props.logName, {
             method: 'DELETE',
@@ -60,17 +76,17 @@ export default function Row (props: { logName: never,  setDeleted: React.Dispatc
     };
     return(
         <div className = 'rows'>
-            <div className = 'logName'>Log Name: {props.logName}</div>
-            <Button variant="contained" color="primary" type="button" onClick={readLogHandler}>read</Button>
-            <Button variant="contained" color="primary" type="button" onClick={downloadLogHandler}>Download</Button>
-            <Button variant="contained" color="primary" type="button" onClick={deleteLogHandler}>Delete</Button> 
+            <h3>Log Name: {props.logName}</h3>
+            <Button style={{ marginBottom: '16px' }} variant="contained" color="primary" type="button" onClick={readLogHandler}>Read</Button>
+            <Button style={{ marginBottom: '16px' }} variant="contained" color="primary" type="button" onClick={downloadLogHandler}>Download</Button>
+            <Button style={{ marginBottom: '16px' }} variant="contained" color="primary" type="button" onClick={deleteLogHandler}>Delete</Button> 
             {appear === true && (
                 <div className="popup"> 
+                    {name}
+                    {namespace}
                     {log}
-                    <Button variant="contained" color="primary" type="button" onClick={() => setAppear(false)}>X</Button> 
                 </div>
             )}
-            {/* <hr></hr> */}
         </div>
     )
 }

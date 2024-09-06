@@ -60,7 +60,7 @@ const generalController = {
     },
     getReadSpecificLog: (req, res, next) => {
         const logDir = path.resolve('../logs/') + '/' + req.params.log;
-        const info = fs.readFileSync(logDir, 'utf-8');
+        const info = JSON.parse(fs.readFileSync(logDir, 'utf-8'));
         //console.log(info);
         res.locals.specificLog = info;
         next();

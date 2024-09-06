@@ -1,9 +1,11 @@
-import { jsxs as _jsxs, jsx as _jsx } from "react/jsx-runtime";
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useState } from "react";
 import { Button } from "@mui/material";
 export default function Row(props) {
     const [appear, setAppear] = useState(false);
-    const [log, setLog] = useState('');
+    const [log, setLog] = useState([]);
+    const [name, setName] = useState([]);
+    const [namespace, setNamespace] = useState([]);
     const downloadLogHandler = () => {
         fetch('http://localhost:8080/api/getDownloadLogs/' + props.logName, {
             method: 'GET',
@@ -24,21 +26,31 @@ export default function Row(props) {
         });
     };
     const readLogHandler = () => {
-        fetch('http://localhost:8080/api/getLogs/' + props.logName, {
-            method: 'GET',
-        })
-            .then(response => response.json())
-            .then(data => {
-            //console.log(data);
-            // for(const element of data){
-            //     element.log()
-            // }
-            setLog(data);
-            setAppear(true);
-        })
-            .catch(error => {
-            console.log(error);
-        });
+        if (appear) {
+            setAppear(false);
+        }
+        else {
+            fetch('http://localhost:8080/api/getLogs/' + props.logName, {
+                method: 'GET',
+            })
+                .then(response => response.json())
+                .then(data => {
+                console.log(data);
+                setName(data.map((element, i) => {
+                    return _jsxs("div", { children: [element.name, _jsx("br", {})] }, i + 303030303);
+                }));
+                setNamespace(data.map((element, i) => {
+                    return _jsxs("div", { children: [element.namespace, _jsx("br", {})] }, i + 101010101);
+                }));
+                setLog(data.map((element, i) => {
+                    return _jsxs("div", { children: [element.log, _jsx("br", {})] }, i + 202020202);
+                }));
+                setAppear(true);
+            })
+                .catch(error => {
+                console.log(error);
+            });
+        }
     };
     const deleteLogHandler = () => {
         fetch('http://localhost:8080/api/deleteLogs/' + props.logName, {
@@ -53,5 +65,5 @@ export default function Row(props) {
             console.log(error);
         });
     };
-    return (_jsxs("div", { className: 'rows', children: [_jsxs("div", { className: 'logName', children: ["Log Name: ", props.logName] }), _jsx(Button, { variant: "contained", color: "primary", type: "button", onClick: readLogHandler, children: "read" }), _jsx(Button, { variant: "contained", color: "primary", type: "button", onClick: downloadLogHandler, children: "Download" }), _jsx(Button, { variant: "contained", color: "primary", type: "button", onClick: deleteLogHandler, children: "Delete" }), appear === true && (_jsxs("div", { className: "popup", children: [log, _jsx(Button, { variant: "contained", color: "primary", type: "button", onClick: () => setAppear(false), children: "X" })] }))] }));
+    return (_jsxs("div", { className: 'rows', children: [_jsxs("h3", { children: ["Log Name: ", props.logName] }), _jsx(Button, { style: { marginBottom: '16px' }, variant: "contained", color: "primary", type: "button", onClick: readLogHandler, children: "Read" }), _jsx(Button, { style: { marginBottom: '16px' }, variant: "contained", color: "primary", type: "button", onClick: downloadLogHandler, children: "Download" }), _jsx(Button, { style: { marginBottom: '16px' }, variant: "contained", color: "primary", type: "button", onClick: deleteLogHandler, children: "Delete" }), appear === true && (_jsxs("div", { className: "popup", children: [name, namespace, log] }))] }));
 }

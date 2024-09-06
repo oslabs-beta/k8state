@@ -13,7 +13,7 @@ export default function LogPage () {
         fetch("http://localhost:8080/api/getLogs")
         .then(process => process.json())
         .then(data => {
-            console.log(data);
+            //console.log(data);
             setdirInfo(data);
         })
         .catch(error => {
@@ -35,25 +35,22 @@ export default function LogPage () {
         });
     };
     const store: JSX.Element[] = [];
-    for(const element of dirInfo){
+    for(let i = 0; i < dirInfo.length; i++){
         store.push(
-        <Grid item xs={12} sm={6} md={4}>
-            <Row logName={element} setDeleted={setDeleted} key={crypto.randomUUID()}/>
+        <Grid item xs={12} sm={6} md={4} key={i + 3013031}>
+            <Box sx={{ border: 1, borderColor: "black"}}>
+                <Row logName={dirInfo[i]} setDeleted={setDeleted}/>
+            </Box>
         </Grid>);
     }
     return(
-        // <Box component="section" sx={{ p: 2, border: '1px solid black' }}>
-        //     <p>Logs</p>
-        //     <Button variant="contained" color="primary" type="button" onClick={createLogHandler}>Create a Log</Button>
-        //     {store}
-        // </Box>
-        <div>
-            <p style={{ marginBottom: '16px'}}>Logs</p>
-            <Button style={{ marginBottom: '16px'}} variant="contained" color="primary" type="button" onClick={createLogHandler}>Create a Log</Button>
-            <Grid container direction="column" spacing={4}>
+        <Box sx={{marginLeft: '8px', marginTop: '96px', overflowY: 'scroll', border: 1, borderColor: "black", maxWidth: '1450px',}}>
+            <h1 style={{ marginLeft: '32px', marginBottom: '16px'}}>Logs</h1>
+            <Button style={{ marginLeft: '32px', marginBottom: '16px'}} variant="contained" color="primary" type="button" onClick={createLogHandler}>Create a Log</Button>
+            <Grid container direction="column" spacing={4} style={{ marginLeft: '1px', marginRight: '32px'}}>
                 {store}
             </Grid>
-        </div>
+        </Box>
 
 
     );

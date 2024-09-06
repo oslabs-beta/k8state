@@ -2,7 +2,9 @@ import type React from "react";
 import { useState, useEffect } from "react";
 import { TextField, Button, Box, Grid, Paper } from "@mui/material";
 import Row from './Row';
-import './logpage.css';
+
+import Log from "./Log"
+
 
 export default function LogPage () {
     const [dirInfo, setdirInfo] = useState([]);
@@ -34,7 +36,9 @@ export default function LogPage () {
             console.log(error);
         });
     };
+    
     const store: JSX.Element[] = [];
+    
     for(let i = 0; i < dirInfo.length; i++){
         store.push(
         <Grid item xs={12} sm={6} md={4} key={i + 3013031}>
@@ -43,6 +47,16 @@ export default function LogPage () {
             </Box>
         </Grid>);
     }
+
+    for(let i = 0; i < dirInfo.length; i++){
+        store.push(
+        <Grid item xs={12} sm={6} md={4} key={i + 3013031}>
+            <Box sx={{ border: 1, borderColor: "black"}}>
+                <Log/>
+            </Box>
+        </Grid>);
+    }
+    
     return(
         <Box sx={{marginLeft: '8px', marginTop: '96px', overflowY: 'scroll', border: 1, borderColor: "black", maxWidth: '1450px',}}>
             <h1 style={{ marginLeft: '32px', marginBottom: '16px'}}>Logs</h1>
@@ -51,7 +65,5 @@ export default function LogPage () {
                 {store}
             </Grid>
         </Box>
-
-
     );
 };

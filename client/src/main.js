@@ -14,9 +14,19 @@ import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ProtectedRoute from "./features/captive-portal/ProtectedRoute";
+import { createTheme, ThemeProvider, alpha, getContrastRatio, } from '@mui/material/styles';
+const violetBase = '#7F00FF';
+const violetMain = alpha(violetBase, 0.7);
 const theme = createTheme({
+    palette: {
+        violet: {
+            main: violetMain,
+            light: alpha(violetBase, 0.5),
+            dark: alpha(violetBase, 0.9),
+            contrastText: getContrastRatio(violetMain, '#fff') > 4.5 ? '#fff' : '#111',
+        },
+    },
     typography: {
         fontFamily: '"Roboto", sans-serif',
         h1: {
@@ -28,15 +38,15 @@ const theme = createTheme({
 const router = createBrowserRouter([
     {
         path: "/",
-        element: _jsx(LandingPage, {}),
+        element: _jsx(LandingPage, {}, void 0),
     },
     {
         path: "/clusterui",
-        element: _jsx(ProtectedRoute, { element: _jsx(App, {}) }),
+        element: _jsx(ProtectedRoute, { element: _jsx(App, {}, void 0) }, void 0),
     },
     {
         path: "/portal",
-        element: _jsx(CaptivePortal, {}),
+        element: _jsx(CaptivePortal, {}, void 0),
     },
     // temp route to redesign Captive Portal
     // {
@@ -45,13 +55,13 @@ const router = createBrowserRouter([
     // },
     {
         path: "/logs",
-        element: _jsx(LogPage, {}),
+        element: _jsx(LogPage, {}, void 0),
     },
 ]);
 const container = document.getElementById("root");
 if (container) {
     const root = createRoot(container);
-    root.render(_jsx(React.StrictMode, { children: _jsx(Provider, { store: store, children: _jsx(ThemeProvider, { theme: theme, children: _jsx(RouterProvider, { router: router }) }) }) }));
+    root.render(_jsx(React.StrictMode, { children: _jsx(Provider, { store: store, children: _jsx(ThemeProvider, { theme: theme, children: _jsx(RouterProvider, { router: router }, void 0) }, void 0) }, void 0) }, void 0));
 }
 else {
     throw new Error("Root element with ID 'root' was not found in the document. Ensure there is a corresponding HTML element with the ID 'root' in your HTML file.");

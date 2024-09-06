@@ -20,13 +20,13 @@ export default function ProtectedRoute(props) {
         setLoading(false);
     });
     if (loading) {
-        return _jsx("div", { children: "Loading..." });
+        return _jsx("div", { children: "Loading..." }, void 0);
     }
     if (init === true) {
         return props.element;
     }
     else {
-        return _jsx(Navigate, { to: "/portal" });
+        return _jsx(Navigate, { to: "/portal" }, void 0);
     }
 }
 ;

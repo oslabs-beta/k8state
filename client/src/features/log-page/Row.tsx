@@ -4,6 +4,9 @@ import { Box, Grid, Typography, IconButton, Button } from "@mui/material";
 import FolderIcon from '@mui/icons-material/Folder';
 import DeleteIcon from '@mui/icons-material/Delete';
 
+import { CSSTransition } from 'react-transition-group'; // Import CSSTransition for transitions
+import './Row.css'; // Import the CSS file
+
 export default function Row (props: { logName: string,  setDeleted: React.Dispatch<React.SetStateAction<string>> }) {
     const [appear, setAppear] = useState(false);
     const [log, setLog] = useState([]);
@@ -74,9 +77,21 @@ export default function Row (props: { logName: string,  setDeleted: React.Dispat
             console.log(error);
         })
     };
+    const dateManager = () => {
+        interface Month {
+            [key: string]: string;
+        }
+        const regex = /(\d{4})-(\d{1,2})-(\d{1,2})-(\d{1,2})-(\d{1,2})-(\d{1,2})/;
+        const dateInfo = props.logName.match(regex);
+        if(dateInfo){
+            const [_, year, month, day] = dateInfo;
+            const date = new Date(`${year}-${month}-${day}`);
+        }
+    }
     return(
         <div className = 'rows'>
             <h3>Log Name: {props.logName}</h3>
+            <h4>Created on: {} </h4>
             <Button style={{ marginBottom: '16px' }} variant="contained" color="primary" type="button" onClick={readLogHandler}>Read</Button>
             <Button style={{ marginBottom: '16px' }} variant="contained" color="primary" type="button" onClick={downloadLogHandler}>Download</Button>
             <Button style={{ marginBottom: '16px' }} variant="contained" color="primary" type="button" onClick={deleteLogHandler}>Delete</Button> 
@@ -97,7 +112,7 @@ export default function Row (props: { logName: string,  setDeleted: React.Dispat
                         </Grid>
                         <Grid item>
                             <h4>Log</h4>
-                            <Grid container direction="column" spacing={4}>
+                            <Grid container direction="column" spacing={4} sx={{whiteSpace: 'nowrap', overflow: 'auto', textOverflow: 'ellipsis',maxWidth: '1000px'}}>
                                 {log}
                             </Grid>
                         </Grid>
@@ -106,4 +121,7 @@ export default function Row (props: { logName: string,  setDeleted: React.Dispat
             )}
         </div>
     )
+
+
+
 }

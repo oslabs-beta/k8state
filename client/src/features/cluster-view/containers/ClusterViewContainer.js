@@ -134,5 +134,5 @@ export default function ClusterViewContainer() {
     const nodes = reactFlowNodes();
     const edges = reactFlowEdges();
     // ****  ClusterViewContainer Function Return  ****
-    return (_jsx("div", { id: "clusterview-container", className: "container", children: _jsx("div", { style: { width: "100vw", height: "100vh" }, children: _jsxs(ReactFlow, { nodes: nodes, edges: edges, nodeTypes: nodeTypes, fitView: true, children: [_jsx(Background, {}), _jsx(Controls, {})] }) }) }));
+    return (_jsx("div", { id: "clusterview-container", className: "container", children: _jsx("div", { style: { width: "100vw", height: "100vh" }, children: _jsxs(ReactFlow, { nodes: nodes, edges: edges, nodeTypes: nodeTypes, fitView: true, children: [_jsx(Background, {}, void 0), _jsx(Controls, {}, void 0)] }, void 0) }, void 0) }, void 0));
 }

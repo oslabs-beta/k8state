@@ -140,7 +140,7 @@ export default function CaptiveForm() {
           type="submit" 
           fullWidth 
           variant="contained"
-          color="error"
+          color="violet"
         >
           View Cluster
         </Button>

@@ -15,7 +15,7 @@ export const renderWithProviders = (ui, extendedRenderOptions = {}) => {
     const { preloadedState = {}, 
     // Automatically create a store instance if no store was passed in
     store = makeStore(preloadedState), ...renderOptions } = extendedRenderOptions;
-    const Wrapper = ({ children }) => (_jsx(Provider, { store: store, children: children }));
+    const Wrapper = ({ children }) => (_jsx(Provider, { store: store, children: children }, void 0));
     // Return an object with the store and all of RTL's query functions
     return {
         store,

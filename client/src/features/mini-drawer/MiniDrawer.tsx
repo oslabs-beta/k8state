@@ -29,7 +29,7 @@ import GitHubIcon from "@mui/icons-material/GitHub"
 import { useState } from "react"
 import ClusterViewContainer from "../cluster-view/containers/ClusterViewContainer"
 import PrometheusViewContainer from "../prometheus-view/containers/PrometheusViewContainer"
-import LogPage from "../log-page/LogPage"
+import ClusterLogContainer from "../cluster-log/containers/ClusterLogContainer"
 import Settings from "../settings/settings"
 import LandingPage from "../landing-page/LandingPage"
 import GrafanaViewContainer from "../grafana-dashboard/GrafanaViewContainer"
@@ -184,34 +184,36 @@ export default function MiniDrawer() {
         </DrawerHeader>
         <Divider />
         <List>
-          {["ClusterUI", "Logs", "Grafana Dashboard", "Prometheus Charts"].map((text, index) => (
-            <ListItem
-              onClick={() => handleMenuSelect(text)}
-              key={text}
-              disablePadding
-              sx={{ display: "block" }}
-              style={{ color: "black", textDecoration: "none" }}
-            >
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                }}
+          {["ClusterUI", "Logs", "Grafana Dashboard", "Prometheus Charts"].map(
+            (text, index) => (
+              <ListItem
+                onClick={() => handleMenuSelect(text)}
+                key={text}
+                disablePadding
+                sx={{ display: "block" }}
+                style={{ color: "black", textDecoration: "none" }}
               >
-                <ListItemIcon
+                <ListItemButton
                   sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
+                    px: 2.5,
                   }}
                 >
-                  {index % 2 === 0 ? <HubIcon /> : <ReceiptLongIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-          ))}
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : "auto",
+                      justifyContent: "center",
+                    }}
+                  >
+                    {index % 2 === 0 ? <HubIcon /> : <ReceiptLongIcon />}
+                  </ListItemIcon>
+                  <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                </ListItemButton>
+              </ListItem>
+            ),
+          )}
         </List>
         <Divider />
         <List>
@@ -262,7 +264,7 @@ export default function MiniDrawer() {
       </Drawer>
       <main>
         {selectedPage === "ClusterUI" && <ClusterViewContainer />}
-        {selectedPage === "Logs" && <LogPage />}
+        {selectedPage === "Logs" && <ClusterLogContainer />}
         {selectedPage === "Grafana Dashboard" && <GrafanaViewContainer />}
         {selectedPage === "Prometheus Charts" && <PrometheusViewContainer />}
         {selectedPage === "Settings" && <Settings />}

@@ -131,6 +131,13 @@ const kubernetesService = {
 
         const k8sApi = kubernetesService.createClient();
         try{
+			const date = new Date();
+			const formatter = new Intl.DateTimeFormat('en-US', {
+				year: 'numeric',
+				month: 'long',
+				day: 'numeric',
+			  });
+			const formattedDate = formatter.format(date);
             const logs: data[] = [];
             for(let i = 0; i < input.length; i++){
                 if(input[i].namespace !== 'kube-system' && input[i].namespace !== 'monitoring'){
@@ -138,7 +145,8 @@ const kubernetesService = {
                     logs.push({
                         name: input[i].name,
                         namespace: input[i].namespace,
-                        logs:result.body
+                        logs: result.body,
+						date: formattedDate
                     } as data);
                 }
 

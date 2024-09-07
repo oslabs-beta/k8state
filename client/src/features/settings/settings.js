@@ -15,7 +15,7 @@ const Settings = () => {
     const [envToolTip, setEnvToolTip] = useState(null);
     const [envToolTipMessage, setEnvToolTipMessage] = useState(null);
     const handleEditClick = () => {
-        setEnvOption(true);
+        setEnvOption(envOption === false ? true : false);
     };
     const handleEnvSubmit = (event) => {
         event.preventDefault();

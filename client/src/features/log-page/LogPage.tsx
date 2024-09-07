@@ -1,7 +1,10 @@
 import type React from "react";
 import { useState, useEffect } from "react";
-import { TextField, Button } from "@mui/material";
+import { TextField, Button, Box, Grid, Paper } from "@mui/material";
 import Row from './Row';
+
+import Log from "./Log"
+
 
 export default function LogPage () {
     const [dirInfo, setdirInfo] = useState([]);
@@ -12,7 +15,7 @@ export default function LogPage () {
         fetch("http://localhost:8080/api/getLogs")
         .then(process => process.json())
         .then(data => {
-            console.log(data);
+            //console.log(data);
             setdirInfo(data);
         })
         .catch(error => {
@@ -26,21 +29,56 @@ export default function LogPage () {
         })
         .then(process => process.json())
         .then(data => {
-            console.log(data);
+            //console.log(data);
             setLog(data);
         })
         .catch(error => {
             console.log(error);
         });
     };
+    
     const store: JSX.Element[] = [];
-    for(const element of dirInfo){
-        store.push(<Row logName={element} setDeleted={setDeleted} key={crypto.randomUUID()}/>);
-    }
+    
+    // for(let i = 0; i < dirInfo.length; i++){
+    //     store.push(
+    //     // <Grid item xs={12} sm={6} md={4} key={i + 3013031}>
+    //         // <Box sx={{ border: 1, borderColor: "black"}}>
+    //         <Box>
+    //             <Row logName={dirInfo[i]} setDeleted={setDeleted}/>
+    //         </Box>
+    //     // </Grid>);
+    // )};
+
+    for(let i = dirInfo.length; i > 0; i--){
+        
+        store.push(
+        // <Grid item xs={12} sm={6} md={4} key={i + 3013031}>
+            // <Box sx={{ border: 1, borderColor: "black"}}>
+            <Box key={i*123}>
+                <Log
+                    setDeleted={setDeleted}
+                    logName={dirInfo[i]}
+                />
+            </Box>
+        // </Grid>
+        )};
+    console.log(store);
     return(
         <div>
-            <Button variant="contained" color="primary" type="button" onClick={createLogHandler}>Create a Log</Button>
-            {store}
+        {/* <Box sx={{marginLeft: '8px', marginTop: '96px', overflowY: 'scroll', border: 1, borderColor: "black", maxWidth: '1450px',}}> */}
+            <h1 style={{ marginLeft: '32px', marginBottom: '16px'}}>Logs</h1>
+            <Button 
+            style={{ marginLeft: '32px', marginBottom: '16px'}} 
+            variant="contained" 
+            color="primary" 
+            type="button" 
+            onClick={createLogHandler}>
+                Create a Log
+            </Button>
+                {store}
+            {/* <Grid container direction="column" spacing={4} style={{ marginLeft: '1px', marginRight: '32px'}}> */}
+            {/* </Grid> */}
+        {/* </Box> */}
         </div>
     );
 };

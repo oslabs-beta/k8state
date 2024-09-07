@@ -40,12 +40,6 @@ const generalController = {
         res.locals.logs = logs;
         next();
     },
-    getDirectoryLogs: (_req, res, next) => {
-        generalService.checkLogs();
-        const result = generalService.getDirLogs();
-        res.locals.dirLogs = result;
-        next();
-    },
     getDownloadSpecificLog: (req, res, next) => {
         const logDir = path.resolve('../logs/') + '/' + req.params.log;
         res.download(logDir, (err) => {
@@ -57,11 +51,18 @@ const generalController = {
             }
         });
     },
-    getReadSpecificLog: (req, res, next) => {
-        const logDir = path.resolve('../logs/') + '/' + req.params.log;
-        const info = JSON.parse(fs.readFileSync(logDir, 'utf-8'));
-        //console.log(info);
-        res.locals.specificLog = info;
+    getLogs: (_req, res, next) => {
+        generalService.checkLogs();
+        const result = generalService.getDirLogs();
+        const logHolder = result.map((element, _index) => {
+            const logDir = path.resolve('../logs/') + '/' + element;
+            return {
+                name: element,
+                log: JSON.parse(fs.readFileSync(logDir, 'utf-8'))
+            };
+        });
+        //console.log(logHolder);
+        res.locals.dirLogs = logHolder;
         next();
     },
     deleteSpecificLog: (req, res, next) => {

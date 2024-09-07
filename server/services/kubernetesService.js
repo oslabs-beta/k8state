@@ -92,9 +92,7 @@ const kubernetesService = {
                     authorization: 'Bearer ' + key
                 }
             });
-            //console.log(test);
             if (test.status !== 200) {
-                //console.log(test.status);
                 return 'invalidkey';
             }
             else {
@@ -102,7 +100,6 @@ const kubernetesService = {
             }
         }
         catch (error) {
-            //console.log(error);
             if (error instanceof Error) {
                 return error;
             }

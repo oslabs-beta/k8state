@@ -8,7 +8,6 @@ const App = () => {
     <div className="App">
       <Box>
         <MiniDrawer />
-
         <ClusterViewContainer />
       </Box>
     </div>

@@ -62,18 +62,22 @@ export default function LogPage() {
   }
   console.log(store)
   return (
-    <div>
+    <div style={{ position: "absolute", left: "250px", top: "100px" }}>
       {/* <Box sx={{marginLeft: '8px', marginTop: '96px', overflowY: 'scroll', border: 1, borderColor: "black", maxWidth: '1450px',}}> */}
       <h1
         style={{
+          textAlign: "center",
           marginLeft: "32px",
           marginBottom: "16px",
+          minWidth: "700px",
         }}
       >
         Logs
       </h1>
       <Button
         style={{
+          display: "flex",
+          left: "290px",
           marginLeft: "32px",
           marginBottom: "16px",
         }}

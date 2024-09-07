@@ -114,6 +114,7 @@ export default function Log(props: Props) {
       <Accordion
         expanded={expanded}
         onChange={handleExpansion}
+        style={{ width: "700px", left: "50px" }}
         // slots={{ transition: Fade as AccordionSlots['transition'] }}
         // slotProps={{ transition: { timeout: 400 } }}
         sx={[
@@ -147,7 +148,7 @@ export default function Log(props: Props) {
         <AccordionDetails>
           <Typography>{log}</Typography>
           <Button
-            style={{ marginBottom: "16px" }}
+            style={{ margin: "16px" }}
             variant="contained"
             color="primary"
             type="button"
@@ -156,7 +157,7 @@ export default function Log(props: Props) {
             Download
           </Button>
           <Button
-            style={{ marginBottom: "16px" }}
+            style={{ margin: "16px" }}
             variant="contained"
             color="primary"
             type="button"

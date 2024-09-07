@@ -36,8 +36,8 @@ export default function LogPage() {
       })
   }, [log, deleted])
 
-  const createLogHandler = () => {
-    fetch("http://localhost:8080/api/createLogs", {
+  const createLogHandler = async () => {
+    await fetch("http://localhost:8080/api/createLogs", {
       method: "POST",
     })
       .then(process => process.json())
@@ -48,27 +48,28 @@ export default function LogPage() {
       .catch(error => {
         console.log(error)
       })
+    await refetchClusterLogs()
   }
 
-  const store: JSX.Element[] = []
-  for (let i = dirInfo.length; i > 0; i--) {
-    if (dirInfo[i] !== (null || undefined)) {
-      store.push(
-        <Box key={i * 123}>
-          <ClusterLog setDeleted={setDeleted} logName={dirInfo[i]} />
-        </Box>,
-      )
-    }
-  }
+  // const store: JSX.Element[] = []
+  // for (let i = dirInfo.length; i > 0; i--) {
+  //   if (dirInfo[i] !== (null || undefined)) {
+  //     store.push(
+  //       <Box key={i * 123}>
+  //         <ClusterLog setDeleted={setDeleted} logName={dirInfo[i]} />
+  //       </Box>,
+  //     )
+  //   }
+  // }
 
   const {
-    data: clusterLog,
+    data: clusterLogs,
     isLoading: clusterLogIsLoading,
     isError: clusterLogError,
     refetch: refetchClusterLogs,
   } = useGetClusterLogsQuery()
 
-  console.log("useGetClusterLogsQuery.data: ", clusterLog)
+  console.log("useGetClusterLogsQuery.data: ", clusterLogs)
 
   // delete all logs alert function
   function AlertDialog() {
@@ -184,7 +185,11 @@ export default function LogPage() {
           Delete all Logs
         </Button>
       </div>
-      {store}
+      {/* {store} */}
+      {clusterLogs?.map((clusterLog, i) => (
+        <ClusterLog clusterLog={clusterLog} setDeleted={setDeleted} />
+      ))}
+
       <div
         className="alert-dialog"
         style={{

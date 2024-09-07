@@ -10,12 +10,14 @@ import Fade from "@mui/material/Fade"
 import Button from "@mui/material/Button"
 
 interface Props {
-  logName: string
+  // logName: string
+  clusterLog: any
   setDeleted: Function
 }
 
 export default function Log(props: Props) {
-  const { logName, setDeleted } = props
+  // const { logName, setDeleted } = props
+  const { clusterLog, setDeleted } = props
   const [expanded, setExpanded] = React.useState(false)
 
   const [appear, setAppear] = useState(false)
@@ -25,45 +27,46 @@ export default function Log(props: Props) {
 
   const handleExpansion = () => {
     setExpanded(prevExpanded => !prevExpanded)
-    interface dataObj {
-      name: string
-      namespace: string
-      logs: string
-    }
-    if (appear) {
-      setAppear(false)
-    } else {
-      fetch("http://localhost:8080/api/getLogs/" + props.logName, {
-        method: "GET",
-      })
-        .then(response => response.json())
-        .then(data => {
-          console.log(data)
-          setName(
-            data.map((element: dataObj, i: number) => {
-              return <span key={i + 303030303}>{element.name}</span>
-            }),
-          )
-          setNamespace(
-            data.map((element: dataObj, i: number) => {
-              return <span key={i + 101010101}>{element.namespace}</span>
-            }),
-          )
-          setLog(
-            data.map((element: dataObj, i: number) => {
-              return <span key={i + 202020202}>{element.logs}</span>
-            }),
-          )
-          setAppear(true)
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    }
+    // interface dataObj {
+    //   name: string
+    //   namespace: string
+    //   logs: string
+    // }
+    // if (appear) {
+    //   setAppear(false)
+    // } else {
+    //   fetch("http://localhost:8080/api/getLogs/" + props.logName, {
+    //     method: "GET",
+    //   })
+    //     .then(response => response.json())
+    //     .then(data => {
+    //       console.log(data)
+    //       setName(
+    //         data.map((element: dataObj, i: number) => {
+    //           return <span key={i + 303030303}>{element.name}</span>
+    //         }),
+    //       )
+    //       setNamespace(
+    //         data.map((element: dataObj, i: number) => {
+    //           return <span key={i + 101010101}>{element.namespace}</span>
+    //         }),
+    //       )
+    //       setLog(
+    //         data.map((element: dataObj, i: number) => {
+    //           return <span key={i + 202020202}>{element.logs}</span>
+    //         }),
+    //       )
+    //       setAppear(true)
+    //     })
+    //     .catch(error => {
+    //       console.log(error)
+    //     })
+    // }
   }
 
   const downloadLogHandler = (): void => {
-    fetch("http://localhost:8080/api/getDownloadLogs/" + props.logName, {
+    // fetch("http://localhost:8080/api/getDownloadLogs/" + props.logName, {
+    fetch("http://localhost:8080/api/getDownloadLogs/" + clusterLog.name, {
       method: "GET",
     })
       .then(response => response.blob()) //stores the file in a blob (binary large object)
@@ -74,7 +77,9 @@ export default function Log(props: Props) {
         )
         const link = document.createElement("a") //creates an anchor for the download
         link.href = url //sets the blob's url to the anchor
-        link.setAttribute("download", props.logName) //sets download attribute and file name (file type matters)
+        // link.setAttribute("download", props.logName) //sets download attribute and file name (file type matters)
+        link.setAttribute("download", clusterLog.name) //sets download attribute and file name (file type matters)
+
         document.body.appendChild(link) //appends document to DOM
         link.click() //"clicks" the button
         if (link.parentNode) {
@@ -85,7 +90,8 @@ export default function Log(props: Props) {
   }
 
   const deleteLogHandler = (): void => {
-    fetch("http://localhost:8080/api/deleteLogs/" + props.logName, {
+    // fetch("http://localhost:8080/api/deleteLogs/" + props.logName, {
+    fetch("http://localhost:8080/api/deleteLogs/" + clusterLog.name, {
       method: "DELETE",
     })
       .then(response => response.json())
@@ -101,7 +107,8 @@ export default function Log(props: Props) {
 
   const dateManager = (): string | undefined => {
     const regex = /(\d{4})-(\d{1,2})-(\d{1,2})-(\d{1,2})-(\d{1,2})-(\d{1,2})/
-    const dateInfo = props.logName.match(regex)
+    // const dateInfo = props.logName.match(regex)
+    const dateInfo = clusterLog.name.match(regex)
     if (dateInfo) {
       const [_, year, month, day] = dateInfo
       const date = new Date(`${year}-${month}-${day}`)
@@ -142,11 +149,40 @@ export default function Log(props: Props) {
           aria-controls="panel1-content"
           id="panel1-header"
         >
-          <Typography>{logName} </Typography>
+          {/* <Typography>{logName} </Typography> */}
+          <Typography>
+            <strong>Log Instance:</strong>
+            &nbsp; {clusterLog.name}{" "}
+          </Typography>
         </AccordionSummary>
 
         <AccordionDetails>
-          <Typography>{log}</Typography>
+          {/* <Typography>{log}</Typography> */}
+          <Typography>
+            {clusterLog.log.map((log, i) => (
+              <>
+                <p>
+                  <span>
+                    <strong>Date:&nbsp;</strong>
+                    {log.date}
+                  </span>
+                </p>
+                <p>
+                  <span>
+                    <strong>Podname:&nbsp;</strong>
+                    {log.name}
+                  </span>
+                </p>
+                <p>
+                  <span>
+                    <strong>Log:&nbsp;</strong>
+                    {log.logs}
+                  </span>
+                </p>
+                <br />
+              </>
+            ))}
+          </Typography>
           <Button
             style={{ margin: "16px" }}
             variant="contained"

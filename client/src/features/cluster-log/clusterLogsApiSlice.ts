@@ -1,14 +1,14 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 import { createSlice } from "@reduxjs/toolkit"
 
-type Log = string
+export type ClusterLog = string
 
 // Define an API service for the log page
 export const clusterLogsApi = createApi({
   reducerPath: "clusterLogsApi",
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8080/" }),
   endpoints: builder => ({
-    getClusterLogs: builder.query<Log[], void>({
+    getClusterLogs: builder.query<ClusterLog[], void>({
       query: () => "api/getLogs",
     }),
   }),

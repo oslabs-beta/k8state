@@ -27,13 +27,13 @@ export default function Log(props) {
                 .then(data => {
                 console.log(data);
                 setName(data.map((element, i) => {
-                    return _jsx("div", { children: element.name }, i + 303030303);
+                    return _jsx("span", { children: element.name }, i + 303030303);
                 }));
                 setNamespace(data.map((element, i) => {
-                    return _jsx("div", { children: element.namespace }, i + 101010101);
+                    return _jsx("span", { children: element.namespace }, i + 101010101);
                 }));
                 setLog(data.map((element, i) => {
-                    return _jsx("div", { children: element.logs }, i + 202020202);
+                    return _jsx("span", { children: element.logs }, i + 202020202);
                 }));
                 setAppear(true);
             })
@@ -75,6 +75,15 @@ export default function Log(props) {
             .catch(error => {
             console.log(error);
         });
+    };
+    const dateManager = () => {
+        const regex = /(\d{4})-(\d{1,2})-(\d{1,2})-(\d{1,2})-(\d{1,2})-(\d{1,2})/;
+        const dateInfo = props.logName.match(regex);
+        if (dateInfo) {
+            const [_, year, month, day] = dateInfo;
+            const date = new Date(`${year}-${month}-${day}`);
+            return date.toLocaleDateString();
+        }
     };
     return (_jsx("div", { children: _jsxs(Accordion, { expanded: expanded, onChange: handleExpansion, 
             // slots={{ transition: Fade as AccordionSlots['transition'] }}

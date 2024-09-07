@@ -3,14 +3,14 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit"
 import { setupListeners } from "@reduxjs/toolkit/query/react"
 
 import { clusterApi } from "../features/cluster-view/clusterViewApiSlice"
-import { clusterLogsApi } from "../features/cluster-log/clusterLogApiSlice"
+import { clusterLogsApi } from "../features/cluster-log/clusterLogsApiSlice"
 import { prometheusApi } from "../features/prometheus-view/prometheusViewApiSlice"
 
 import portalSliceReducer from "../features/captive-portal/captivePortalSlice"
 
 import clusterViewReducer from "../features/cluster-view/clusterViewApiSlice"
 import prometheusViewReducer from "../features/prometheus-view/prometheusViewApiSlice"
-import clusterLogsReducer from "../features/cluster-log/clusterLogApiSlice"
+import clusterLogsReducer from "../features/cluster-log/clusterLogsApiSlice"
 
 // Combine the slices and RTK Query APIs into the root reducer
 const rootReducer = combineReducers({

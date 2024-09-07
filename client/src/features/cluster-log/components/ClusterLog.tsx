@@ -41,17 +41,17 @@ export default function Log(props: Props) {
           console.log(data)
           setName(
             data.map((element: dataObj, i: number) => {
-              return <div key={i + 303030303}>{element.name}</div>
+              return <span key={i + 303030303}>{element.name}</span>
             }),
           )
           setNamespace(
             data.map((element: dataObj, i: number) => {
-              return <div key={i + 101010101}>{element.namespace}</div>
+              return <span key={i + 101010101}>{element.namespace}</span>
             }),
           )
           setLog(
             data.map((element: dataObj, i: number) => {
-              return <div key={i + 202020202}>{element.logs}</div>
+              return <span key={i + 202020202}>{element.logs}</span>
             }),
           )
           setAppear(true)
@@ -99,6 +99,16 @@ export default function Log(props: Props) {
       })
   }
 
+  const dateManager = (): string | undefined => {
+    const regex = /(\d{4})-(\d{1,2})-(\d{1,2})-(\d{1,2})-(\d{1,2})-(\d{1,2})/
+    const dateInfo = props.logName.match(regex)
+    if (dateInfo) {
+      const [_, year, month, day] = dateInfo
+      const date = new Date(`${year}-${month}-${day}`)
+      return date.toLocaleDateString()
+    }
+  }
+
   return (
     <div>
       <Accordion
@@ -136,7 +146,6 @@ export default function Log(props: Props) {
 
         <AccordionDetails>
           <Typography>{log}</Typography>
-          {/* <Button style={{ marginBottom: '16px' }} variant="contained" color="primary" type="button" onClick={readLogHandler}>Read</Button> */}
           <Button
             style={{ marginBottom: "16px" }}
             variant="contained"
@@ -157,22 +166,6 @@ export default function Log(props: Props) {
           </Button>
         </AccordionDetails>
       </Accordion>
-
-      {/* {/* <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel2-content"
-          id="panel2-header"
-        >
-          <Typography>Default transition using Collapse</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget.
-          </Typography> 
-        </AccordionDetails>
-      </Accordion> */}
     </div>
   )
 }

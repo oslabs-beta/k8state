@@ -1,12 +1,17 @@
 import { Request, Response, NextFunction } from 'express';
 import prometheusService  from '../services/prometheusService.js';
 
+interface CPUMetric {
+    metric: { pod: string }
+    value: [string, string]
+}
+
 const prometheusController = {
 
     // Middleware function to get all CPU usage metrics for pods
     fetchCpuUsage: async (_req: Request, res: Response, next: NextFunction) => {
         try {
-            const metrics = await prometheusService.getCpuUsageForPods();
+            const metrics: CPUMetric[] = await prometheusService.getCpuUsageForPods();
             res.locals.cpuData = metrics;
             next();
         }

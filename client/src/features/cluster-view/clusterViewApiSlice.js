@@ -14,16 +14,10 @@ export const clusterApi = createApi({
         getKubernetesServices: builder.query({
             query: () => "api/services",
         }),
-        getPrometheusCpuUsage: builder.query({
-            query: () => 'prometheus/metrics/cpu'
-        }),
-        getPrometheusMemoryUsage: builder.query({
-            query: () => 'prometheus/metrics/memory'
-        }),
     }),
 });
 // Auto-generated hooks for the API queries
-export const { useGetKubernetesNodesQuery, useGetKubernetesPodsQuery, useGetKubernetesServicesQuery, useGetPrometheusCpuUsageQuery, useGetPrometheusMemoryUsageQuery, } = clusterApi;
+export const { useGetKubernetesNodesQuery, useGetKubernetesPodsQuery, useGetKubernetesServicesQuery, } = clusterApi;
 const initialState = {
     pods: ["pod_1"],
 };

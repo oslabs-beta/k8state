@@ -21,7 +21,7 @@ const Settings = () => {
   )
 
   const handleEditClick = () => {
-    setEnvOption(true)
+    setEnvOption(envOption === false ? true : false)
   }
   const handleEnvSubmit = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault()
@@ -31,26 +31,18 @@ const Settings = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        key: envKey,
         address: envAddress,
+        key: envKey,
       }),
     })
       .then(response => response.json())
       .then(data => {
-        if (data.message === "cannot connect to cluster") {
-          setEnvToolTipMessage(
-            "Cannot connect to cluster, please try again with different credentials",
-          )
-          setEnvToolTip(true)
-          setTimeout(() => setEnvToolTip(false), 5000)
-        } else if (data.message === "invalid_key") {
-          setEnvToolTipMessage(
-            "Invalid Key, please try again with different credentials",
-          )
+        if (data.message === "ok") {
+          setEnvToolTipMessage("Success!")
           setEnvToolTip(true)
           setTimeout(() => setEnvToolTip(false), 5000)
         } else {
-          setEnvToolTipMessage("Success!")
+          setEnvToolTipMessage("Invalid Address or Key")
           setEnvToolTip(true)
           setTimeout(() => setEnvToolTip(false), 5000)
         }
@@ -78,12 +70,12 @@ const Settings = () => {
       >
         <section>
           <h2 style={{ textDecoration: "underline" }}>
-            .ENV settings for API access
+            Settings for API access
           </h2>
           <form className="env-settings" id="env-settings-form">
             <br />
             <label style={{ fontWeight: "bold" }}>
-              Create new .ENV settings for API access
+              Set new Address and Key
             </label>
             <br />
             <button

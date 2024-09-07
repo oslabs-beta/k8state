@@ -15,7 +15,7 @@ const Settings = () => {
     const [envToolTip, setEnvToolTip] = useState(null);
     const [envToolTipMessage, setEnvToolTipMessage] = useState(null);
     const handleEditClick = () => {
-        setEnvOption(true);
+        setEnvOption(envOption === false ? true : false);
     };
     const handleEnvSubmit = (event) => {
         event.preventDefault();
@@ -25,24 +25,19 @@ const Settings = () => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                key: envKey,
                 address: envAddress,
+                key: envKey,
             }),
         })
             .then(response => response.json())
             .then(data => {
-            if (data.message === "cannot connect to cluster") {
-                setEnvToolTipMessage("Cannot connect to cluster, please try again with different credentials");
-                setEnvToolTip(true);
-                setTimeout(() => setEnvToolTip(false), 5000);
-            }
-            else if (data.message === "invalid_key") {
-                setEnvToolTipMessage("Invalid Key, please try again with different credentials");
+            if (data.message === "ok") {
+                setEnvToolTipMessage("Success!");
                 setEnvToolTip(true);
                 setTimeout(() => setEnvToolTip(false), 5000);
             }
             else {
-                setEnvToolTipMessage("Success!");
+                setEnvToolTipMessage("Invalid Address or Key");
                 setEnvToolTip(true);
                 setTimeout(() => setEnvToolTip(false), 5000);
             }
@@ -56,6 +51,6 @@ const Settings = () => {
             textAlign: "center",
             backgroundColor: "#ac96cf",
             paddingBottom: "20px",
-        }, children: _jsx("div", { className: "container", id: "env-settings-container", style: { margin: "15px", padding: "5px" }, children: _jsxs("section", { children: [_jsx("h2", { style: { textDecoration: "underline" }, children: ".ENV settings for API access" }), _jsxs("form", { className: "env-settings", id: "env-settings-form", children: [_jsx("br", {}), _jsx("label", { style: { fontWeight: "bold" }, children: "Create new .ENV settings for API access" }), _jsx("br", {}), _jsx("button", { type: "button", style: { borderRadius: "10px", marginTop: "10px" }, onClick: handleEditClick, children: "Edit" }), _jsx("br", {}), _jsxs("div", { className: "container", id: "env-settings-input", style: { marginTop: "20px" }, children: [envOption && (_jsx("input", { type: "text", placeholder: "Cluster Address", onChange: (e) => setEnvAddress(e.target.value) })), _jsx("br", {}), envOption && (_jsx("input", { type: "text", placeholder: "Cluster Key", onChange: (e) => setEnvKey(e.target.value) })), _jsx("br", {}), envOption && (_jsx("button", { type: "submit", onClick: e => handleEnvSubmit(e), children: "Submit" })), _jsx("br", {}), envToolTip && (_jsx("div", { className: "settings-tooltip", id: "settings-env-tooltip", style: { marginTop: "10px" }, children: envToolTipMessage }))] })] })] }) }) }));
+        }, children: _jsx("div", { className: "container", id: "env-settings-container", style: { margin: "15px", padding: "5px" }, children: _jsxs("section", { children: [_jsx("h2", { style: { textDecoration: "underline" }, children: "Settings for API access" }), _jsxs("form", { className: "env-settings", id: "env-settings-form", children: [_jsx("br", {}), _jsx("label", { style: { fontWeight: "bold" }, children: "Set new Address and Key" }), _jsx("br", {}), _jsx("button", { type: "button", style: { borderRadius: "10px", marginTop: "10px" }, onClick: handleEditClick, children: "Edit" }), _jsx("br", {}), _jsxs("div", { className: "container", id: "env-settings-input", style: { marginTop: "20px" }, children: [envOption && (_jsx("input", { type: "text", placeholder: "Cluster Address", onChange: (e) => setEnvAddress(e.target.value) })), _jsx("br", {}), envOption && (_jsx("input", { type: "text", placeholder: "Cluster Key", onChange: (e) => setEnvKey(e.target.value) })), _jsx("br", {}), envOption && (_jsx("button", { type: "submit", onClick: e => handleEnvSubmit(e), children: "Submit" })), _jsx("br", {}), envToolTip && (_jsx("div", { className: "settings-tooltip", id: "settings-env-tooltip", style: { marginTop: "10px" }, children: envToolTipMessage }))] })] })] }) }) }));
 };
 export default Settings;

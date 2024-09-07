@@ -44,7 +44,6 @@ const generalController = {
         generalService.checkLogs();
         const result = generalService.getDirLogs();
         res.locals.dirLogs = result;
-        //console.log(result);
         next();
     },
     getDownloadSpecificLog: (req, res, next) => {
@@ -61,7 +60,6 @@ const generalController = {
     getReadSpecificLog: (req, res, next) => {
         const logDir = path.resolve(path.resolve('./logs/') + '/' + req.params.log);
         const info = fs.readFileSync(logDir, 'utf-8');
-        //console.log(info);
         res.locals.specificLog = info;
         next();
     },

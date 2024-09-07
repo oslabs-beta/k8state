@@ -119,7 +119,6 @@ const kubernetesService = {
                     });
                 }
             }
-            //console.log(logs);
             return logs;
         }
         catch (error) {

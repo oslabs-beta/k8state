@@ -15,7 +15,7 @@ const Settings = () => {
     const [envToolTip, setEnvToolTip] = useState(null);
     const [envToolTipMessage, setEnvToolTipMessage] = useState(null);
     const handleEditClick = () => {
-        setEnvOption(true);
+        setEnvOption(envOption === false ? true : false);
     };
     const handleEnvSubmit = (event) => {
         event.preventDefault();
@@ -52,6 +52,5 @@ const Settings = () => {
             backgroundColor: "#ac96cf",
             paddingBottom: "20px",
         }, children: _jsx("div", { className: "container", id: "env-settings-container", style: { margin: "15px", padding: "5px" }, children: _jsxs("section", { children: [_jsx("h2", { style: { textDecoration: "underline" }, children: ".ENV settings for API access" }), _jsxs("form", { className: "env-settings", id: "env-settings-form", children: [_jsx("br", {}), _jsx("label", { style: { fontWeight: "bold" }, children: "Set new .ENV Address and Key" }), _jsx("br", {}), _jsx("button", { type: "button", style: { borderRadius: "10px", marginTop: "10px" }, onClick: handleEditClick, children: "Edit" }), _jsx("br", {}), _jsxs("div", { className: "container", id: "env-settings-input", style: { marginTop: "20px" }, children: [envOption && (_jsx("input", { type: "text", placeholder: "Cluster Address", onChange: (e) => setEnvAddress(e.target.value) })), _jsx("br", {}), envOption && (_jsx("input", { type: "text", placeholder: "Cluster Key", onChange: (e) => setEnvKey(e.target.value) })), _jsx("br", {}), envOption && (_jsx("button", { type: "submit", onClick: e => handleEnvSubmit(e), children: "Submit" })), _jsx("br", {}), envToolTip && (_jsx("div", { className: "settings-tooltip", id: "settings-env-tooltip", style: { marginTop: "10px" }, children: envToolTipMessage }))] })] })] }) }) }));
-     
 };
 export default Settings;

@@ -52,7 +52,6 @@ const generalService = {
             const day = time.getDate();
             const hours = time.getHours();
             const minutes = time.getMinutes();
-            //console.log(input);
             const logFile = path.resolve(path.resolve(`./logs/log-${year}-${month}-${day}-${hours}-${minutes}.json`));
             if(!fs.existsSync(logFile)){
                 fs.writeFileSync(logFile, JSON.stringify(input, null, 2));

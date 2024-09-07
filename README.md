@@ -12,19 +12,14 @@ K8State is a comprehensive Kubernetes dashboard application designed to provide 
 
 ## Prerequisites
 
-•	Node.js (version 14 or higher)
-•	npm or Yarn
+•	Node.js (v14.x or higher)
 •	Kubernetes Cluster URL / Bearer Token
+•	Prometheus and Grafana (Installed on the Kubernetes Cluster)
+•	Helm (for deploying Grafana on the cluster)
+•	npm or Yarn
 
-## Optional
-
-•	Prometheus instance running in your Kubernetes cluster
-•	Grafana instance for visualizations
-
-## Scripts
-
-- `dev` - start dev server on port 3000
-- `server` - start backend server on port 8080
+More information about how to generate a bearer token:
+https://kubernetes.io/docs/reference/kubectl/generated/kubectl_create/kubectl_create_token/
 
 ## Installation
 
@@ -47,14 +42,32 @@ Using yarn:
 yarn install
 ```
 
-## Necessary Information
+## Grafana / Prometheus
 
-This application requires the following information to function properly.
-• The server address either an IP or a domain name
-• A bearer token generated from the kubernetes cluster.
+In order to import your Grafana dashboard, Grafana must be installed in the 
+cluster. If you already have a Grafana dashboard, ensure the 'allow_embedding'
+property is enabled and restart Grafana.
 
-More information about how to generate a bearer token:
-https://kubernetes.io/docs/reference/kubectl/generated/kubectl_create/kubectl_create_token/
+Check this documentation to set up grafana:
+https://grafana.com/docs/grafana/latest/setup-grafana/installation/kubernetes/
+
+After installing Grafana, you can then create and import that dashboard to be
+used in the application. This allows you to centralize monitoring and viewing
+tools within a single application.
+
+We recommend also installing Prometheus to automatically scrape
+the cluster for necessary metrics. Both Prometheus and Grafana can be installed
+using Helm.
+
+To create your dashboard, log in to Grafana and add your Prometheus URL as a new
+data source under 'Connections'. Once saved and tested, you'll be able to 
+customize a dashboard on Grafana, allowing you to generate a link for embedding. 
+Input this link in the Grafana Dashboard prompt in the application.
+
+## Scripts
+
+- `dev` - start dev server on port 3000
+- `server` - start backend server on port 8080
 
 ## Running the Application
 
@@ -79,3 +92,11 @@ npm run build
 npm run start
 ```
 Starts the client on http://localhost:3000
+
+## Technology Stack (This application uses Typescript)
+
+	•	Frontend: React, Redux, React-Flow, Material-UI
+	•	Backend: Node.js, Express
+	•	Metrics and Monitoring: Prometheus, Grafana
+	•	Data Management: Kubernetes API
+	•	Deployment: Kubernetes, Helm

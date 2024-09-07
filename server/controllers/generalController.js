@@ -44,7 +44,6 @@ const generalController = {
         generalService.checkLogs();
         const result = generalService.getDirLogs();
         res.locals.dirLogs = result;
-        //console.log(result);
         next();
     },
     getDownloadSpecificLog: (req, res, next) => {

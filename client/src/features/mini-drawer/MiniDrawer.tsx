@@ -28,9 +28,11 @@ import SettingsIcon from "@mui/icons-material/Settings"
 import GitHubIcon from "@mui/icons-material/GitHub"
 import { useState } from "react"
 import ClusterViewContainer from "../cluster-view/containers/ClusterViewContainer"
+import PrometheusViewContainer from "../prometheus-view/containers/PrometheusViewContainer"
 import LogPage from "../log-page/LogPage"
 import Settings from "../settings/settings"
 import LandingPage from "../landing-page/LandingPage"
+import GrafanaViewContainer from "../grafana-dashboard/GrafanaViewContainer"
 
 // ****************************
 // **   Create Interface's   **
@@ -40,9 +42,9 @@ interface AppBarProps extends MuiAppBarProps {
   open?: boolean
 }
 
-// ****************************
+// *****************************
 // **   Material UI Styling   **
-// ****************************
+// *****************************
 
 const drawerWidth = 240
 
@@ -182,7 +184,7 @@ export default function MiniDrawer() {
         </DrawerHeader>
         <Divider />
         <List>
-          {["ClusterUI", "Logs"].map((text, index) => (
+          {["ClusterUI", "Logs", "Grafana Dashboard", "Prometheus Charts"].map((text, index) => (
             <ListItem
               onClick={() => handleMenuSelect(text)}
               key={text}
@@ -261,6 +263,8 @@ export default function MiniDrawer() {
       <main>
         {selectedPage === "ClusterUI" && <ClusterViewContainer />}
         {selectedPage === "Logs" && <LogPage />}
+        {selectedPage === "Grafana Dashboard" && <GrafanaViewContainer />}
+        {selectedPage === "Prometheus Charts" && <PrometheusViewContainer />}
         {selectedPage === "Settings" && <Settings />}
         {selectedPage === "Github" && <LandingPage />}
       </main>

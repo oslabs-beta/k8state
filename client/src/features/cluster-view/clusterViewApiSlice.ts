@@ -48,20 +48,6 @@ interface Conditions {
   type: string
 }
 
-export interface PrometheusCpuUsage {
-  lastHeartbeatTime: Date
-  lastTransitionTime: Date
-  message: string
-  reason: string
-  status: string
-  type: string
-}
-
-export interface PrometheusMemoryUsage {
-  metric: { pod?: string}
-  value: number[] | string[]
-}
-
 // Define an API service for the cluster view
 export const clusterApi = createApi({
   reducerPath: "clusterApi",
@@ -76,12 +62,6 @@ export const clusterApi = createApi({
     getKubernetesServices: builder.query<KubernetesServices[], void>({
       query: () => "api/services",
     }),
-    getPrometheusCpuUsage: builder.query<PrometheusCpuUsage[], void>({
-      query: () => 'prometheus/metrics/cpu'
-    }),
-    getPrometheusMemoryUsage: builder.query<PrometheusMemoryUsage[], void>({
-      query: () => 'prometheus/metrics/memory'
-    }),
   }),
 })
 
@@ -90,9 +70,7 @@ export const {
   useGetKubernetesNodesQuery,
   useGetKubernetesPodsQuery,
   useGetKubernetesServicesQuery,
-  useGetPrometheusCpuUsageQuery,
-  useGetPrometheusMemoryUsageQuery,
-} = clusterApi
+} = clusterApi;
 
 export interface ClusterViewState {
   pods: string[]

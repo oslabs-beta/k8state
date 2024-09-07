@@ -5,7 +5,12 @@ import Row from "./Row"
 
 import Log from "./Log"
 
-export default function LogPage() {
+interface Props {
+  logName: string
+  setDeleted: Function
+}
+
+export default function LogPage(props: Props) {
   const [dirInfo, setdirInfo] = useState([])
   const [log, setLog] = useState([])
   const [deleted, setDeleted] = useState("")
@@ -34,6 +39,23 @@ export default function LogPage() {
       .catch(error => {
         console.log(error)
       })
+  }
+
+  const deleteLogHandler = (): void => {
+    dirInfo.forEach(log => {
+      fetch("http://localhost:8080/api/deleteLogs/" + log, {
+        method: "DELETE",
+      })
+        .then(response => response.json())
+        .then(data => {
+          props.setDeleted(data)
+          console.log(data)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    })
+    setdirInfo([])
   }
 
   const store: JSX.Element[] = []
@@ -74,21 +96,55 @@ export default function LogPage() {
       >
         Logs
       </h1>
-      <Button
-        style={{
-          display: "flex",
-          left: "290px",
-          marginLeft: "32px",
-          marginBottom: "16px",
-        }}
-        variant="contained"
-        color="primary"
-        type="button"
-        onClick={createLogHandler}
-      >
-        Create a Log
-      </Button>
+      <div className="log-button-container">
+        <Button
+          style={{
+            display: "inline",
+            left: "180px",
+            marginLeft: "32px",
+            marginBottom: "16px",
+          }}
+          variant="contained"
+          color="primary"
+          type="button"
+          onClick={createLogHandler}
+        >
+          Create a Log
+        </Button>
+        <Button
+          id="delete-all-logs-button"
+          style={{
+            display: "inline",
+            left: "240px",
+            marginLeft: "32px",
+            marginBottom: "16px",
+          }}
+          variant="contained"
+          color="error"
+          type="button"
+          onClick={deleteLogHandler}
+        >
+          Delete all Logs
+        </Button>
+      </div>
       {store}
+      {/* <div id="delete-all-logs-container">
+        <Button
+          id="delete-all-logs-button"
+          style={{
+            marginTop: "16px",
+            left: "275px",
+            marginLeft: "32px",
+            marginBottom: "16px",
+          }}
+          variant="contained"
+          color="primary"
+          type="button"
+          onClick={deleteLogHandler}
+        >
+          Delete all Logs
+        </Button>
+      </div> */}
       {/* <Grid container direction="column" spacing={4} style={{ marginLeft: '1px', marginRight: '32px'}}> */}
       {/* </Grid> */}
       {/* </Box> */}

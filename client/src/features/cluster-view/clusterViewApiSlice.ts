@@ -70,7 +70,7 @@ export const {
   useGetKubernetesNodesQuery,
   useGetKubernetesPodsQuery,
   useGetKubernetesServicesQuery,
-} = clusterApi;
+} = clusterApi
 
 export interface ClusterViewState {
   pods: string[]

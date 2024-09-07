@@ -3,21 +3,24 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit"
 import { setupListeners } from "@reduxjs/toolkit/query/react"
 
 import { clusterApi } from "../features/cluster-view/clusterViewApiSlice"
+import { clusterLogsApi } from "../features/cluster-log/clusterLogApiSlice"
 import { prometheusApi } from "../features/prometheus-view/prometheusViewApiSlice"
 
 import portalSliceReducer from "../features/captive-portal/captivePortalSlice"
 
 import clusterViewReducer from "../features/cluster-view/clusterViewApiSlice"
 import prometheusViewReducer from "../features/prometheus-view/prometheusViewApiSlice"
-
+import clusterLogsReducer from "../features/cluster-log/clusterLogApiSlice"
 
 // Combine the slices and RTK Query APIs into the root reducer
 const rootReducer = combineReducers({
   [clusterApi.reducerPath]: clusterApi.reducer, // Adding the RTK Query reducer
   [prometheusApi.reducerPath]: prometheusApi.reducer, // Adding the RTK Query reducer
+  [clusterLogsApi.reducerPath]: clusterLogsApi.reducer, // Adding the RTK Query reducer
   clusterView: clusterViewReducer, // Adding the clusterView slice reducer
   portalSlice: portalSliceReducer, // Adding the portal slice reducer
   prometheusView: prometheusViewReducer, // Adding the grafanaView slice reducer
+  clusterLogs: clusterLogsReducer, // Adding the clusterLogs slice reducer
 })
 
 // Infer the `RootState` type from the root reducer
@@ -29,7 +32,11 @@ export const makeStore = (preloadedState?: Partial<RootState>) => {
   const store = configureStore({
     reducer: rootReducer,
     middleware: getDefaultMiddleware =>
-      getDefaultMiddleware().concat(clusterApi.middleware, prometheusApi.middleware), // Adding RTK Query middleware
+      getDefaultMiddleware().concat(
+        clusterApi.middleware,
+        prometheusApi.middleware,
+        clusterLogsApi.middleware,
+      ), // Adding RTK Query middleware
 
     preloadedState,
   })

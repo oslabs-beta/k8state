@@ -1,9 +1,11 @@
 import type React from "react"
 import { useState, useEffect } from "react"
 import { TextField, Button, Box, Grid, Paper } from "@mui/material"
-import Row from "./Row"
+// import Row from "../Row"
 
-import Log from "./Log"
+import { useGetClusterLogsQuery } from "../clusterLogApiSlice"
+
+import ClusterLog from "../components/ClusterLog"
 
 export default function LogPage() {
   const [dirInfo, setdirInfo] = useState([])
@@ -54,13 +56,16 @@ export default function LogPage() {
         // <Grid item xs={12} sm={6} md={4} key={i + 3013031}>
         // <Box sx={{ border: 1, borderColor: "black"}}>
         <Box key={i * 123}>
-          <Log setDeleted={setDeleted} logName={dirInfo[i]} />
+          <ClusterLog setDeleted={setDeleted} logName={dirInfo[i]} />
         </Box>,
         // </Grid>
       )
     }
   }
-  console.log(store)
+
+  const { data, isLoading, isError, refetch } = useGetClusterLogsQuery()
+
+  console.log("useGetClusterLogsQuery.data: ", data)
   return (
     <div style={{ position: "absolute", left: "250px", top: "100px" }}>
       {/* <Box sx={{marginLeft: '8px', marginTop: '96px', overflowY: 'scroll', border: 1, borderColor: "black", maxWidth: '1450px',}}> */}

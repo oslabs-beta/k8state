@@ -1,7 +1,9 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useState, useEffect } from "react";
 import { Button, Box } from "@mui/material";
-import Log from "./Log";
+// import Row from "../Row"
+import { useGetClusterLogsQuery } from "../clusterLogApiSlice";
+import ClusterLog from "../components/ClusterLog";
 export default function LogPage() {
     const [dirInfo, setdirInfo] = useState([]);
     const [log, setLog] = useState([]);
@@ -45,10 +47,11 @@ export default function LogPage() {
             store.push(
             // <Grid item xs={12} sm={6} md={4} key={i + 3013031}>
             // <Box sx={{ border: 1, borderColor: "black"}}>
-            _jsx(Box, { children: _jsx(Log, { setDeleted: setDeleted, logName: dirInfo[i] }) }, i * 123));
+            _jsx(Box, { children: _jsx(ClusterLog, { setDeleted: setDeleted, logName: dirInfo[i] }) }, i * 123));
         }
     }
-    console.log(store);
+    const { data, isLoading, isError, refetch } = useGetClusterLogsQuery();
+    console.log("useGetClusterLogsQuery.data: ", data);
     return (_jsxs("div", { style: { position: "absolute", left: "250px", top: "100px" }, children: [_jsx("h1", { style: {
                     textAlign: "center",
                     marginLeft: "32px",

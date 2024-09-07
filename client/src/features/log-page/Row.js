@@ -1,9 +1,12 @@
-import { jsxs as _jsxs, jsx as _jsx } from "react/jsx-runtime";
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useState } from "react";
-import { Button } from "@mui/material";
+import { Grid, Button } from "@mui/material";
+import './Row.css'; // Import the CSS file
 export default function Row(props) {
     const [appear, setAppear] = useState(false);
-    const [log, setLog] = useState('');
+    const [log, setLog] = useState([]);
+    const [name, setName] = useState([]);
+    const [namespace, setNamespace] = useState([]);
     const downloadLogHandler = () => {
         fetch('http://localhost:8080/api/getDownloadLogs/' + props.logName, {
             method: 'GET',
@@ -24,21 +27,31 @@ export default function Row(props) {
         });
     };
     const readLogHandler = () => {
-        fetch('http://localhost:8080/api/getLogs/' + props.logName, {
-            method: 'GET',
-        })
-            .then(response => response.json())
-            .then(data => {
-            //console.log(data);
-            // for(const element of data){
-            //     element.log()
-            // }
-            setLog(data);
-            setAppear(true);
-        })
-            .catch(error => {
-            console.log(error);
-        });
+        if (appear) {
+            setAppear(false);
+        }
+        else {
+            fetch('http://localhost:8080/api/getLogs/' + props.logName, {
+                method: 'GET',
+            })
+                .then(response => response.json())
+                .then(data => {
+                console.log(data);
+                setName(data.map((element, i) => {
+                    return _jsx(Grid, { item: true, xs: 12, sm: 6, md: 4, children: element.name }, i + 303030303);
+                }));
+                setNamespace(data.map((element, i) => {
+                    return _jsx(Grid, { item: true, xs: 12, sm: 6, md: 4, children: element.namespace }, i + 101010101);
+                }));
+                setLog(data.map((element, i) => {
+                    return _jsx(Grid, { item: true, xs: 12, sm: 6, md: 4, children: element.logs }, i + 202020202);
+                }));
+                setAppear(true);
+            })
+                .catch(error => {
+                console.log(error);
+            });
+        }
     };
     const deleteLogHandler = () => {
         fetch('http://localhost:8080/api/deleteLogs/' + props.logName, {
@@ -53,5 +66,14 @@ export default function Row(props) {
             console.log(error);
         });
     };
-    return (_jsxs("div", { className: 'rows', children: [_jsxs("div", { className: 'logName', children: ["Log Name: ", props.logName] }), _jsx(Button, { variant: "contained", color: "primary", type: "button", onClick: readLogHandler, children: "read" }), _jsx(Button, { variant: "contained", color: "primary", type: "button", onClick: downloadLogHandler, children: "Download" }), _jsx(Button, { variant: "contained", color: "primary", type: "button", onClick: deleteLogHandler, children: "Delete" }), appear === true && (_jsxs("div", { className: "popup", children: [log, _jsx(Button, { variant: "contained", color: "primary", type: "button", onClick: () => setAppear(false), children: "X" })] })), _jsx("hr", {})] }));
+    const dateManager = () => {
+        const regex = /(\d{4})-(\d{1,2})-(\d{1,2})-(\d{1,2})-(\d{1,2})-(\d{1,2})/;
+        const dateInfo = props.logName.match(regex);
+        if (dateInfo) {
+            const [_, year, month, day] = dateInfo;
+            const date = new Date(`${year}-${month}-${day}`);
+            return date.toLocaleDateString();
+        }
+    };
+    return (_jsxs("div", { className: 'rows', children: [_jsxs("h3", { children: ["Log Name: ", props.logName] }), _jsxs("h4", { children: ["Created on: ", dateManager(), " "] }), _jsx(Button, { style: { marginBottom: '16px' }, variant: "contained", color: "primary", type: "button", onClick: readLogHandler, children: "Read" }), _jsx(Button, { style: { marginBottom: '16px' }, variant: "contained", color: "primary", type: "button", onClick: downloadLogHandler, children: "Download" }), _jsx(Button, { style: { marginBottom: '16px' }, variant: "contained", color: "primary", type: "button", onClick: deleteLogHandler, children: "Delete" }), appear === true && (_jsx("div", { className: "popup", children: _jsxs(Grid, { container: true, direction: "row", sx: {}, children: [_jsxs(Grid, { item: true, style: { marginRight: '16px ' }, children: [_jsx("h4", { children: "Node Name" }), _jsx(Grid, { container: true, direction: "column", spacing: 4, children: name })] }), _jsxs(Grid, { item: true, style: { marginRight: '32px ' }, children: [_jsx("h4", { children: "Namespace" }), _jsx(Grid, { container: true, direction: "column", spacing: 4, children: namespace })] }), _jsxs(Grid, { item: true, children: [_jsx("h4", { children: "Log" }), _jsx(Grid, { container: true, direction: "column", spacing: 4, sx: { whiteSpace: 'nowrap', overflow: 'auto', textOverflow: 'ellipsis', maxWidth: '1000px' }, children: log })] })] }) }))] }));
 }

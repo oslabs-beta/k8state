@@ -92,7 +92,9 @@ const kubernetesService = {
                     authorization: 'Bearer ' + key
                 }
             });
+            //console.log(test);
             if (test.status !== 200) {
+                //console.log(test.status);
                 return 'invalidkey';
             }
             else {
@@ -100,6 +102,7 @@ const kubernetesService = {
             }
         }
         catch (error) {
+            //console.log(error);
             if (error instanceof Error) {
                 return error;
             }
@@ -108,6 +111,13 @@ const kubernetesService = {
     getLogs: async (input) => {
         const k8sApi = kubernetesService.createClient();
         try {
+            const date = new Date();
+            const formatter = new Intl.DateTimeFormat('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+            });
+            const formattedDate = formatter.format(date);
             const logs = [];
             for (let i = 0; i < input.length; i++) {
                 if (input[i].namespace !== 'kube-system' && input[i].namespace !== 'monitoring') {
@@ -115,7 +125,8 @@ const kubernetesService = {
                     logs.push({
                         name: input[i].name,
                         namespace: input[i].namespace,
-                        logs: result.body
+                        logs: result.body,
+                        date: formattedDate
                     });
                 }
             }

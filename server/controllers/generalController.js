@@ -32,7 +32,7 @@ const generalController = {
         for (let element of pods) {
             podNames.push({
                 name: element.name,
-                namespace: element.namespace
+                namespace: element.namespace,
             });
         }
         const logs = await kubernetesService.getLogs(podNames);
@@ -47,7 +47,7 @@ const generalController = {
         next();
     },
     getDownloadSpecificLog: (req, res, next) => {
-        const logDir = path.resolve(path.resolve('./logs/') + '/' + req.params.log);
+        const logDir = path.resolve('../logs/') + '/' + req.params.log;
         res.download(logDir, (err) => {
             if (err) {
                 console.log(err);
@@ -58,13 +58,14 @@ const generalController = {
         });
     },
     getReadSpecificLog: (req, res, next) => {
-        const logDir = path.resolve(path.resolve('./logs/') + '/' + req.params.log);
-        const info = fs.readFileSync(logDir, 'utf-8');
+        const logDir = path.resolve('../logs/') + '/' + req.params.log;
+        const info = JSON.parse(fs.readFileSync(logDir, 'utf-8'));
+        //console.log(info);
         res.locals.specificLog = info;
         next();
     },
     deleteSpecificLog: (req, res, next) => {
-        const logDir = path.resolve(path.resolve('./logs/') + '/' + req.params.log);
+        const logDir = path.resolve('../logs/') + '/' + req.params.log;
         try {
             fs.unlinkSync(logDir);
             res.locals.deletedLog = req.params.log;

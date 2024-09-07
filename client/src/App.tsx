@@ -1,4 +1,5 @@
 import { Box } from "@mui/material"
+
 import MiniDrawer from "./features/mini-drawer/MiniDrawer"
 
 const App = () => {

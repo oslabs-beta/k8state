@@ -11,6 +11,8 @@ import CaptivePortal from "./features/captive-portal/containers/CaptivePortal"
 
 import ClusterLogContainer from "./features/cluster-log/containers/ClusterLogContainer"
 
+import Settings from "./features/settings/settings"
+
 // import material UI fonts
 import "@fontsource/roboto/300.css"
 import "@fontsource/roboto/400.css"
@@ -87,6 +89,10 @@ const router = createBrowserRouter([
   {
     path: "/logs",
     element: <ClusterLogContainer />,
+  },
+  {
+    path: "/settings",
+    element: <Settings />,
   },
 ])
 

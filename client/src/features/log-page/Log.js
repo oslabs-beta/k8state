@@ -2,7 +2,6 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import * as React from 'react';
 import { useState } from 'react';
 import Accordion from '@mui/material/Accordion';
-// import type { AccordionSlots } from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
@@ -63,38 +62,6 @@ export default function Log(props) {
             window.URL.revokeObjectURL(url); //cleans up the URL
         });
     };
-    // const readLogHandler = (): void => {
-    //     interface dataObj {
-    //         name: string;
-    //         namespace: string;
-    //         logs: string;
-    //     }
-    //     if(appear){
-    //         setAppear(false);
-    //     }
-    //     else{
-    //         fetch('http://localhost:8080/api/getLogs/' + props.logName, {
-    //             method: 'GET',
-    //         })
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             console.log(data);
-    //             setName(data.map((element: dataObj, i: number) => {
-    //                 return <div key={i + 303030303}>{element.name}</div>;
-    //             }));
-    //             setNamespace(data.map((element: dataObj, i: number) => {
-    //                 return <div key={i + 101010101}>{element.namespace}</div>;
-    //             }));
-    //             setLog(data.map((element: dataObj, i: number) => {
-    //                 return <div key={i + 202020202}>{element.logs}</div>;
-    //             }));
-    //             setAppear(true);
-    //         })
-    //         .catch(error => {
-    //             console.log(error);
-    //         });
-    //     }
-    // }
     const deleteLogHandler = () => {
         fetch('http://localhost:8080/api/deleteLogs/' + props.logName, {
             method: 'DELETE',

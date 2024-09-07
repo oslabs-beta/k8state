@@ -23,7 +23,7 @@ export default function LogPage() {
         })
             .then(process => process.json())
             .then(data => {
-            console.log(data);
+            //console.log(data);
             setLog(data);
         })
             .catch(error => {
@@ -40,7 +40,7 @@ export default function LogPage() {
     //         </Box>
     //     // </Grid>);
     // )};
-    for (let i = 0; i < dirInfo.length; i++) {
+    for (let i = dirInfo.length; i > 0; i--) {
         store.push(
         // <Grid item xs={12} sm={6} md={4} key={i + 3013031}>
         // <Box sx={{ border: 1, borderColor: "black"}}>
@@ -49,6 +49,7 @@ export default function LogPage() {
         );
     }
     ;
+    console.log(store);
     return (_jsxs("div", { children: [_jsx("h1", { style: { marginLeft: '32px', marginBottom: '16px' }, children: "Logs" }), _jsx(Button, { style: { marginLeft: '32px', marginBottom: '16px' }, variant: "contained", color: "primary", type: "button", onClick: createLogHandler, children: "Create a Log" }), store] }));
 }
 ;

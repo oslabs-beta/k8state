@@ -29,7 +29,7 @@ export default function LogPage () {
         })
         .then(process => process.json())
         .then(data => {
-            console.log(data);
+            //console.log(data);
             setLog(data);
         })
         .catch(error => {
@@ -49,7 +49,7 @@ export default function LogPage () {
     //     // </Grid>);
     // )};
 
-    for(let i = 0; i < dirInfo.length; i++){
+    for(let i = dirInfo.length; i > 0; i--){
         
         store.push(
         // <Grid item xs={12} sm={6} md={4} key={i + 3013031}>
@@ -62,7 +62,7 @@ export default function LogPage () {
             </Box>
         // </Grid>
         )};
-    
+    console.log(store);
     return(
         <div>
         {/* <Box sx={{marginLeft: '8px', marginTop: '96px', overflowY: 'scroll', border: 1, borderColor: "black", maxWidth: '1450px',}}> */}

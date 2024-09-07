@@ -9,7 +9,7 @@ import "./index.css"
 
 import CaptivePortal from "./features/captive-portal/containers/CaptivePortal"
 
-import LogPage from "./features/log-page/LogPage"
+import ClusterLogContainer from "./features/cluster-log/containers/ClusterLogContainer"
 
 // import material UI fonts
 import "@fontsource/roboto/300.css"
@@ -24,29 +24,28 @@ import {
   ThemeProvider,
   alpha,
   getContrastRatio,
-} from '@mui/material/styles';
+} from "@mui/material/styles"
 
 // Augment the palette to include a violet color
-declare module '@mui/material/styles' {
+declare module "@mui/material/styles" {
   interface Palette {
-    violet: Palette['primary'];
+    violet: Palette["primary"]
   }
 
   interface PaletteOptions {
-    violet?: PaletteOptions['primary'];
+    violet?: PaletteOptions["primary"]
   }
 }
 
 // Update the Button's color options to include a violet option
-declare module '@mui/material/Button' {
+declare module "@mui/material/Button" {
   interface ButtonPropsColorOverrides {
-    violet: true;
+    violet: true
   }
 }
 
-
-const violetBase = '#7F00FF';
-const violetMain = alpha(violetBase, 0.7);
+const violetBase = "#7F00FF"
+const violetMain = alpha(violetBase, 0.7)
 
 const theme = createTheme({
   palette: {
@@ -54,7 +53,8 @@ const theme = createTheme({
       main: violetMain,
       light: alpha(violetBase, 0.5),
       dark: alpha(violetBase, 0.9),
-      contrastText: getContrastRatio(violetMain, '#fff') > 4.5 ? '#fff' : '#111',
+      contrastText:
+        getContrastRatio(violetMain, "#fff") > 4.5 ? "#fff" : "#111",
     },
   },
   typography: {
@@ -86,7 +86,7 @@ const router = createBrowserRouter([
   // },
   {
     path: "/logs",
-    element: <LogPage />,
+    element: <ClusterLogContainer />,
   },
 ])
 

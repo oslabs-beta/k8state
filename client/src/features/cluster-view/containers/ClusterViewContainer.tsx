@@ -1,7 +1,8 @@
 import { useState, useEffect, useMemo } from "react"
 import "@xyflow/react/dist/style.css"
 import { ReactFlow, Background, Controls } from "@xyflow/react"
-import type { Node, Edge } from '@xyflow/react';
+import type { Node, Edge } from "@xyflow/react"
+import { MiniMap } from "@xyflow/react"
 import {
   useGetKubernetesNodesQuery,
   useGetKubernetesPodsQuery,
@@ -39,9 +40,12 @@ export default function ClusterViewContainer() {
     // refetch: refetchKubernetsPods,
   } = useGetKubernetesPodsQuery()
 
-  // Create object to pass into type property of React Flow Nodes. 
+  // Create object to pass into type property of React Flow Nodes.
   // This enables the usage of a React Component to be the structure of a ReactFlow Node.
-  const nodeTypes = useMemo(() => ({ kubeNode: KubeNode, kubePod: KubePod, kubeCluster: KubeCluster }), []);
+  const nodeTypes = useMemo(
+    () => ({ kubeNode: KubeNode, kubePod: KubePod, kubeCluster: KubeCluster }),
+    [],
+  )
 
   // **** Manage Side Effect ****
   // Ensure mappedNodes is always up to date when new data is recieved from Kubernetes Cluster
@@ -52,7 +56,7 @@ export default function ClusterViewContainer() {
       // Calls node mapping function and stores in a temp variable
       const tempMappedNodes = mapPodsToNodes(initializedNodes, kubernetesPods)
       // Sets the mappedNodes state to the newly mapped nodes
-      setMappedNodes(tempMappedNodes);
+      setMappedNodes(tempMappedNodes)
     }
   }, [kubernetesNodes, kubernetesPods])
 
@@ -87,14 +91,14 @@ export default function ClusterViewContainer() {
     return nodes.map(node => ({ name: node.name, data: node, pods: [] }))
   }
 
-// **********************************
-// **   Renders React Flow Nodes   **
-// **********************************
+  // **********************************
+  // **   Renders React Flow Nodes   **
+  // **********************************
   const reactFlowNodes = (): Node[] => {
     // Adds Kubernetes Cluster as the first node by default
     const reactFlowNodeArray: Node[] = [
       {
-        id: 'Cluster',
+        id: "Cluster",
         position: { x: (mappedNodes.length / 2 + 1) * 750, y: 0 },
         data: { name: "Cluster" },
         type: "kubeCluster",
@@ -132,7 +136,7 @@ export default function ClusterViewContainer() {
           reactFlowNodeArray.push({
             id: node.pods[podCurrentIndex].uid.toString(),
             position: { x: startX + i * 200, y: podValueY },
-            data: { ...node.pods[podCurrentIndex]},
+            data: { ...node.pods[podCurrentIndex] },
             type: "kubePod",
             draggable: true,
           })
@@ -143,7 +147,7 @@ export default function ClusterViewContainer() {
         podValueY += 200
       }
     })
-    return reactFlowNodeArray;
+    return reactFlowNodeArray
   }
 
   // **********************************
@@ -175,21 +179,17 @@ export default function ClusterViewContainer() {
     return reactFlowEdgeArray
   }
 
-  const nodes = reactFlowNodes();
-  const edges = reactFlowEdges();
+  const nodes = reactFlowNodes()
+  const edges = reactFlowEdges()
 
   // ****  ClusterViewContainer Function Return  ****
   return (
     <div id="clusterview-container" className="container">
       <div style={{ width: "100vw", height: "100vh" }}>
-        <ReactFlow
-          nodes={nodes}
-          edges={edges}
-          nodeTypes={nodeTypes}
-          fitView
-        >
+        <ReactFlow nodes={nodes} edges={edges} nodeTypes={nodeTypes} fitView>
           <Background />
           <Controls />
+          <MiniMap style={{ backgroundColor: "gray" }} />
         </ReactFlow>
       </div>
     </div>

@@ -39,31 +39,46 @@ export default function LogPage () {
     
     const store: JSX.Element[] = [];
     
-    for(let i = 0; i < dirInfo.length; i++){
-        store.push(
-        <Grid item xs={12} sm={6} md={4} key={i + 3013031}>
-            <Box sx={{ border: 1, borderColor: "black"}}>
-                <Row logName={dirInfo[i]} setDeleted={setDeleted}/>
-            </Box>
-        </Grid>);
-    }
+    // for(let i = 0; i < dirInfo.length; i++){
+    //     store.push(
+    //     // <Grid item xs={12} sm={6} md={4} key={i + 3013031}>
+    //         // <Box sx={{ border: 1, borderColor: "black"}}>
+    //         <Box>
+    //             <Row logName={dirInfo[i]} setDeleted={setDeleted}/>
+    //         </Box>
+    //     // </Grid>);
+    // )};
 
     for(let i = 0; i < dirInfo.length; i++){
+        
         store.push(
-        <Grid item xs={12} sm={6} md={4} key={i + 3013031}>
-            <Box sx={{ border: 1, borderColor: "black"}}>
-                <Log/>
+        // <Grid item xs={12} sm={6} md={4} key={i + 3013031}>
+            // <Box sx={{ border: 1, borderColor: "black"}}>
+            <Box key={i*123}>
+                <Log
+                    setDeleted={setDeleted}
+                    logName={dirInfo[i]}
+                />
             </Box>
-        </Grid>);
-    }
+        // </Grid>
+        )};
     
     return(
-        <Box sx={{marginLeft: '8px', marginTop: '96px', overflowY: 'scroll', border: 1, borderColor: "black", maxWidth: '1450px',}}>
+        <div>
+        {/* <Box sx={{marginLeft: '8px', marginTop: '96px', overflowY: 'scroll', border: 1, borderColor: "black", maxWidth: '1450px',}}> */}
             <h1 style={{ marginLeft: '32px', marginBottom: '16px'}}>Logs</h1>
-            <Button style={{ marginLeft: '32px', marginBottom: '16px'}} variant="contained" color="primary" type="button" onClick={createLogHandler}>Create a Log</Button>
-            <Grid container direction="column" spacing={4} style={{ marginLeft: '1px', marginRight: '32px'}}>
+            <Button 
+            style={{ marginLeft: '32px', marginBottom: '16px'}} 
+            variant="contained" 
+            color="primary" 
+            type="button" 
+            onClick={createLogHandler}>
+                Create a Log
+            </Button>
                 {store}
-            </Grid>
-        </Box>
+            {/* <Grid container direction="column" spacing={4} style={{ marginLeft: '1px', marginRight: '32px'}}> */}
+            {/* </Grid> */}
+        {/* </Box> */}
+        </div>
     );
 };

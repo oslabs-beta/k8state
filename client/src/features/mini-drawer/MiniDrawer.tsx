@@ -24,6 +24,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight"
 import logoSVG from "../../public/logo.svg"
 import HubIcon from "@mui/icons-material/Hub"
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong"
+import AnalyticsIcon from "@mui/icons-material/Analytics"
 import SettingsIcon from "@mui/icons-material/Settings"
 import GitHubIcon from "@mui/icons-material/GitHub"
 import { useState } from "react"
@@ -188,40 +189,44 @@ export default function MiniDrawer() {
         </DrawerHeader>
         <Divider />
         <List>
-          {["ClusterUI", "Logs", "Grafana Dashboard", "Prometheus Charts"].map(
-            (text, index) => (
-              <ListItem
-                onClick={() => handleMenuSelect(text)}
-                key={text}
-                disablePadding
-                sx={{ display: "block" }}
-                style={{
-                  color: "black",
-                  textDecoration: "none",
-                  backgroundColor: selectedPage === text ? violetMain : "white",
+          {["ClusterUI", "Logs", "Grafana Dashboard"].map((text, index) => (
+            <ListItem
+              onClick={() => handleMenuSelect(text)}
+              key={text}
+              disablePadding
+              sx={{ display: "block" }}
+              style={{
+                color: "black",
+                textDecoration: "none",
+                backgroundColor: selectedPage === text ? violetMain : "white",
+              }}
+            >
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? "initial" : "center",
+                  px: 2.5,
                 }}
               >
-                <ListItemButton
+                <ListItemIcon
                   sx={{
-                    minHeight: 48,
-                    justifyContent: open ? "initial" : "center",
-                    px: 2.5,
+                    minWidth: 0,
+                    mr: open ? 3 : "auto",
+                    justifyContent: "center",
                   }}
                 >
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : "auto",
-                      justifyContent: "center",
-                    }}
-                  >
-                    {index % 2 === 0 ? <HubIcon /> : <ReceiptLongIcon />}
-                  </ListItemIcon>
-                  <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-                </ListItemButton>
-              </ListItem>
-            ),
-          )}
+                  {index === 0 ? (
+                    <HubIcon />
+                  ) : index === 2 ? (
+                    <AnalyticsIcon />
+                  ) : (
+                    <ReceiptLongIcon />
+                  )}
+                </ListItemIcon>
+                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+              </ListItemButton>
+            </ListItem>
+          ))}
         </List>
         <Divider />
         <List>

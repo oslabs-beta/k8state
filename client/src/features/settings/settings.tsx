@@ -15,6 +15,7 @@ const Settings = () => {
 
   const handleEnvSubmit = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault()
+    if (inputError === true || envAlertMessage === "Success!") return
     fetch("http://localhost:8080/api/checkAPI", {
       method: "POST",
       headers: {
@@ -52,7 +53,7 @@ const Settings = () => {
     >
       <TextField
         label="Address"
-        color="primary"
+        color={envAlertMessage === "Success!" ? "success" : "primary"}
         error={inputError}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           setEnvAddress(e.target.value)
@@ -62,7 +63,7 @@ const Settings = () => {
       />
       <TextField
         label="Key"
-        color="primary"
+        color={envAlertMessage === "Success!" ? "success" : "primary"}
         error={inputError}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           setEnvKey(e.target.value)
@@ -81,8 +82,13 @@ const Settings = () => {
         <Stack direction="row" spacing={2}>
           <Button
             variant={inputError === true ? "outlined" : "contained"}
-            color={inputError === true ? "error" : "primary"}
-            // disabled={inputError}
+            color={
+              inputError === true
+                ? "error"
+                : envAlertMessage === "Success!"
+                  ? "success"
+                  : "primary"
+            }
             onClick={handleEnvSubmit}
             style={{ marginTop: "16px" }}
           >

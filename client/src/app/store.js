@@ -7,6 +7,7 @@ import portalSliceReducer from "../features/captive-portal/captivePortalSlice";
 import clusterViewReducer from "../features/cluster-view/clusterViewApiSlice";
 import prometheusViewReducer from "../features/prometheus-view/prometheusViewApiSlice";
 import clusterLogsReducer from "../features/cluster-log/clusterLogsApiSlice";
+import iframeReducer from "../features/grafana-dashboard/GrafanaDashboardApiSlice";
 // Combine the slices and RTK Query APIs into the root reducer
 const rootReducer = combineReducers({
     [clusterApi.reducerPath]: clusterApi.reducer, // Adding the RTK Query reducer
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
     portalSlice: portalSliceReducer, // Adding the portal slice reducer
     prometheusView: prometheusViewReducer, // Adding the grafanaView slice reducer
     clusterLogs: clusterLogsReducer, // Adding the clusterLogs slice reducer
+    iframe: iframeReducer,
 });
 // The store setup is wrapped in `makeStore` to allow reuse
 // when setting up tests that need the same store config

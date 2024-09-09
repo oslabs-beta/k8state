@@ -186,7 +186,7 @@ export default function ClusterViewContainer() {
   return (
     <div id="clusterview-container" className="container">
       <div style={{ width: "100vw", height: "100vh" }}>
-        <ReactFlow nodes={nodes} edges={edges} nodeTypes={nodeTypes} fitView>
+        <ReactFlow nodes={nodes} edges={edges} nodeTypes={nodeTypes}>
           <Background />
           <Controls />
           <MiniMap style={{ backgroundColor: "gray" }} />

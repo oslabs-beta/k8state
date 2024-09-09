@@ -4,17 +4,28 @@ import TextField from "@mui/material/TextField"
 import Stack from "@mui/material/Stack"
 import Button from "@mui/material/Button"
 import Alert from "@mui/material/Alert"
+import * as React from "react"
+import Box from "@mui/material/Box"
+import TextField from "@mui/material/TextField"
+import Stack from "@mui/material/Stack"
+import Button from "@mui/material/Button"
+import Alert from "@mui/material/Alert"
 import { useState } from "react"
 
 const Settings = () => {
+  const [inputError, setInputError] = useState<boolean>(false)
   const [inputError, setInputError] = useState<boolean>(false)
   const [envAddress, setEnvAddress] = useState<string | null>(null)
   const [envKey, setEnvKey] = useState<string | null>(null)
   const [envAlertMessage, setEnvAlertMessage] = useState<string | null>(null)
   const [envAlert, setEnvAlert] = useState<boolean>(false)
 
+  const [envAlertMessage, setEnvAlertMessage] = useState<string | null>(null)
+  const [envAlert, setEnvAlert] = useState<boolean>(false)
+
   const handleEnvSubmit = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault()
+    if (inputError === true || envAlertMessage === "Success!") return
     fetch("http://localhost:8080/api/checkAPI", {
       method: "POST",
       headers: {
@@ -32,7 +43,17 @@ const Settings = () => {
           setEnvAlert(true)
           setTimeout(() => setEnvAlert(false), 5000)
           setTimeout(() => setEnvAlertMessage(null), 5000)
+          setEnvAlertMessage("Success!")
+          setEnvAlert(true)
+          setTimeout(() => setEnvAlert(false), 5000)
+          setTimeout(() => setEnvAlertMessage(null), 5000)
         } else {
+          setEnvAlertMessage("Invalid Address or Key")
+          setEnvAlert(true)
+          setInputError(true)
+          setTimeout(() => setEnvAlert(false), 5000)
+          setTimeout(() => setInputError(false), 5000)
+          setTimeout(() => setEnvAlertMessage(null), 5000)
           setEnvAlertMessage("Invalid Address or Key")
           setEnvAlert(true)
           setInputError(true)
@@ -52,7 +73,7 @@ const Settings = () => {
     >
       <TextField
         label="Address"
-        color="primary"
+        color={envAlertMessage === "Success!" ? "success" : "primary"}
         error={inputError}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           setEnvAddress(e.target.value)
@@ -62,7 +83,7 @@ const Settings = () => {
       />
       <TextField
         label="Key"
-        color="primary"
+        color={envAlertMessage === "Success!" ? "success" : "primary"}
         error={inputError}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           setEnvKey(e.target.value)
@@ -81,8 +102,13 @@ const Settings = () => {
         <Stack direction="row" spacing={2}>
           <Button
             variant={inputError === true ? "outlined" : "contained"}
-            color={inputError === true ? "error" : "primary"}
-            // disabled={inputError}
+            color={
+              inputError === true
+                ? "error"
+                : envAlertMessage === "Success!"
+                  ? "success"
+                  : "primary"
+            }
             onClick={handleEnvSubmit}
             style={{ marginTop: "16px" }}
           >
@@ -91,7 +117,13 @@ const Settings = () => {
         </Stack>
       </div>
       <div
+      <div
         style={{
+          display: "flex",
+          position: "absolute",
+          left: "500px",
+          top: "425px",
+          marginTop: "16px",
           display: "flex",
           position: "absolute",
           left: "500px",
@@ -99,6 +131,15 @@ const Settings = () => {
           marginTop: "16px",
         }}
       >
+        <Stack sx={{ width: "100%" }} spacing={2}>
+          {envAlert && (
+            <Alert severity={inputError === true ? "error" : "success"}>
+              {envAlertMessage}
+            </Alert>
+          )}
+        </Stack>
+      </div>
+    </Box>
         <Stack sx={{ width: "100%" }} spacing={2}>
           {envAlert && (
             <Alert severity={inputError === true ? "error" : "success"}>

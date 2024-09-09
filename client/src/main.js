@@ -9,6 +9,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import CaptivePortal from "./features/captive-portal/containers/CaptivePortal";
 import ClusterLogContainer from "./features/cluster-log/containers/ClusterLogContainer";
+import Settings from "./features/settings/settings";
 // import material UI fonts
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
     {
         path: "/logs",
         element: _jsx(ClusterLogContainer, {}),
+    },
+    {
+        path: "/settings",
+        element: _jsx(Settings, {}),
     },
 ]);
 const container = document.getElementById("root");

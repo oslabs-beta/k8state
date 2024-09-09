@@ -2,6 +2,7 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useState, useEffect, useMemo } from "react";
 import "@xyflow/react/dist/style.css";
 import { ReactFlow, Background, Controls } from "@xyflow/react";
+import { MiniMap } from "@xyflow/react";
 import { useGetKubernetesNodesQuery, useGetKubernetesPodsQuery, } from "../clusterViewApiSlice";
 import { KubeNode, KubePod, KubeCluster } from "../components/CustomNode";
 // *******************
@@ -20,7 +21,7 @@ export default function ClusterViewContainer() {
     // isLoading: kubernetesPodsIsLoading,
     // refetch: refetchKubernetsPods,
      } = useGetKubernetesPodsQuery();
-    // Create object to pass into type property of React Flow Nodes. 
+    // Create object to pass into type property of React Flow Nodes.
     // This enables the usage of a React Component to be the structure of a ReactFlow Node.
     const nodeTypes = useMemo(() => ({ kubeNode: KubeNode, kubePod: KubePod, kubeCluster: KubeCluster }), []);
     // **** Manage Side Effect ****
@@ -64,7 +65,7 @@ export default function ClusterViewContainer() {
         // Adds Kubernetes Cluster as the first node by default
         const reactFlowNodeArray = [
             {
-                id: 'Cluster',
+                id: "Cluster",
                 position: { x: (mappedNodes.length / 2 + 1) * 750, y: 0 },
                 data: { name: "Cluster" },
                 type: "kubeCluster",
@@ -134,5 +135,5 @@ export default function ClusterViewContainer() {
     const nodes = reactFlowNodes();
     const edges = reactFlowEdges();
     // ****  ClusterViewContainer Function Return  ****
-    return (_jsx("div", { id: "clusterview-container", className: "container", children: _jsx("div", { style: { width: "100vw", height: "100vh" }, children: _jsxs(ReactFlow, { nodes: nodes, edges: edges, nodeTypes: nodeTypes, fitView: true, children: [_jsx(Background, {}), _jsx(Controls, {})] }) }) }));
+    return (_jsx("div", { id: "clusterview-container", className: "container", children: _jsx("div", { style: { width: "100vw", height: "100vh" }, children: _jsxs(ReactFlow, { nodes: nodes, edges: edges, nodeTypes: nodeTypes, fitView: true, children: [_jsx(Background, {}), _jsx(Controls, {}), _jsx(MiniMap, { style: { backgroundColor: "gray" } })] }) }) }));
 }

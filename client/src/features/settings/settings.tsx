@@ -1,30 +1,21 @@
-import type React from "react"
+import * as React from "react"
+import Box from "@mui/material/Box"
+import TextField from "@mui/material/TextField"
+import Stack from "@mui/material/Stack"
+import Button from "@mui/material/Button"
+import Alert from "@mui/material/Alert"
 import { useState } from "react"
 
 const Settings = () => {
-  // state for mode option functionality
-  // const [selectedOption, setSelectedOption] = useState<string>(
-  //   "Kubernetes API (default)",
-  // )
-
-  // setting selector function for mode option functionality
-  // const handleSettingSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setSelectedOption(event.target.value)
-  // }
-
-  const [envOption, setEnvOption] = useState<boolean>(false)
+  const [inputError, setInputError] = useState<boolean>(false)
   const [envAddress, setEnvAddress] = useState<string | null>(null)
   const [envKey, setEnvKey] = useState<string | null>(null)
-  const [envToolTip, setEnvToolTip] = useState<boolean | null>(null)
-  const [envToolTipMessage, setEnvToolTipMessage] = useState<string | null>(
-    null,
-  )
+  const [envAlertMessage, setEnvAlertMessage] = useState<string | null>(null)
+  const [envAlert, setEnvAlert] = useState<boolean>(false)
 
-  const handleEditClick = () => {
-    setEnvOption(envOption === false ? true : false)
-  }
   const handleEnvSubmit = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault()
+    if (inputError === true || envAlertMessage === "Success!") return
     fetch("http://localhost:8080/api/checkAPI", {
       method: "POST",
       headers: {
@@ -38,158 +29,91 @@ const Settings = () => {
       .then(response => response.json())
       .then(data => {
         if (data.message === "ok") {
-          setEnvToolTipMessage("Success!")
-          setEnvToolTip(true)
-          setTimeout(() => setEnvToolTip(false), 5000)
+          setEnvAlertMessage("Success!")
+          setEnvAlert(true)
+          setTimeout(() => setEnvAlert(false), 5000)
+          setTimeout(() => setEnvAlertMessage(null), 5000)
         } else {
-          setEnvToolTipMessage("Invalid Address or Key")
-          setEnvToolTip(true)
-          setTimeout(() => setEnvToolTip(false), 5000)
+          setEnvAlertMessage("Invalid Address or Key")
+          setEnvAlert(true)
+          setInputError(true)
+          setTimeout(() => setEnvAlert(false), 5000)
+          setTimeout(() => setInputError(false), 5000)
+          setTimeout(() => setEnvAlertMessage(null), 5000)
         }
       })
-    setEnvOption(false)
   }
 
   return (
-    <div
-      className="container"
-      id="settings-container"
-      style={{
-        position: "sticky",
-        marginTop: "100px",
-        marginLeft: "300px",
-        textAlign: "center",
-        backgroundColor: "#ac96cf",
-        paddingBottom: "20px",
-      }}
+    <Box
+      component="form"
+      sx={{ "& > :not(style)": { m: 1, width: "25ch" } }}
+      noValidate
+      autoComplete="off"
     >
+      <TextField
+        label="Address"
+        color={envAlertMessage === "Success!" ? "success" : "primary"}
+        error={inputError}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          setEnvAddress(e.target.value)
+        }
+        focused
+        style={{ position: "fixed", top: "200px", left: "500px" }}
+      />
+      <TextField
+        label="Key"
+        color={envAlertMessage === "Success!" ? "success" : "primary"}
+        error={inputError}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          setEnvKey(e.target.value)
+        }
+        focused
+        style={{ position: "fixed", top: "280px", left: "500px" }}
+      />
       <div
-        className="container"
-        id="env-settings-container"
-        style={{ margin: "15px", padding: "5px" }}
-      >
-        <section>
-          <h2 style={{ textDecoration: "underline" }}>
-            Settings for API access
-          </h2>
-          <form className="env-settings" id="env-settings-form">
-            <br />
-            <label style={{ fontWeight: "bold" }}>
-              Set new Address and Key
-            </label>
-            <br />
-            <button
-              type="button"
-              style={{ borderRadius: "10px", marginTop: "10px" }}
-              onClick={handleEditClick}
-            >
-              Edit
-            </button>
-            <br />
-            <div
-              className="container"
-              id="env-settings-input"
-              style={{ marginTop: "20px" }}
-            >
-              {envOption && (
-                <input
-                  type="text"
-                  placeholder="Cluster Address"
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setEnvAddress(e.target.value)
-                  }
-                />
-              )}
-              <br />
-              {envOption && (
-                <input
-                  type="text"
-                  placeholder="Cluster Key"
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setEnvKey(e.target.value)
-                  }
-                />
-              )}
-              <br />
-              {envOption && (
-                <button type="submit" onClick={e => handleEnvSubmit(e)}>
-                  Submit
-                </button>
-              )}
-              <br />
-              {envToolTip && (
-                <div
-                  className="settings-tooltip"
-                  id="settings-env-tooltip"
-                  style={{ marginTop: "10px" }}
-                >
-                  {envToolTipMessage}
-                </div>
-              )}
-            </div>
-          </form>
-        </section>
-      </div>
-      {/* TSX component for mode option functionality
-      <div className="container" id="current-settings-container">
-        <section
-          className="settings"
-          id="current-settings"
-          style={{
-            paddingTop: "5px",
-            paddingBottom: "5px",
-            backgroundColor: "#ac96cf",
-            fontWeight: "bold",
-          }}
-        >
-          Current Mode: {selectedOption}
-        </section>
-        <br />
-      </div>
-      <form
-        className="settings"
-        id="settings-menu"
         style={{
-          display: "inline-block",
-          textAlign: "left",
-          backgroundColor: "#c8eaeb",
-          padding: "10px",
-          paddingBottom: "10px",
+          display: "flex",
+          position: "absolute",
+          top: "350px",
+          left: "570px",
         }}
       >
-        <label>Select Mode:</label>
-        <br />
-        <input
-          type="radio"
-          id="kubernetes-setting"
-          name="kubernetes-mode"
-          value="Kubernetes API"
-          onChange={handleSettingSelect}
-          checked={selectedOption === "Kubernetes API"}
-        />
-        <label htmlFor="kubernetes-setting">Kubernetes API</label>
-        <br />
-        <input
-          type="radio"
-          id="prometheus-setting"
-          name="prometheus-mode"
-          value="Prometheus API"
-          onChange={handleSettingSelect}
-          checked={selectedOption === "Prometheus API"}
-        />
-        <label htmlFor="prometheus-setting">Prometheus API</label>
-        <br />
-        <input
-          type="radio"
-          id="grafana-setting"
-          name="grafana-mode"
-          value="Grafana API"
-          onChange={handleSettingSelect}
-          checked={selectedOption === "Grafana API"}
-        />
-        <label htmlFor="grafana-setting">Grafana API</label>
-      </form> */}
-    </div>
+        <Stack direction="row" spacing={2}>
+          <Button
+            variant={inputError === true ? "outlined" : "contained"}
+            color={
+              inputError === true
+                ? "error"
+                : envAlertMessage === "Success!"
+                  ? "success"
+                  : "primary"
+            }
+            onClick={handleEnvSubmit}
+            style={{ marginTop: "16px" }}
+          >
+            Submit
+          </Button>
+        </Stack>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          position: "absolute",
+          left: "500px",
+          top: "425px",
+          marginTop: "16px",
+        }}
+      >
+        <Stack sx={{ width: "100%" }} spacing={2}>
+          {envAlert && (
+            <Alert severity={inputError === true ? "error" : "success"}>
+              {envAlertMessage}
+            </Alert>
+          )}
+        </Stack>
+      </div>
+    </Box>
   )
 }
 

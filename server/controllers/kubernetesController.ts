@@ -45,7 +45,6 @@ interface ReturnedServices {
 
 // ***** Controller Object *****
 const kubernetesController = {
-
 	// Middleware function to get all pods from the cluster
 	getPods: async (_req: Request, res: Response, next: NextFunction) => {
 		try {
@@ -125,7 +124,6 @@ const kubernetesController = {
 
 	// Middleware function to get all nodes from the cluster
 	getNodes: async (_req: Request, res: Response, next: NextFunction) => {
-
 		try {
 			const allNodes = await kubernetesService.getNodesFromCluster();
 			const returnedNodes: ReturnedNode[] = [];
@@ -153,7 +151,6 @@ const kubernetesController = {
 
 	// Middleware function to get all services from the cluster
 	getServices: async (_req: Request, res: Response, next: NextFunction) => {
-
 		try {
 			const allServices = await kubernetesService.getServicesFromCluster();
 			const returnedServices: ReturnedServices[] = [];
@@ -183,21 +180,28 @@ const kubernetesController = {
 	checkAPI: async (req: Request, res: Response, next: NextFunction) => {
 		const key: string = req.body.key;
 		const address: string = req.body.address;
-        const cleanAddress: string = address.replace("https://", "");
-        console.log(cleanAddress);
-		try {
-			const check = await kubernetesService.checkAPI(key, cleanAddress);
-			if (check === 'ok') {
-				generalService.writeEnv(key, cleanAddress);
-				next();
-			} else if (check === 'invalidkey') {
-				res.status(403).json({ message: 'invalid_key' });
-			} else {
-				res.status(500).json({ message: 'unable to connect to cluster' });
+		console.log(address);
+		let cleanAddress: string = address;
+		if (cleanAddress) {
+			cleanAddress = address.replace('https://', '');
+			console.log(cleanAddress);
+			try {
+				const check = await kubernetesService.checkAPI(key, cleanAddress);
+				if (check === 'ok') {
+					generalService.writeEnv(key, cleanAddress);
+					next();
+				} else if (check === 'invalidkey') {
+					res.status(403).json({ message: 'invalid_key' });
+				} else {
+					res.status(500).json({ message: 'unable to connect to cluster' });
+				}
+			} catch (error) {
+				console.log(error);
+				res.status(500).json({ message: 'error checking API ' });
 			}
-		} catch (error) {
-			console.log(error);
-			res.status(500).json({ message: 'error checking API ' });
+		} else {
+			console.log('no address');
+			res.status(500).json({ message: 'no address given' });
 		}
 	},
 };

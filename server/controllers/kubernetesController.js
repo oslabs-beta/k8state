@@ -117,24 +117,32 @@ const kubernetesController = {
     checkAPI: async (req, res, next) => {
         const key = req.body.key;
         const address = req.body.address;
-        const cleanAddress = address.replace("https://", "");
-        console.log(cleanAddress);
-        try {
-            const check = await kubernetesService.checkAPI(key, cleanAddress);
-            if (check === 'ok') {
-                generalService.writeEnv(key, cleanAddress);
-                next();
+        console.log(address);
+        let cleanAddress = address;
+        if (cleanAddress) {
+            cleanAddress = address.replace('https://', '');
+            console.log(cleanAddress);
+            try {
+                const check = await kubernetesService.checkAPI(key, cleanAddress);
+                if (check === 'ok') {
+                    generalService.writeEnv(key, cleanAddress);
+                    next();
+                }
+                else if (check === 'invalidkey') {
+                    res.status(403).json({ message: 'invalid_key' });
+                }
+                else {
+                    res.status(500).json({ message: 'unable to connect to cluster' });
+                }
             }
-            else if (check === 'invalidkey') {
-                res.status(403).json({ message: 'invalid_key' });
-            }
-            else {
-                res.status(500).json({ message: 'unable to connect to cluster' });
+            catch (error) {
+                console.log(error);
+                res.status(500).json({ message: 'error checking API ' });
             }
         }
-        catch (error) {
-            console.log(error);
-            res.status(500).json({ message: 'error checking API ' });
+        else {
+            console.log('no address');
+            res.status(500).json({ message: 'no address given' });
         }
     },
 };

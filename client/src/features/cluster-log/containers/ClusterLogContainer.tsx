@@ -1,8 +1,6 @@
 // import type React from "react"
-import { useState, useEffect } from "react"
-import { TextField, Button, Box, Grid, Paper } from "@mui/material"
-// import Row from "../Row"
-// import {ClusterLog} from "../clusterLogsApiSlice"
+import { useState } from "react"
+import { Button } from "@mui/material"
 
 // Alert Dialog imports
 import * as React from "react"
@@ -12,66 +10,31 @@ import DialogContent from "@mui/material/DialogContent"
 import DialogContentText from "@mui/material/DialogContentText"
 import DialogTitle from "@mui/material/DialogTitle"
 
-import clusterLogApiSlice, {
-  useGetClusterLogsQuery,
-} from "../clusterLogsApiSlice"
+import { useGetClusterLogsQuery } from "../clusterLogsApiSlice"
 
 import ClusterLog from "../components/ClusterLog"
 
 export default function LogPage() {
-  const [dirInfo, setdirInfo] = useState([])
-  const [log, setLog] = useState([])
-  const [deleted, setDeleted] = useState("")
   const [open, setOpen] = useState(false)
 
-  useEffect(() => {
-    fetch("http://localhost:8080/api/getLogs")
-      .then(process => process.json())
-      .then(data => {
-        //console.log(data);
-        setdirInfo(data)
-      })
-      .catch(error => {
+  const createLogHandler = (): void => {
+    async function sendCreateLogRequest() {
+      try {
+        await fetch("http://localhost:8080/api/createLogs", {
+          method: "POST",
+        })
+        await refetchClusterLogs()
+      } catch (error) {
         console.log(error)
-      })
-  }, [log, deleted])
+      }
+    }
 
-  const createLogHandler = async () => {
-    await fetch("http://localhost:8080/api/createLogs", {
-      method: "POST",
-    })
-      .then(process => process.json())
-      .then(data => {
-        //console.log(data);
-        setLog(data)
-      })
-      .catch(error => {
-        console.log(error)
-      })
-    await refetchClusterLogs()
+    sendCreateLogRequest()
   }
 
-  // const store: JSX.Element[] = []
-  // for (let i = dirInfo.length; i > 0; i--) {
-  //   if (dirInfo[i] !== (null || undefined)) {
-  //     store.push(
-  //       <Box key={i * 123}>
-  //         <ClusterLog setDeleted={setDeleted} logName={dirInfo[i]} />
-  //       </Box>,
-  //     )
-  //   }
-  // }
+  const { data: clusterLogs, refetch: refetchClusterLogs } =
+    useGetClusterLogsQuery()
 
-  const {
-    data: clusterLogs,
-    isLoading: clusterLogIsLoading,
-    isError: clusterLogError,
-    refetch: refetchClusterLogs,
-  } = useGetClusterLogsQuery()
-
-  console.log("useGetClusterLogsQuery.data: ", clusterLogs)
-
-  // delete all logs alert function
   function AlertDialog() {
     const handleClickOpen = () => {
       setOpen(true)
@@ -125,21 +88,28 @@ export default function LogPage() {
     setOpen(true)
   }
 
-  const deleteLogHandler = (): void => {
-    dirInfo.forEach(log => {
-      fetch("http://localhost:8080/api/deleteLogs/" + log, {
-        method: "DELETE",
-      })
-        .then(response => response.json())
-        .then(data => {
-          setDeleted(data)
-          console.log(data)
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    })
-    setdirInfo([])
+  const deleteLogHandler = async (): Promise<void> => {
+    if (!clusterLogs || clusterLogs.length === 0) {
+      console.log("No logs to delete")
+      return
+    }
+
+    try {
+      await Promise.all(
+        clusterLogs.map(async (log): Promise<void> => {
+          try {
+            await fetch(`http://localhost:8080/api/deleteLogs/${log.name}`, {
+              method: "DELETE",
+            })
+          } catch (error) {
+            console.log(error)
+          }
+        }),
+      )
+      await refetchClusterLogs()
+    } catch (error) {
+      console.log("Error in deleting logs:", error)
+    }
   }
 
   return (
@@ -185,9 +155,12 @@ export default function LogPage() {
           Delete all Logs
         </Button>
       </div>
-      {/* {store} */}
       {clusterLogs?.map((clusterLog, i) => (
-        <ClusterLog clusterLog={clusterLog} setDeleted={setDeleted} />
+        <ClusterLog
+          key={`clusterLog:${i}`}
+          clusterLog={clusterLog}
+          // setDeleted={setDeleted}
+        />
       ))}
 
       <div

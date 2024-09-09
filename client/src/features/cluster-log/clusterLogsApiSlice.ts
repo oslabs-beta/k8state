@@ -1,7 +1,19 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 import { createSlice } from "@reduxjs/toolkit"
 
-export type ClusterLog = string
+// export type ClusterLog = string
+
+export interface ClusterLog {
+  name: string
+  log: Log[]
+}
+
+export interface Log {
+  date: string
+  logs: string
+  name: string
+  namespace: string
+}
 
 // Define an API service for the log page
 export const clusterLogsApi = createApi({

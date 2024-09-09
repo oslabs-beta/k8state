@@ -1,9 +1,7 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 // import type React from "react"
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@mui/material";
-// import Row from "../Row"
-// import {ClusterLog} from "../clusterLogsApiSlice"
 // Alert Dialog imports
 import * as React from "react";
 import Dialog from "@mui/material/Dialog";
@@ -11,51 +9,25 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { useGetClusterLogsQuery, } from "../clusterLogsApiSlice";
+import { useGetClusterLogsQuery } from "../clusterLogsApiSlice";
 import ClusterLog from "../components/ClusterLog";
 export default function LogPage() {
-    const [dirInfo, setdirInfo] = useState([]);
-    const [log, setLog] = useState([]);
-    const [deleted, setDeleted] = useState("");
     const [open, setOpen] = useState(false);
-    useEffect(() => {
-        fetch("http://localhost:8080/api/getLogs")
-            .then(process => process.json())
-            .then(data => {
-            //console.log(data);
-            setdirInfo(data);
-        })
-            .catch(error => {
-            console.log(error);
-        });
-    }, [log, deleted]);
-    const createLogHandler = async () => {
-        await fetch("http://localhost:8080/api/createLogs", {
-            method: "POST",
-        })
-            .then(process => process.json())
-            .then(data => {
-            //console.log(data);
-            setLog(data);
-        })
-            .catch(error => {
-            console.log(error);
-        });
-        await refetchClusterLogs();
+    const createLogHandler = () => {
+        async function sendCreateLogRequest() {
+            try {
+                await fetch("http://localhost:8080/api/createLogs", {
+                    method: "POST",
+                });
+                await refetchClusterLogs();
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }
+        sendCreateLogRequest();
     };
-    // const store: JSX.Element[] = []
-    // for (let i = dirInfo.length; i > 0; i--) {
-    //   if (dirInfo[i] !== (null || undefined)) {
-    //     store.push(
-    //       <Box key={i * 123}>
-    //         <ClusterLog setDeleted={setDeleted} logName={dirInfo[i]} />
-    //       </Box>,
-    //     )
-    //   }
-    // }
-    const { data: clusterLogs, isLoading: clusterLogIsLoading, isError: clusterLogError, refetch: refetchClusterLogs, } = useGetClusterLogsQuery();
-    console.log("useGetClusterLogsQuery.data: ", clusterLogs);
-    // delete all logs alert function
+    const { data: clusterLogs, refetch: refetchClusterLogs } = useGetClusterLogsQuery();
     function AlertDialog() {
         const handleClickOpen = () => {
             setOpen(true);
@@ -75,21 +47,27 @@ export default function LogPage() {
     const confirmDeleteAll = () => {
         setOpen(true);
     };
-    const deleteLogHandler = () => {
-        dirInfo.forEach(log => {
-            fetch("http://localhost:8080/api/deleteLogs/" + log, {
-                method: "DELETE",
-            })
-                .then(response => response.json())
-                .then(data => {
-                setDeleted(data);
-                console.log(data);
-            })
-                .catch(error => {
-                console.log(error);
-            });
-        });
-        setdirInfo([]);
+    const deleteLogHandler = async () => {
+        if (!clusterLogs || clusterLogs.length === 0) {
+            console.log("No logs to delete");
+            return;
+        }
+        try {
+            await Promise.all(clusterLogs.map(async (log) => {
+                try {
+                    await fetch(`http://localhost:8080/api/deleteLogs/${log.name}`, {
+                        method: "DELETE",
+                    });
+                }
+                catch (error) {
+                    console.log(error);
+                }
+            }));
+            await refetchClusterLogs();
+        }
+        catch (error) {
+            console.log("Error in deleting logs:", error);
+        }
     };
     return (_jsxs("div", { style: { position: "absolute", left: "250px", top: "100px" }, children: [_jsx("h1", { style: {
                     textAlign: "center",
@@ -106,7 +84,7 @@ export default function LogPage() {
                             left: "240px",
                             marginLeft: "32px",
                             marginBottom: "16px",
-                        }, variant: "contained", color: "error", type: "button", onClick: confirmDeleteAll, children: "Delete all Logs" })] }), clusterLogs?.map((clusterLog, i) => (_jsx(ClusterLog, { clusterLog: clusterLog, setDeleted: setDeleted }))), _jsx("div", { className: "alert-dialog", style: {
+                        }, variant: "contained", color: "error", type: "button", onClick: confirmDeleteAll, children: "Delete all Logs" })] }), clusterLogs?.map((clusterLog, i) => (_jsx(ClusterLog, { clusterLog: clusterLog }, `clusterLog:${i}`))), _jsx("div", { className: "alert-dialog", style: {
                     display: "flex",
                     justifyContent: "center",
                     marginTop: "16px",

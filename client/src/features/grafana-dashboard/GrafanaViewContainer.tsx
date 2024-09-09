@@ -1,13 +1,17 @@
 import { useState } from 'react'
+import { setIframeSrc } from './GrafanaDashboardApiSlice'
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import type React from 'react'
 import './Grafana.css'
+import type { RootState } from '../../app/store'
 
 export default function GrafanaViewContainer () {
 
-    const [iframeURL, setIframeURL] = useState("");
+    const iframeURL = useAppSelector((state: RootState) => state.iframe.src)
 
     const Form = () => {
         const [inputValue, setInputValue] = useState("");
+        const dispatch = useAppDispatch();
 
         const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             setInputValue(e.target.value);
@@ -15,7 +19,7 @@ export default function GrafanaViewContainer () {
 
         const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
             e.preventDefault();
-            setIframeURL(inputValue);
+            dispatch(setIframeSrc(inputValue))
         };
 
         return (
@@ -37,18 +41,15 @@ export default function GrafanaViewContainer () {
                 </form>
             </div>
         )
-
     }
 
     const Dashboard = () => {
         return (
-          <div className="iframe-container">
             <iframe
               title="Grafana Dashboard"
               src={iframeURL}
-              style={{ width: '100vh', height: '80vh', border: 'none', position: 'relative' }}
+              style={{ width: '100vw', height: '100vh', paddingTop: '65px', border: 'none', position: 'relative' }}
             />
-          </div>
         );
       };
 

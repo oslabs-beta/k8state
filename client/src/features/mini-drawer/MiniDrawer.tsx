@@ -24,6 +24,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight"
 import logoSVG from "../../public/logo.svg"
 import HubIcon from "@mui/icons-material/Hub"
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong"
+import AnalyticsIcon from "@mui/icons-material/Analytics"
 import SettingsIcon from "@mui/icons-material/Settings"
 import GitHubIcon from "@mui/icons-material/GitHub"
 import { useState } from "react"
@@ -33,6 +34,7 @@ import ClusterLogContainer from "../cluster-log/containers/ClusterLogContainer"
 import Settings from "../settings/settings"
 import LandingPage from "../landing-page/LandingPage"
 import GrafanaViewContainer from "../grafana-dashboard/GrafanaViewContainer"
+import { alpha } from "@mui/material/styles"
 
 // ****************************
 // **   Create Interface's   **
@@ -138,6 +140,9 @@ export default function MiniDrawer() {
     setOpen(false)
   }
 
+  const violetBase = "#7F00FF"
+  const violetMain = alpha(violetBase, 0.3)
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -184,36 +189,44 @@ export default function MiniDrawer() {
         </DrawerHeader>
         <Divider />
         <List>
-          {["ClusterUI", "Logs", "Grafana Dashboard", "Prometheus Charts"].map(
-            (text, index) => (
-              <ListItem
-                onClick={() => handleMenuSelect(text)}
-                key={text}
-                disablePadding
-                sx={{ display: "block" }}
-                style={{ color: "black", textDecoration: "none" }}
+          {["ClusterUI", "Logs", "Grafana Dashboard"].map((text, index) => (
+            <ListItem
+              onClick={() => handleMenuSelect(text)}
+              key={text}
+              disablePadding
+              sx={{ display: "block" }}
+              style={{
+                color: "black",
+                textDecoration: "none",
+                backgroundColor: selectedPage === text ? violetMain : "white",
+              }}
+            >
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? "initial" : "center",
+                  px: 2.5,
+                }}
               >
-                <ListItemButton
+                <ListItemIcon
                   sx={{
-                    minHeight: 48,
-                    justifyContent: open ? "initial" : "center",
-                    px: 2.5,
+                    minWidth: 0,
+                    mr: open ? 3 : "auto",
+                    justifyContent: "center",
                   }}
                 >
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : "auto",
-                      justifyContent: "center",
-                    }}
-                  >
-                    {index % 2 === 0 ? <HubIcon /> : <ReceiptLongIcon />}
-                  </ListItemIcon>
-                  <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-                </ListItemButton>
-              </ListItem>
-            ),
-          )}
+                  {index === 0 ? (
+                    <HubIcon />
+                  ) : index === 2 ? (
+                    <AnalyticsIcon />
+                  ) : (
+                    <ReceiptLongIcon />
+                  )}
+                </ListItemIcon>
+                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+              </ListItemButton>
+            </ListItem>
+          ))}
         </List>
         <Divider />
         <List>
@@ -223,7 +236,11 @@ export default function MiniDrawer() {
               key={text}
               disablePadding
               sx={{ display: "block" }}
-              style={{ color: "black", textDecoration: "none" }}
+              style={{
+                color: "black",
+                textDecoration: "none",
+                backgroundColor: selectedPage === text ? violetMain : "white",
+              }}
             >
               <ListItemButton
                 sx={{

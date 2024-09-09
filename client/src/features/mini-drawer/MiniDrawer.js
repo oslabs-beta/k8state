@@ -1,6 +1,6 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import * as React from "react";
-import { styled, useTheme, Box, Toolbar, List, CssBaseline, Typography, Divider, IconButton, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import { styled, useTheme, Box, Toolbar, List, CssBaseline, Typography, Divider, IconButton, ListItem, ListItemButton, ListItemIcon, ListItemText, } from "@mui/material";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -13,12 +13,14 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import { useState } from "react";
 import ClusterViewContainer from "../cluster-view/containers/ClusterViewContainer";
-import LogPage from "../log-page/LogPage";
+import PrometheusViewContainer from "../prometheus-view/containers/PrometheusViewContainer";
+import ClusterLogContainer from "../cluster-log/containers/ClusterLogContainer";
 import Settings from "../settings/settings";
 import LandingPage from "../landing-page/LandingPage";
-// ****************************
+import GrafanaViewContainer from "../grafana-dashboard/GrafanaViewContainer";
+// *****************************
 // **   Material UI Styling   **
-// ****************************
+// *****************************
 const drawerWidth = 240;
 const openedMixin = (theme) => ({
     width: drawerWidth,
@@ -87,10 +89,10 @@ export default function MiniDrawer() {
     const theme = useTheme();
     // ** create state
     const [open, setOpen] = React.useState(false);
-    const [selectedPage, setSelectedPage] = useState(null);
+    const [selectedPage, setSelectedPage] = useState("ClusterUI");
     const handleMenuSelect = (page) => {
-        console.log(page);
         setSelectedPage(page);
+        setOpen(false);
     };
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -103,7 +105,7 @@ export default function MiniDrawer() {
                 }, children: _jsxs(Toolbar, { children: [_jsx(IconButton, { color: "inherit", "aria-label": "open drawer", onClick: handleDrawerOpen, edge: "start", sx: {
                                 marginRight: 5,
                                 ...(open && { display: "none" }),
-                            }, children: _jsx(MenuIcon, {}) }), _jsxs(Typography, { variant: "h6", noWrap: true, component: "div", children: ["K", _jsx("span", { style: { color: "#ad97d0" }, children: "8" }), "STATE \u2014 Cluster View"] }), _jsx("img", { src: logoSVG, alt: "App logo", style: { width: "50px", marginLeft: "auto", marginRight: "15px" } })] }) }), _jsxs(Drawer, { variant: "permanent", open: open, children: [_jsx(DrawerHeader, { children: _jsx(IconButton, { onClick: handleDrawerClose, children: theme.direction === "rtl" ? (_jsx(ChevronRightIcon, {})) : (_jsx(ChevronLeftIcon, {})) }) }), _jsx(Divider, {}), _jsx(List, { children: ["ClusterUI", "Logs"].map((text, index) => (_jsx(ListItem, { onClick: () => handleMenuSelect(text), disablePadding: true, sx: { display: "block" }, style: { color: "black", textDecoration: "none" }, children: _jsxs(ListItemButton, { sx: {
+                            }, children: _jsx(MenuIcon, {}) }), _jsxs(Typography, { variant: "h6", noWrap: true, component: "div", children: ["K", _jsx("span", { style: { color: "#ad97d0" }, children: "8" }), "STATE \u2014 Cluster View"] }), _jsx("img", { src: logoSVG, alt: "App logo", style: { width: "50px", marginLeft: "auto", marginRight: "15px" } })] }) }), _jsxs(Drawer, { variant: "permanent", open: open, children: [_jsx(DrawerHeader, { children: _jsx(IconButton, { onClick: handleDrawerClose, children: theme.direction === "rtl" ? (_jsx(ChevronRightIcon, {})) : (_jsx(ChevronLeftIcon, {})) }) }), _jsx(Divider, {}), _jsx(List, { children: ["ClusterUI", "Logs", "Grafana Dashboard", "Prometheus Charts"].map((text, index) => (_jsx(ListItem, { onClick: () => handleMenuSelect(text), disablePadding: true, sx: { display: "block" }, style: { color: "black", textDecoration: "none" }, children: _jsxs(ListItemButton, { sx: {
                                     minHeight: 48,
                                     justifyContent: open ? "initial" : "center",
                                     px: 2.5,
@@ -119,5 +121,5 @@ export default function MiniDrawer() {
                                             minWidth: 0,
                                             mr: open ? 3 : "auto",
                                             justifyContent: "center",
-                                        }, children: index % 2 === 0 ? _jsx(SettingsIcon, {}) : _jsx(GitHubIcon, {}) }), _jsx(ListItemText, { primary: text, sx: { opacity: open ? 1 : 0 } })] }) }, text))) })] }), _jsxs(Drawer, { variant: "persistent", anchor: "right", open: open, children: [_jsx(DrawerHeader, { children: _jsx(IconButton, { onClick: handleDrawerClose, children: theme.direction === "rtl" ? (_jsx(ChevronRightIcon, {})) : (_jsx(ChevronLeftIcon, {})) }) }), _jsx(Typography, { children: "Testing" })] }), _jsxs("main", { style: { marginLeft: 200, padding: 20 }, children: [selectedPage === "ClusterUI" && _jsx(ClusterViewContainer, {}), selectedPage === "Logs" && _jsx(LogPage, {}), selectedPage === "Settings" && _jsx(Settings, {}), selectedPage === "Github" && _jsx(LandingPage, {})] })] }));
+                                        }, children: index % 2 === 0 ? _jsx(SettingsIcon, {}) : _jsx(GitHubIcon, {}) }), _jsx(ListItemText, { primary: text, sx: { opacity: open ? 1 : 0 } })] }) }, text))) })] }), _jsxs(Drawer, { variant: "persistent", anchor: "right", open: open, children: [_jsx(DrawerHeader, { children: _jsx(IconButton, { onClick: handleDrawerClose, children: theme.direction === "rtl" ? (_jsx(ChevronRightIcon, {})) : (_jsx(ChevronLeftIcon, {})) }) }), _jsx(Typography, { children: "Testing" })] }), _jsxs("main", { children: [selectedPage === "ClusterUI" && _jsx(ClusterViewContainer, {}), selectedPage === "Logs" && _jsx(ClusterLogContainer, {}), selectedPage === "Grafana Dashboard" && _jsx(GrafanaViewContainer, {}), selectedPage === "Prometheus Charts" && _jsx(PrometheusViewContainer, {}), selectedPage === "Settings" && _jsx(Settings, {}), selectedPage === "Github" && _jsx(LandingPage, {})] })] }));
 }

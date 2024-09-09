@@ -1,19 +1,19 @@
 import * as React from "react"
-import { 
-  styled, 
-  useTheme, 
-  Box, 
-  Toolbar, 
-  List, 
-  CssBaseline, 
-  Typography, 
-  Divider, 
+import {
+  styled,
+  useTheme,
+  Box,
+  Toolbar,
+  List,
+  CssBaseline,
+  Typography,
+  Divider,
   IconButton,
-ListItem,
-ListItemButton,
-ListItemIcon,
-ListItemText
-} from '@mui/material'
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+} from "@mui/material"
 import type { Theme, CSSObject } from "@mui/material/styles"
 import MuiDrawer from "@mui/material/Drawer"
 import type { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar"
@@ -28,9 +28,11 @@ import SettingsIcon from "@mui/icons-material/Settings"
 import GitHubIcon from "@mui/icons-material/GitHub"
 import { useState } from "react"
 import ClusterViewContainer from "../cluster-view/containers/ClusterViewContainer"
-import LogPage from "../log-page/LogPage"
+import PrometheusViewContainer from "../prometheus-view/containers/PrometheusViewContainer"
+import ClusterLogContainer from "../cluster-log/containers/ClusterLogContainer"
 import Settings from "../settings/settings"
 import LandingPage from "../landing-page/LandingPage"
+import GrafanaViewContainer from "../grafana-dashboard/GrafanaViewContainer"
 
 // ****************************
 // **   Create Interface's   **
@@ -40,9 +42,9 @@ interface AppBarProps extends MuiAppBarProps {
   open?: boolean
 }
 
-// ****************************
+// *****************************
 // **   Material UI Styling   **
-// ****************************
+// *****************************
 
 const drawerWidth = 240
 
@@ -121,11 +123,11 @@ export default function MiniDrawer() {
   // ** create state
   const [open, setOpen] = React.useState(false)
 
-  const [selectedPage, setSelectedPage] = useState<string | null>(null)
+  const [selectedPage, setSelectedPage] = useState<string | null>("ClusterUI")
 
   const handleMenuSelect = (page: string) => {
-    console.log(page)
     setSelectedPage(page)
+    setOpen(false)
   }
 
   const handleDrawerOpen = () => {
@@ -182,34 +184,36 @@ export default function MiniDrawer() {
         </DrawerHeader>
         <Divider />
         <List>
-          {["ClusterUI", "Logs"].map((text, index) => (
-            <ListItem
-              onClick={() => handleMenuSelect(text)}
-              key={text}
-              disablePadding
-              sx={{ display: "block" }}
-              style={{ color: "black", textDecoration: "none" }}
-            >
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                }}
+          {["ClusterUI", "Logs", "Grafana Dashboard", "Prometheus Charts"].map(
+            (text, index) => (
+              <ListItem
+                onClick={() => handleMenuSelect(text)}
+                key={text}
+                disablePadding
+                sx={{ display: "block" }}
+                style={{ color: "black", textDecoration: "none" }}
               >
-                <ListItemIcon
+                <ListItemButton
                   sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
+                    px: 2.5,
                   }}
                 >
-                  {index % 2 === 0 ? <HubIcon /> : <ReceiptLongIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-          ))}
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : "auto",
+                      justifyContent: "center",
+                    }}
+                  >
+                    {index % 2 === 0 ? <HubIcon /> : <ReceiptLongIcon />}
+                  </ListItemIcon>
+                  <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                </ListItemButton>
+              </ListItem>
+            ),
+          )}
         </List>
         <Divider />
         <List>
@@ -260,7 +264,9 @@ export default function MiniDrawer() {
       </Drawer>
       <main>
         {selectedPage === "ClusterUI" && <ClusterViewContainer />}
-        {selectedPage === "Logs" && <LogPage />}
+        {selectedPage === "Logs" && <ClusterLogContainer />}
+        {selectedPage === "Grafana Dashboard" && <GrafanaViewContainer />}
+        {selectedPage === "Prometheus Charts" && <PrometheusViewContainer />}
         {selectedPage === "Settings" && <Settings />}
         {selectedPage === "Github" && <LandingPage />}
       </main>

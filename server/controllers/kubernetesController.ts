@@ -3,6 +3,7 @@ import * as k8s from '@kubernetes/client-node';
 import kubernetesService from '../services/kubernetesService.js';
 import generalService from '../services/generalService.js';
 
+// ***** Define Interfaces *****
 interface ReturnedPod {
 	name: string;
 	creationTimestamp: Date | undefined;
@@ -14,12 +15,35 @@ interface ReturnedPod {
 	hostIP: String;
 	podIP: String;
 	phase: string | undefined;
-	conditions: k8s.V1PodCondition[] | undefined; //(Pod Health)
+	conditions: k8s.V1PodCondition[] | undefined;
 	startTime: Date | undefined;
 	uid: String | undefined;
 }
 
-// Controller object that contains middleware functions
+interface ReturnedNode {
+	name: String | undefined;
+	namespace: String | undefined;
+	creationTimestamp: Date | undefined;
+	podCIDR: String | undefined;
+	addresses: k8s.V1NodeAddress[] | undefined;
+	allocatable: { [key: string]: string } | undefined;
+	capacity: { [key: string]: string } | undefined;
+	conditions: k8s.V1NodeCondition[] | undefined;
+	labels: { [key: string]: string } | undefined;
+}
+
+interface ReturnedServices {
+	name: String | undefined;
+	namespace: String | undefined;
+	labels: { [key: string]: string } | undefined;
+	creationTimestamp: Date | undefined;
+	clusterIP: String | undefined;
+	ports: k8s.V1ServicePort[] | undefined;
+	selector: { [key: string]: string } | undefined;
+	type: String | undefined;
+}
+
+// ***** Controller Object *****
 const kubernetesController = {
 	// Middleware function to get all pods from the cluster
 	getPods: async (_req: Request, res: Response, next: NextFunction) => {
@@ -38,7 +62,7 @@ const kubernetesController = {
 					hostIP: pod.status?.hostIP || 'Unknown host IP',
 					podIP: pod.status?.podIP || 'Unknown pod IP',
 					phase: pod.status?.phase || 'Unknown phase',
-					conditions: pod.status?.conditions || undefined, //(Pod Health)
+					conditions: pod.status?.conditions || undefined,
 					startTime: pod.status?.startTime || undefined,
 					uid: pod.metadata?.uid || undefined,
 				};
@@ -66,7 +90,7 @@ const kubernetesController = {
 			hostIP: String;
 			podIP: String;
 			phase: string | undefined;
-			// conditions: k8s.V1PodCondition[] | undefined; //(Pod Health)
+			conditions: k8s.V1PodCondition[] | undefined;
 			startTime: Date | undefined;
 		}
 		try {
@@ -85,7 +109,7 @@ const kubernetesController = {
 				hostIP: pod.status?.hostIP || 'Unknown host IP',
 				podIP: pod.status?.podIP || 'Unknown pod IP',
 				phase: pod.status?.phase || 'Unknown phase',
-				// conditions: pod.status?.conditions || undefined, //(Pod Health)
+				conditions: pod.status?.conditions || undefined, //(Pod Health)
 				startTime: pod.status?.startTime || undefined,
 			};
 			res.locals.pod = newPod;
@@ -100,23 +124,10 @@ const kubernetesController = {
 
 	// Middleware function to get all nodes from the cluster
 	getNodes: async (_req: Request, res: Response, next: NextFunction) => {
-		interface ReturnedNode {
-			name: String | undefined;
-			namespace: String | undefined;
-			creationTimestamp: Date | undefined;
-			podCIDR: String | undefined;
-			addresses: k8s.V1NodeAddress[] | undefined;
-			// podCIDRs: String[];
-			allocatable: { [key: string]: string } | undefined;
-			capacity: { [key: string]: string } | undefined;
-			conditions: k8s.V1NodeCondition[] | undefined;
-			labels: { [key: string]: string } | undefined;
-		}
 		try {
 			const allNodes = await kubernetesService.getNodesFromCluster();
 			const returnedNodes: ReturnedNode[] = [];
 			for (const node of allNodes) {
-				console.log(node.status?.conditions, node.status?.capacity);
 				const newNode: ReturnedNode = {
 					creationTimestamp: node.metadata?.creationTimestamp,
 					name: node.metadata?.name,
@@ -140,16 +151,6 @@ const kubernetesController = {
 
 	// Middleware function to get all services from the cluster
 	getServices: async (_req: Request, res: Response, next: NextFunction) => {
-		interface ReturnedServices {
-			name: String | undefined;
-			namespace: String | undefined;
-			labels: { [key: string]: string } | undefined;
-			creationTimestamp: Date | undefined;
-			clusterIP: String | undefined;
-			ports: k8s.V1ServicePort[] | undefined;
-			selector: { [key: string]: string } | undefined;
-			type: String | undefined;
-		}
 		try {
 			const allServices = await kubernetesService.getServicesFromCluster();
 			const returnedServices: ReturnedServices[] = [];
@@ -179,19 +180,28 @@ const kubernetesController = {
 	checkAPI: async (req: Request, res: Response, next: NextFunction) => {
 		const key: string = req.body.key;
 		const address: string = req.body.address;
-		try {
-			const check = await kubernetesService.checkAPI(key, address);
-			if (check === 'ok') {
-				generalService.writeEnv(key, address);
-				next();
-			} else if (check === 'invalidkey') {
-				res.status(403).json({ message: 'invalid_key' });
-			} else {
-				res.status(500).json({ message: 'unable to connect to cluster' });
+		console.log(address);
+		let cleanAddress: string = address;
+		if (cleanAddress) {
+			cleanAddress = address.replace('https://', '');
+			//console.log(cleanAddress);
+			try {
+				const check = await kubernetesService.checkAPI(key, cleanAddress);
+				if (check === 'ok') {
+					generalService.writeEnv(key, cleanAddress);
+					next();
+				} else if (check === 'invalidkey') {
+					res.status(403).json({ message: 'invalid_key' });
+				} else {
+					res.status(500).json({ message: 'unable to connect to cluster' });
+				}
+			} catch (error) {
+				console.log(error);
+				res.status(500).json({ message: 'error checking API ' });
 			}
-		} catch (error) {
-			console.log(error);
-			res.status(500).json({ message: 'error checking API ' });
+		} else {
+			console.log('no address');
+			res.status(500).json({ message: 'no address given' });
 		}
 	},
 };

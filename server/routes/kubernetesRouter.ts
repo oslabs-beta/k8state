@@ -28,19 +28,24 @@ kubernetesRouter.get(
 
 // Route to get all nodes in the cluster
 kubernetesRouter.get('/nodes', kubernetesController.getNodes, (_req, res) => {
-	res.status(200).json(res.locals.nodeData);
+    res.status(200).json(res.locals.nodeData);
 });
-
-kubernetesRouter.post(
-	'/checkAPI',
-	kubernetesController.checkAPI,
-	(_req, res) => {
-		res.status(200).json({ message: 'ok' });
-	}
-);
-
+kubernetesRouter.post('/checkAPI', kubernetesController.checkAPI, (_req, res) => {
+    res.status(200).json({ message: 'ok' });
+})
 kubernetesRouter.get('/checkENV', generalController.checkEnv, (_req, res) => {
 	res.status(200).json(res.locals.env);
 });
-
+kubernetesRouter.post('/createLogs', kubernetesController.getPods, generalController.writeLog, (_req, res) => {
+    res.status(200).json(res.locals.logs);
+})
+kubernetesRouter.get('/getLogs', generalController.getLogs, (_req, res) => {
+    res.status(200).json(res.locals.dirLogs);
+})
+kubernetesRouter.get('/getDownloadLogs/:log', generalController.getDownloadSpecificLog, (_req, res) => {
+    res.status(200);
+})
+kubernetesRouter.delete('/deleteLogs/:log', generalController.deleteSpecificLog, (_req, res) => {
+    res.status(200).json(res.locals.deletedLog);
+})
 export default kubernetesRouter;

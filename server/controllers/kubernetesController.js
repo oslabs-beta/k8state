@@ -1,6 +1,6 @@
 import kubernetesService from '../services/kubernetesService.js';
 import generalService from '../services/generalService.js';
-// Controller object that contains middleware functions
+// ***** Controller Object *****
 const kubernetesController = {
     // Middleware function to get all pods from the cluster
     getPods: async (_req, res, next) => {
@@ -19,7 +19,7 @@ const kubernetesController = {
                     hostIP: pod.status?.hostIP || 'Unknown host IP',
                     podIP: pod.status?.podIP || 'Unknown pod IP',
                     phase: pod.status?.phase || 'Unknown phase',
-                    conditions: pod.status?.conditions || undefined, //(Pod Health)
+                    conditions: pod.status?.conditions || undefined,
                     startTime: pod.status?.startTime || undefined,
                     uid: pod.metadata?.uid || undefined,
                 };
@@ -49,7 +49,7 @@ const kubernetesController = {
                 hostIP: pod.status?.hostIP || 'Unknown host IP',
                 podIP: pod.status?.podIP || 'Unknown pod IP',
                 phase: pod.status?.phase || 'Unknown phase',
-                // conditions: pod.status?.conditions || undefined, //(Pod Health)
+                conditions: pod.status?.conditions || undefined, //(Pod Health)
                 startTime: pod.status?.startTime || undefined,
             };
             res.locals.pod = newPod;
@@ -66,7 +66,6 @@ const kubernetesController = {
             const allNodes = await kubernetesService.getNodesFromCluster();
             const returnedNodes = [];
             for (const node of allNodes) {
-                console.log(node.status?.conditions, node.status?.capacity);
                 const newNode = {
                     creationTimestamp: node.metadata?.creationTimestamp,
                     name: node.metadata?.name,
@@ -118,22 +117,32 @@ const kubernetesController = {
     checkAPI: async (req, res, next) => {
         const key = req.body.key;
         const address = req.body.address;
-        try {
-            const check = await kubernetesService.checkAPI(key, address);
-            if (check === 'ok') {
-                generalService.writeEnv(key, address);
-                next();
+        console.log(address);
+        let cleanAddress = address;
+        if (cleanAddress) {
+            cleanAddress = address.replace('https://', '');
+            console.log(cleanAddress);
+            try {
+                const check = await kubernetesService.checkAPI(key, cleanAddress);
+                if (check === 'ok') {
+                    generalService.writeEnv(key, cleanAddress);
+                    next();
+                }
+                else if (check === 'invalidkey') {
+                    res.status(403).json({ message: 'invalid_key' });
+                }
+                else {
+                    res.status(500).json({ message: 'unable to connect to cluster' });
+                }
             }
-            else if (check === 'invalidkey') {
-                res.status(403).json({ message: 'invalid_key' });
-            }
-            else {
-                res.status(500).json({ message: 'unable to connect to cluster' });
+            catch (error) {
+                console.log(error);
+                res.status(500).json({ message: 'error checking API ' });
             }
         }
-        catch (error) {
-            console.log(error);
-            res.status(500).json({ message: 'error checking API ' });
+        else {
+            console.log('no address');
+            res.status(500).json({ message: 'no address given' });
         }
     },
 };

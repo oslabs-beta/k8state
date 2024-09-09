@@ -51,6 +51,16 @@ const Settings = () => {
       noValidate
       autoComplete="off"
     >
+      <h1
+        style={{
+          width: "max-content",
+          position: "absolute",
+          top: "120px",
+          left: "375px",
+        }}
+      >
+        Change Cluster Address and Key
+      </h1>
       <TextField
         label="Address"
         color={envAlertMessage === "Success!" ? "success" : "primary"}

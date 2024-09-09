@@ -184,7 +184,7 @@ const kubernetesController = {
 		let cleanAddress: string = address;
 		if (cleanAddress) {
 			cleanAddress = address.replace('https://', '');
-			console.log(cleanAddress);
+			//console.log(cleanAddress);
 			try {
 				const check = await kubernetesService.checkAPI(key, cleanAddress);
 				if (check === 'ok') {

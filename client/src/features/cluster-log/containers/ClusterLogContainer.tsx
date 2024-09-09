@@ -151,6 +151,7 @@ export default function LogPage() {
           color="error"
           type="button"
           onClick={confirmDeleteAll}
+          disabled={!clusterLogs || clusterLogs.length === 0 ? true : false}
         >
           Delete all Logs
         </Button>

@@ -7,16 +7,26 @@ import LandingPage from "./features/landing-page/LandingPage";
 import { store } from "./app/store";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
-import CaptivePortal from "./features/captive-portal/CaptivePortal";
-import LogPage from "./features/log-page/LogPage";
-// import material UI fonts
+import CaptivePortal from "./features/captive-portal/containers/CaptivePortal";
+import ClusterLogContainer from "./features/cluster-log/containers/ClusterLogContainer";
+import Settings from "./features/settings/settings";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ProtectedRoute from "./features/captive-portal/ProtectedRoute";
+import { createTheme, ThemeProvider, alpha, getContrastRatio, } from "@mui/material/styles";
+const violetBase = "#7F00FF";
+const violetMain = alpha(violetBase, 0.7);
 const theme = createTheme({
+    palette: {
+        violet: {
+            main: violetMain,
+            light: alpha(violetBase, 0.5),
+            dark: alpha(violetBase, 0.9),
+            contrastText: getContrastRatio(violetMain, "#fff") > 4.5 ? "#fff" : "#111",
+        },
+    },
     typography: {
         fontFamily: '"Roboto", sans-serif',
         h1: {
@@ -40,7 +50,11 @@ const router = createBrowserRouter([
     },
     {
         path: "/logs",
-        element: _jsx(LogPage, {}),
+        element: _jsx(ClusterLogContainer, {}),
+    },
+    {
+        path: "/settings",
+        element: _jsx(Settings, {}),
     },
 ]);
 const container = document.getElementById("root");

@@ -1,6 +1,6 @@
 import kubernetesService from '../services/kubernetesService.js';
 import generalService from '../services/generalService.js';
-// Controller object that contains middleware functions
+// ***** Controller Object *****
 const kubernetesController = {
     // Middleware function to get all pods from the cluster
     getPods: async (_req, res, next) => {
@@ -14,12 +14,11 @@ const kubernetesController = {
                     namespace: pod.metadata?.namespace || 'Unknown namespce',
                     labels: pod.metadata?.labels || undefined,
                     nodeName: pod.spec?.nodeName,
-                    // containers: pod.spec?.containers || undefined, //(Stretch)
                     restartPolicy: pod.spec?.restartPolicy || 'Unknown restart policy',
                     hostIP: pod.status?.hostIP || 'Unknown host IP',
                     podIP: pod.status?.podIP || 'Unknown pod IP',
                     phase: pod.status?.phase || 'Unknown phase',
-                    conditions: pod.status?.conditions || undefined, //(Pod Health)
+                    conditions: pod.status?.conditions || undefined,
                     startTime: pod.status?.startTime || undefined,
                     uid: pod.metadata?.uid || undefined,
                 };
@@ -29,8 +28,8 @@ const kubernetesController = {
             next();
         }
         catch (error) {
-            console.log(error);
             res.status(500).json({ message: 'Error fetching pods from cluster' });
+            throw new Error(`Something went wrong: ${error.message}`);
         }
     },
     // Middleware function to get details on a single pod from the cluster
@@ -44,19 +43,17 @@ const kubernetesController = {
                 namespace: pod.metadata?.namespace || 'Unknown namespce',
                 labels: pod.metadata?.labels || undefined,
                 nodeName: pod.spec?.nodeName,
-                // containers: pod.spec?.containers || undefined, //(Stretch)
                 restartPolicy: pod.spec?.restartPolicy || 'Unknown restart policy',
                 hostIP: pod.status?.hostIP || 'Unknown host IP',
                 podIP: pod.status?.podIP || 'Unknown pod IP',
                 phase: pod.status?.phase || 'Unknown phase',
-                // conditions: pod.status?.conditions || undefined, //(Pod Health)
+                conditions: pod.status?.conditions || undefined,
                 startTime: pod.status?.startTime || undefined,
             };
             res.locals.pod = newPod;
             next();
         }
         catch (error) {
-            console.log(error);
             throw new Error(`Error occurred while fetching pod data for pod: ${podName} in namespace: ${namespace}`);
         }
     },
@@ -66,7 +63,6 @@ const kubernetesController = {
             const allNodes = await kubernetesService.getNodesFromCluster();
             const returnedNodes = [];
             for (const node of allNodes) {
-                console.log(node.status?.conditions, node.status?.capacity);
                 const newNode = {
                     creationTimestamp: node.metadata?.creationTimestamp,
                     name: node.metadata?.name,
@@ -84,8 +80,8 @@ const kubernetesController = {
             next();
         }
         catch (error) {
-            console.log(error);
             res.status(500).json({ message: 'Error fetching services from cluster' });
+            throw new Error(`Something went wrong: ${error.message}`);
         }
     },
     // Middleware function to get all services from the cluster
@@ -110,30 +106,37 @@ const kubernetesController = {
             next();
         }
         catch (error) {
-            console.log(error);
             res.status(500).json({ message: 'Error fetching nodes from cluster' });
+            throw new Error(`Something went wrong: ${error.message}`);
         }
     },
     //middleware function to check if the user provided key and address are valid
     checkAPI: async (req, res, next) => {
         const key = req.body.key;
         const address = req.body.address;
-        try {
-            const check = await kubernetesService.checkAPI(key, address);
-            if (check === 'ok') {
-                generalService.writeEnv(key, address);
-                next();
+        let cleanAddress = address;
+        if (cleanAddress) {
+            cleanAddress = address.replace(/https?:\/\//, '');
+            try {
+                const check = await kubernetesService.checkAPI(key, cleanAddress);
+                if (check === 'ok') {
+                    generalService.writeEnv(key, cleanAddress);
+                    next();
+                }
+                else if (check === 'invalidkey') {
+                    res.status(403).json({ message: 'invalid_key' });
+                }
+                else {
+                    res.status(500).json({ message: 'unable to connect to cluster' });
+                }
             }
-            else if (check === 'invalidkey') {
-                res.status(403).json({ message: 'invalid_key' });
-            }
-            else {
-                res.status(500).json({ message: 'unable to connect to cluster' });
+            catch (error) {
+                res.status(500).json({ message: 'error checking API ' });
+                throw new Error(`Something went wrong: ${error.message}`);
             }
         }
-        catch (error) {
-            console.log(error);
-            res.status(500).json({ message: 'error checking API ' });
+        else {
+            res.status(500).json({ message: 'no address given' });
         }
     },
 };

@@ -1,11 +1,12 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
-    address: '',
-    key: '',
+    address: "",
+    key: "",
     init: false,
 };
+//Creates a slice in global state for address, key, and init
 export const portalSlice = createSlice({
-    name: 'portalSlice',
+    name: "portalSlice",
     initialState,
     reducers: {
         setAddress: (state, action) => {
@@ -16,8 +17,8 @@ export const portalSlice = createSlice({
         },
         setInit: (state, action) => {
             state.init = action.payload;
-        }
-    }
+        },
+    },
 });
 export const { setAddress, setKey, setInit } = portalSlice.actions;
 export default portalSlice.reducer;

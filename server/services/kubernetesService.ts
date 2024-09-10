@@ -4,6 +4,15 @@ import dotenv from 'dotenv';
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 dotenv.config();
 
+interface info {
+	name: string;
+	namespace: string;
+}
+interface data {
+	name: string;
+	namespace: string;
+	logs: string;
+}
 // Defines helper functions that will connect middleware to the Kubernetes API Client functions
 const kubernetesService = {
 	createClient: (): k8s.CoreV1Api => {
@@ -45,7 +54,6 @@ const kubernetesService = {
 			const res = await k8sApi.listPodForAllNamespaces();
 			return res.body.items;
 		} catch (error) {
-			console.log(error);
 			throw new Error(`Error fetching all pod details from the cluster.`);
 		}
 	},
@@ -60,7 +68,6 @@ const kubernetesService = {
 			const res = await k8sApi.readNamespacedPod(podName, namespace);
 			return res.body;
 		} catch (error) {
-			console.log(error);
 			throw new Error(
 				`Error fetching pod details from the cluster for pod name: ${podName} in namespace: ${namespace}.`
 			);
@@ -74,7 +81,6 @@ const kubernetesService = {
 			const res = await k8sApi.listServiceForAllNamespaces();
 			return res.body.items;
 		} catch (error) {
-			console.log(error);
 			throw new Error(`Error fetching all service data from the cluster.`);
 		}
 	},
@@ -86,11 +92,10 @@ const kubernetesService = {
 			const res = await k8sApi.listNode();
 			return res.body.items;
 		} catch (error) {
-			console.log(error);
 			throw new Error(`Error fetching all node data from the cluster.`);
 		}
 	},
-
+	// Function that checks if the API is reachable and the authorization works
 	checkAPI: async (
 		key: string,
 		address: string
@@ -102,6 +107,7 @@ const kubernetesService = {
 					authorization: 'Bearer ' + key,
 				},
 			});
+
 			if (test.status !== 200) {
 				return 'invalidkey';
 			} else {
@@ -111,6 +117,41 @@ const kubernetesService = {
 			if (error instanceof Error) {
 				return error;
 			}
+		}
+	},
+	// Function gets the logs from the logs folder and formats them
+	getLogs: async (input: info[]): Promise<data[] | undefined> => {
+		const k8sApi = kubernetesService.createClient();
+		try {
+			const date = new Date();
+			const formatter = new Intl.DateTimeFormat('en-US', {
+				year: 'numeric',
+				month: 'long',
+				day: 'numeric',
+			});
+			const formattedDate = formatter.format(date);
+			const logs: data[] = [];
+			for (let i = 0; i < input.length; i++) {
+				if (
+					input[i].namespace !== 'kube-system' &&
+					input[i].namespace !== 'monitoring'
+				) {
+					const result = await k8sApi.readNamespacedPodLog(
+						input[i].name,
+						input[i].namespace
+					);
+					logs.push({
+						name: input[i].name,
+						namespace: input[i].namespace,
+						logs: result.body,
+						date: formattedDate,
+					} as data);
+				}
+			}
+
+			return logs;
+		} catch (error) {
+			throw new Error(`Something went wrong: ${(error as Error).message}`);
 		}
 	},
 };

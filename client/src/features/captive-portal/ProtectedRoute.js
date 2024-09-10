@@ -1,14 +1,15 @@
 import { jsx as _jsx } from "react/jsx-runtime";
-import { useState } from 'react';
-import { Navigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { setInit, setAddress, setKey } from './captivePortalSlice';
+import { useState } from "react";
+import { Navigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { setInit, setAddress, setKey } from "./captivePortalSlice";
 export default function ProtectedRoute(props) {
     const dispatch = useAppDispatch();
     const [loading, setLoading] = useState(true);
-    const init = useAppSelector((state) => state.portalSlice.init);
+    const init = useAppSelector(state => state.portalSlice.init);
+    //performs a fetch request to see if the environment file has been created. if the file exists and has a key or address, the information is assigned to global state and clusterui is rendered
     fetch("http://localhost:8080/api/checkenv", {
-        method: 'GET',
+        method: "GET",
     })
         .then(response => response.json())
         .then(data => {
@@ -29,4 +30,3 @@ export default function ProtectedRoute(props) {
         return _jsx(Navigate, { to: "/portal" });
     }
 }
-;

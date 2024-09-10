@@ -43,7 +43,6 @@ const kubernetesService = {
             return res.body.items;
         }
         catch (error) {
-            console.log(error);
             throw new Error(`Error fetching all pod details from the cluster.`);
         }
     },
@@ -55,7 +54,6 @@ const kubernetesService = {
             return res.body;
         }
         catch (error) {
-            console.log(error);
             throw new Error(`Error fetching pod details from the cluster for pod name: ${podName} in namespace: ${namespace}.`);
         }
     },
@@ -67,7 +65,6 @@ const kubernetesService = {
             return res.body.items;
         }
         catch (error) {
-            console.log(error);
             throw new Error(`Error fetching all service data from the cluster.`);
         }
     },
@@ -79,10 +76,10 @@ const kubernetesService = {
             return res.body.items;
         }
         catch (error) {
-            console.log(error);
             throw new Error(`Error fetching all node data from the cluster.`);
         }
     },
+    // Function that checks if the API is reachable and the authorization works
     checkAPI: async (key, address) => {
         try {
             const test = await fetch('https://' + address + '/api/v1/nodes', {
@@ -91,9 +88,7 @@ const kubernetesService = {
                     authorization: 'Bearer ' + key,
                 },
             });
-            //console.log(test);
             if (test.status !== 200) {
-                //console.log(test.status);
                 return 'invalidkey';
             }
             else {
@@ -101,10 +96,39 @@ const kubernetesService = {
             }
         }
         catch (error) {
-            //console.log(error);
             if (error instanceof Error) {
                 return error;
             }
+        }
+    },
+    // Function gets the logs from the logs folder and formats them
+    getLogs: async (input) => {
+        const k8sApi = kubernetesService.createClient();
+        try {
+            const date = new Date();
+            const formatter = new Intl.DateTimeFormat('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+            });
+            const formattedDate = formatter.format(date);
+            const logs = [];
+            for (let i = 0; i < input.length; i++) {
+                if (input[i].namespace !== 'kube-system' &&
+                    input[i].namespace !== 'monitoring') {
+                    const result = await k8sApi.readNamespacedPodLog(input[i].name, input[i].namespace);
+                    logs.push({
+                        name: input[i].name,
+                        namespace: input[i].namespace,
+                        logs: result.body,
+                        date: formattedDate,
+                    });
+                }
+            }
+            return logs;
+        }
+        catch (error) {
+            throw new Error(`Something went wrong: ${error.message}`);
         }
     },
 };

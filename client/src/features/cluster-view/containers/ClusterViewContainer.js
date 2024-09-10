@@ -1,28 +1,21 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import "@xyflow/react/dist/style.css";
 import { ReactFlow, Background, Controls } from "@xyflow/react";
+import { MiniMap } from "@xyflow/react";
 import { useGetKubernetesNodesQuery, useGetKubernetesPodsQuery, } from "../clusterViewApiSlice";
-import CustomNode from "../components/CustomNode"; // Import your custom node
+import { KubeNode, KubePod, KubeCluster } from "../components/CustomNode";
 // *******************
 // **   Component   **
 // *******************
 export default function ClusterViewContainer() {
     // **** Global State ****
     // Hooks into Kubernets Cluster Data via RTK Query
-    const { data: kubernetesNodes = [],
-    // error: kubernetesNodesError,
-    // isLoading: kubernetesNodesIsLoading,
-    // refetch: refetchKubernetesNodes,
-     } = useGetKubernetesNodesQuery();
-    const { data: kubernetesPods = [],
-    // error: kubernetsPodsError,
-    // isLoading: kubernetsPodsIsLoading,
-    // refetch: refetchKubernetsPods,
-     } = useGetKubernetesPodsQuery();
-    // **** Local State ****
-    // Sets state for nodes array ****
-    const [mappedNodes, setMappedNodes] = useState([]);
+    const { data: kubernetesNodes = [] } = useGetKubernetesNodesQuery();
+    const { data: kubernetesPods = [] } = useGetKubernetesPodsQuery();
+    // Create object to pass into type property of React Flow Nodes.
+    // This enables the usage of a React Component to be the structure of a ReactFlow Node.
+    const nodeTypes = useMemo(() => ({ kubeNode: KubeNode, kubePod: KubePod, kubeCluster: KubeCluster }), []);
     // **** Manage Side Effect ****
     // Ensure mappedNodes is always up to date when new data is recieved from Kubernetes Cluster
     useEffect(() => {
@@ -35,6 +28,9 @@ export default function ClusterViewContainer() {
             setMappedNodes(tempMappedNodes);
         }
     }, [kubernetesNodes, kubernetesPods]);
+    // **** Local State ****
+    // Sets state for nodes array ****
+    const [mappedNodes, setMappedNodes] = useState([]);
     // **** Helper Functions ****
     // mapPodsToNodes, maps the pods array to the corresponding node
     function mapPodsToNodes(nodes, pods) {
@@ -49,64 +45,68 @@ export default function ClusterViewContainer() {
         });
         return nodes;
     }
-    // initializeNodes, adds a 'pods' array to each node in the nodes array
+    // Adds a 'pods' array to each node in the nodes array
+    // This array stores the corresponding pods for that node
     function initializeNodes(nodes) {
         return nodes.map(node => ({ name: node.name, data: node, pods: [] }));
     }
-    // Create object to pass into type property of React Flow Nodes. This enables the usage of a React Component to be the structure of a ReactFlow Node.
-    const nodeTypes = {
-        customNode: CustomNode,
-    };
-    // dynamically create React Flow Nodes using reactFlowNodes and reactFlowEdges
+    // **********************************
+    // **   Renders React Flow Nodes   **
+    // **********************************
     const reactFlowNodes = () => {
         // Adds Kubernetes Cluster as the first node by default
-        const outputArray = [
+        const reactFlowNodeArray = [
             {
                 id: "Cluster",
                 position: { x: (mappedNodes.length / 2 + 1) * 750, y: 0 },
                 data: { name: "Cluster" },
-                type: "customNode",
+                type: "kubeCluster",
+                draggable: true,
             },
         ];
         // Iterates through the mapped nodes state array
         mappedNodes.forEach((node, index) => {
             // Adds the node to the output array first
             const startingXPos = (index + 1) * 1000;
-            outputArray.push({
+            reactFlowNodeArray.push({
                 id: node.name,
-                position: { x: startingXPos, y: 200 },
-                data: { ...node.data, ...{ popOverType: "node" } },
-                type: "customNode", // Specify the custom node type
+                position: { x: startingXPos, y: 300 },
+                data: { ...node.data },
+                type: "kubeNode",
+                draggable: true,
             });
             const podsPerRow = 3;
-            let podValueY = 300;
+            let podValueY = 600;
             let podCurrentIndex = 0;
             // Conditional wrapper to start iteration of pods array for current node
             while (podCurrentIndex < node.pods.length) {
-                const startX = startingXPos - 250;
+                const startX = startingXPos - 200;
                 // Iterates through the pods array for this node
                 for (let i = 0; i < podsPerRow && podCurrentIndex < node.pods.length; i++) {
-                    // Adds pod to outputArray
-                    outputArray.push({
+                    // Adds pod to reactFlowNodeArray
+                    reactFlowNodeArray.push({
                         id: node.pods[podCurrentIndex].uid.toString(),
                         position: { x: startX + i * 200, y: podValueY },
-                        data: { ...node.pods[podCurrentIndex], ...{ popOverType: "pod" } },
-                        type: "customNode", // Specify the custom node type
+                        data: { ...node.pods[podCurrentIndex] },
+                        type: "kubePod",
+                        draggable: true,
                     });
                     podCurrentIndex++;
                 }
                 // Increments variables for new row
-                podValueY += 100;
+                podValueY += 200;
             }
         });
-        return outputArray;
+        return reactFlowNodeArray;
     };
-    // **** dynamically create React Flow Edges ****
+    // **********************************
+    // **   Renders React Flow Edges   **
+    // **********************************
     const reactFlowEdges = () => {
-        const outputArray = [];
+        const reactFlowEdgeArray = [];
         // Adds React Flow Edges connections between nodes and the cluster
         mappedNodes.forEach(node => {
-            outputArray.push({
+            reactFlowEdgeArray.push({
                 id: `Cluster-${node.name}`,
                 source: "Cluster",
                 target: `${node.name}`,
@@ -115,18 +115,17 @@ export default function ClusterViewContainer() {
         });
         // Adds React Flow Edges connections between pods and nodes
         kubernetesPods.forEach(pod => {
-            outputArray.push({
+            reactFlowEdgeArray.push({
                 id: `${pod.nodeName}-${pod.name}`,
                 source: `${pod.nodeName}`,
                 target: `${pod.uid}`,
                 animated: true,
             });
         });
-        // console.log(outputArray)
-        return outputArray;
+        return reactFlowEdgeArray;
     };
-    const nodesToRender = reactFlowNodes();
-    const edgesToRender = reactFlowEdges();
-    // ****  Return  ****
-    return (_jsx("div", { id: "clusterview-container", className: "container", children: _jsx("div", { style: { width: "100vw", height: "100vh" }, children: _jsxs(ReactFlow, { nodes: nodesToRender, edges: edgesToRender, nodeTypes: nodeTypes, fitView: true, children: [_jsx(Background, {}), _jsx(Controls, {})] }) }) }));
+    const nodes = reactFlowNodes();
+    const edges = reactFlowEdges();
+    // ****  ClusterViewContainer Function Return  ****
+    return (_jsx("div", { id: "clusterview-container", className: "container", children: _jsx("div", { style: { width: "100vw", height: "100vh" }, children: _jsxs(ReactFlow, { nodes: nodes, edges: edges, nodeTypes: nodeTypes, children: [_jsx(Background, {}), _jsx(Controls, {}), _jsx(MiniMap, { style: { backgroundColor: "gray" } })] }) }) }));
 }

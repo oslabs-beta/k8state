@@ -3,16 +3,16 @@ import { createSlice } from "@reduxjs/toolkit";
 // Define an API service for the cluster view
 export const clusterApi = createApi({
     reducerPath: "clusterApi",
-    baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8080/api" }),
+    baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8080/" }),
     endpoints: builder => ({
         getKubernetesNodes: builder.query({
-            query: () => "nodes",
+            query: () => "api/nodes",
         }),
         getKubernetesPods: builder.query({
-            query: () => "pods",
+            query: () => "api/pods",
         }),
         getKubernetesServices: builder.query({
-            query: () => "services",
+            query: () => "api/services",
         }),
     }),
 });
@@ -24,9 +24,7 @@ const initialState = {
 export const clusterViewSlice = createSlice({
     name: "clusterView",
     initialState,
-    reducers: {
-    // Define any additional reducers here if needed
-    },
+    reducers: {},
 });
 // Selectors for any additional state managed in this slice
 export const selectPods = (state) => state.clusterView.pods;

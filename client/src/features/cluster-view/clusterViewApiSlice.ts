@@ -27,6 +27,7 @@ export interface KubernetesPod {
   phase: string
   startTime: string
   uid: string
+  conditions: Conditions[]
 }
 
 export interface KubernetesServices {
@@ -40,19 +41,26 @@ export interface KubernetesServices {
   type: String | undefined
 }
 
+interface Conditions {
+  lastProbeTime: string | null
+  lastTransitionTime: Date
+  status: Boolean
+  type: string
+}
+
 // Define an API service for the cluster view
 export const clusterApi = createApi({
   reducerPath: "clusterApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8080/api" }),
+  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8080/" }),
   endpoints: builder => ({
     getKubernetesNodes: builder.query<KubernetesNode[], void>({
-      query: () => "nodes",
+      query: () => "api/nodes",
     }),
     getKubernetesPods: builder.query<KubernetesPod[], void>({
-      query: () => "pods",
+      query: () => "api/pods",
     }),
     getKubernetesServices: builder.query<KubernetesServices[], void>({
-      query: () => "services",
+      query: () => "api/services",
     }),
   }),
 })
@@ -75,9 +83,7 @@ const initialState: ClusterViewState = {
 export const clusterViewSlice = createSlice({
   name: "clusterView",
   initialState,
-  reducers: {
-    // Define any additional reducers here if needed
-  },
+  reducers: {},
 })
 
 // Selectors for any additional state managed in this slice

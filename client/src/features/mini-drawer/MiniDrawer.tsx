@@ -1,19 +1,19 @@
 import * as React from "react"
-import { 
-  styled, 
-  useTheme, 
-  Box, 
-  Toolbar, 
-  List, 
-  CssBaseline, 
-  Typography, 
-  Divider, 
+import {
+  styled,
+  useTheme,
+  Box,
+  Toolbar,
+  List,
+  CssBaseline,
+  Typography,
+  Divider,
   IconButton,
-ListItem,
-ListItemButton,
-ListItemIcon,
-ListItemText
-} from '@mui/material'
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+} from "@mui/material"
 import type { Theme, CSSObject } from "@mui/material/styles"
 import MuiDrawer from "@mui/material/Drawer"
 import type { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar"
@@ -24,13 +24,15 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight"
 import logoSVG from "../../public/logo.svg"
 import HubIcon from "@mui/icons-material/Hub"
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong"
+import AnalyticsIcon from "@mui/icons-material/Analytics"
 import SettingsIcon from "@mui/icons-material/Settings"
 import GitHubIcon from "@mui/icons-material/GitHub"
 import { useState } from "react"
 import ClusterViewContainer from "../cluster-view/containers/ClusterViewContainer"
-import LogPage from "../log-page/LogPage"
+import ClusterLogContainer from "../cluster-log/containers/ClusterLogContainer"
 import Settings from "../settings/settings"
-import LandingPage from "../landing-page/LandingPage"
+import GrafanaViewContainer from "../grafana-dashboard/GrafanaViewContainer"
+import { alpha } from "@mui/material/styles"
 
 // ****************************
 // **   Create Interface's   **
@@ -40,9 +42,9 @@ interface AppBarProps extends MuiAppBarProps {
   open?: boolean
 }
 
-// ****************************
+// *****************************
 // **   Material UI Styling   **
-// ****************************
+// *****************************
 
 const drawerWidth = 240
 
@@ -72,7 +74,6 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   alignItems: "center",
   justifyContent: "flex-end",
   padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }))
 
@@ -118,14 +119,19 @@ const Drawer = styled(MuiDrawer, {
 export default function MiniDrawer() {
   const theme = useTheme()
 
-  // ** create state
+  // ** create state **
   const [open, setOpen] = React.useState(false)
 
-  const [selectedPage, setSelectedPage] = useState<string | null>(null)
+  const [selectedPage, setSelectedPage] = useState<string | null>("ClusterUI")
 
   const handleMenuSelect = (page: string) => {
-    console.log(page)
+    if (page === "Github") {
+      window.open("https://github.com/oslabs-beta/k8state", "_blank")
+      return
+    }
+
     setSelectedPage(page)
+    setOpen(false)
   }
 
   const handleDrawerOpen = () => {
@@ -135,6 +141,9 @@ export default function MiniDrawer() {
   const handleDrawerClose = () => {
     setOpen(false)
   }
+
+  const violetBase = "#7F00FF"
+  const violetMain = alpha(violetBase, 0.3)
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -161,7 +170,7 @@ export default function MiniDrawer() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            K<span style={{ color: "#ad97d0" }}>8</span>STATE — Cluster View
+            K<span style={{ color: "#ad97d0" }}>8</span>STATE — {selectedPage}
           </Typography>
           <img
             src={logoSVG}
@@ -172,6 +181,7 @@ export default function MiniDrawer() {
       </AppBar>
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
+          <h3 style={{ position: "absolute", left: "60px" }}>Navigation</h3>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "rtl" ? (
               <ChevronRightIcon />
@@ -182,13 +192,17 @@ export default function MiniDrawer() {
         </DrawerHeader>
         <Divider />
         <List>
-          {["ClusterUI", "Logs"].map((text, index) => (
+          {["ClusterUI", "Logs", "Grafana Dashboard"].map((text, index) => (
             <ListItem
               onClick={() => handleMenuSelect(text)}
               key={text}
               disablePadding
               sx={{ display: "block" }}
-              style={{ color: "black", textDecoration: "none" }}
+              style={{
+                color: "black",
+                textDecoration: "none",
+                backgroundColor: selectedPage === text ? violetMain : "white",
+              }}
             >
               <ListItemButton
                 sx={{
@@ -204,7 +218,13 @@ export default function MiniDrawer() {
                     justifyContent: "center",
                   }}
                 >
-                  {index % 2 === 0 ? <HubIcon /> : <ReceiptLongIcon />}
+                  {index === 0 ? (
+                    <HubIcon />
+                  ) : index === 2 ? (
+                    <AnalyticsIcon />
+                  ) : (
+                    <ReceiptLongIcon />
+                  )}
                 </ListItemIcon>
                 <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
@@ -219,7 +239,11 @@ export default function MiniDrawer() {
               key={text}
               disablePadding
               sx={{ display: "block" }}
-              style={{ color: "black", textDecoration: "none" }}
+              style={{
+                color: "black",
+                textDecoration: "none",
+                backgroundColor: selectedPage === text ? violetMain : "white",
+              }}
             >
               <ListItemButton
                 sx={{
@@ -260,9 +284,10 @@ export default function MiniDrawer() {
       </Drawer>
       <main>
         {selectedPage === "ClusterUI" && <ClusterViewContainer />}
-        {selectedPage === "Logs" && <LogPage />}
+        {selectedPage === "Logs" && <ClusterLogContainer />}
+        {selectedPage === "Grafana Dashboard" && <GrafanaViewContainer />}
         {selectedPage === "Settings" && <Settings />}
-        {selectedPage === "Github" && <LandingPage />}
+        {selectedPage === "Github"}
       </main>
     </Box>
   )

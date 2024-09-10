@@ -64,5 +64,5 @@ export default function GrafanaViewContainer() {
   // **********************************
   // **   Render Grafana dashboard   **
   // **********************************
-  return <>{iframeURL !== "" /** && Link Works */ ? <Dashboard /> : <Form />}</>
+  return <>{iframeURL !== "" ? <Dashboard /> : <Form />}</>
 }

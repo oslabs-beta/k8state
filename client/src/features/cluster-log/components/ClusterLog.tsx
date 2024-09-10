@@ -17,6 +17,8 @@ interface Props {
 
 export default function ClusterLog(props: Props) {
   const { clusterLog } = props
+
+  console.log("clusterLog: ", clusterLog)
   console.log("clusterLog:", clusterLog)
   const [expanded, setExpanded] = React.useState(false)
 
@@ -138,6 +140,7 @@ export default function ClusterLog(props: Props) {
           ))}
 
           <Button
+            aria-label="Download"
             style={{ margin: "16px" }}
             variant="contained"
             color="primary"

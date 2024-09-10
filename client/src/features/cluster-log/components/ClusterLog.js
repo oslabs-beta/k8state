@@ -9,6 +9,7 @@ import Button from "@mui/material/Button";
 import { useGetClusterLogsQuery } from "../clusterLogsApiSlice";
 export default function ClusterLog(props) {
     const { clusterLog } = props;
+    console.log("clusterLog: ", clusterLog);
     console.log("clusterLog:", clusterLog);
     const [expanded, setExpanded] = React.useState(false);
     const { 
@@ -79,5 +80,5 @@ export default function ClusterLog(props) {
                             display: "none",
                         },
                     },
-            ], children: [_jsx(AccordionSummary, { expandIcon: _jsx(ExpandMoreIcon, {}), "aria-controls": "panel1-content", id: "panel1-header", children: _jsxs(Typography, { children: [_jsx("strong", { children: "Log Instance:" }), "\u00A0 ", clusterLog.name, " "] }) }), _jsxs(AccordionDetails, { children: [clusterLog.log.map((log, i) => (_jsxs(Typography, { children: [_jsxs("span", { children: [_jsx("strong", { children: "Date:\u00A0" }), log.date] }), _jsx("br", {}), _jsxs("span", { children: [_jsx("strong", { children: "Podname:\u00A0" }), log.name] }), _jsx("br", {}), _jsxs("span", { children: [_jsx("strong", { children: "Log:\u00A0" }), log.logs] }), _jsx("br", {}), _jsx("br", {})] }, i * 938))), _jsx(Button, { style: { margin: "16px" }, variant: "contained", color: "primary", type: "button", onClick: downloadLogHandler, children: "Download" }), _jsx(Button, { style: { margin: "16px" }, variant: "contained", color: "primary", type: "button", onClick: deleteLogHandler, children: "Delete" })] })] }) }));
+            ], children: [_jsx(AccordionSummary, { expandIcon: _jsx(ExpandMoreIcon, {}), "aria-controls": "panel1-content", id: "panel1-header", children: _jsxs(Typography, { children: [_jsx("strong", { children: "Log Instance:" }), "\u00A0 ", clusterLog.name, " "] }) }), _jsxs(AccordionDetails, { children: [clusterLog.log.map((log, i) => (_jsxs(Typography, { children: [_jsxs("span", { children: [_jsx("strong", { children: "Date:\u00A0" }), log.date] }), _jsx("br", {}), _jsxs("span", { children: [_jsx("strong", { children: "Podname:\u00A0" }), log.name] }), _jsx("br", {}), _jsxs("span", { children: [_jsx("strong", { children: "Log:\u00A0" }), log.logs] }), _jsx("br", {}), _jsx("br", {})] }, i * 938))), _jsx(Button, { "aria-label": "Download", style: { margin: "16px" }, variant: "contained", color: "primary", type: "button", onClick: downloadLogHandler, children: "Download" }), _jsx(Button, { style: { margin: "16px" }, variant: "contained", color: "primary", type: "button", onClick: deleteLogHandler, children: "Delete" })] })] }) }));
 }

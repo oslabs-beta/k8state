@@ -10,7 +10,6 @@ import "./index.css";
 import CaptivePortal from "./features/captive-portal/containers/CaptivePortal";
 import ClusterLogContainer from "./features/cluster-log/containers/ClusterLogContainer";
 import Settings from "./features/settings/settings";
-// import material UI fonts
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
@@ -49,11 +48,6 @@ const router = createBrowserRouter([
         path: "/portal",
         element: _jsx(CaptivePortal, {}),
     },
-    // temp route to redesign Captive Portal
-    // {
-    //   path: "/portal",
-    //   element: <SignInSide />,
-    // },
     {
         path: "/logs",
         element: _jsx(ClusterLogContainer, {}),

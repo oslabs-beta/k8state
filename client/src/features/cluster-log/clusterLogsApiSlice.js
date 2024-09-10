@@ -18,9 +18,7 @@ const initialState = {
 export const clusterLogsSlice = createSlice({
     name: "clusterLogs",
     initialState,
-    reducers: {
-    // Define any additional reducers here if needed
-    },
+    reducers: {},
 });
 // Selectors for any additional state managed in this slice
 export const selectClusterLogs = (state) => state.clusterLogs.logs;

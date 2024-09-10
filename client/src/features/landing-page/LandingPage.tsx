@@ -36,8 +36,26 @@ export default function LandingPage() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             K8STATE
           </Typography>
-          <Button color="inherit" onClick={() => document.getElementById('team-section')?.scrollIntoView({ behavior: 'smooth' })}>Meet The Team</Button>
-          <Button color="inherit" onClick={() => document.getElementById('readme-section')?.scrollIntoView({ behavior: 'smooth' })}>Setting Up</Button>
+          <Button
+            color="inherit"
+            onClick={() =>
+              document
+                .getElementById("team-section")
+                ?.scrollIntoView({ behavior: "smooth" })
+            }
+          >
+            Meet The Team
+          </Button>
+          <Button
+            color="inherit"
+            onClick={() =>
+              document
+                .getElementById("readme-section")
+                ?.scrollIntoView({ behavior: "smooth" })
+            }
+          >
+            Setting Up
+          </Button>
         </Toolbar>
       </AppBar>
       {/* Main Content */}
@@ -55,7 +73,12 @@ export default function LandingPage() {
               className="logo-main App-logo-float"
               src={logoPNG}
               alt="App logo"
-              style={{ width: "100%", maxWidth: "300px", marginBottom: "20px", paddingTop: "15vh"}}
+              style={{
+                width: "100%",
+                maxWidth: "300px",
+                marginBottom: "20px",
+                paddingTop: "15vh",
+              }}
             />
           </Grid>
           <Grid item xs={12}>
@@ -69,6 +92,7 @@ export default function LandingPage() {
               Experience cluster visualization that moves as fast as you do.
             </Typography>
             <Button
+              aria-label="Get Started"
               variant="contained"
               color="primary"
               size="large"
@@ -78,6 +102,7 @@ export default function LandingPage() {
               Get Started
             </Button>
             <Button
+              aria-label="Visit GitHub"
               variant="outlined"
               color="primary"
               size="large"
@@ -90,11 +115,11 @@ export default function LandingPage() {
       </Container>
 
       <section id="readme-section">
-        <ReadMe/>
+        <ReadMe />
       </section>
 
       <section id="team-section">
-        <MeetTheTeam/>
+        <MeetTheTeam />
       </section>
 
       {/* Footer */}

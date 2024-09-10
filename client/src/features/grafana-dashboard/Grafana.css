@@ -1,70 +1,96 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
 
 .wrapper {
-    position: relative;
-    height: 25vh;
-    border: 1px solid rgb(229, 209, 255);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    gap: 20px;
-    width: 50vh;
-    margin: 0 auto;
-    padding: 20px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.241);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid rgb(229, 209, 255);
+  padding: 20px;
+  gap: 20px;
+  width: 40%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.241);
+  flex-shrink: 1;
+  flex-grow: 1;
+}
+
+.wrapper form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 .wrapper h2 {
-    margin-top: 15px;
-    font-size: 1.8rem;
-    margin-bottom: 20px;
+  margin-top: 15px;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
 .wrapper input[type="text"] {
-    width: 100%;
-    padding: 12px 16px;
-    border-radius: 12px;
-    border: 1px solid #ccc;
-    font-size: 1rem;
-    outline: none;
-    transition: border-color 0.3s ease;
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s ease;
 }
 
 .wrapper input[type="text"]:focus {
-    border-color: #6200ea;
-    box-shadow: 0 0 8px rgba(98, 0, 234, 0.2);
+  border-color: #6200ea;
+  box-shadow: 0 0 8px rgba(98, 0, 234, 0.2);
 }
 
 .wrapper button {
-    padding: 12px 24px;
-    background-color: #6200ea;
-    color: white;
-    border: none;
-    border-radius: 12px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    width: 100%;
-    margin-top: 20px;
+  padding: 12px 24px;
+  background-color: #6200ea;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    transform 0.3s ease;
+  width: 100%;
+  margin-top: 20px;
 }
 
 .wrapper button:hover {
-    background-color: #4a00b4;
+  background-color: #4a00b4;
 }
 
 .wrapper button:active {
-    background-color: #3a008c;
-    transform: translateY(2px);
+  background-color: #3a008c;
+  transform: translateY(2px);
+}
+
+@media (max-width: 768px) {
+  .wrapper {
+    width: 90%;
+    padding: 15px;
+  }
+
+  .wrapper h2 {
+    font-size: 1.5rem;
+  }
+
+  .wrapper button {
+    font-size: 0.9rem;
+  }
 }

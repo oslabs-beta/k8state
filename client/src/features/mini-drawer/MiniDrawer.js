@@ -46,7 +46,6 @@ const DrawerHeader = styled("div")(({ theme }) => ({
     alignItems: "center",
     justifyContent: "flex-end",
     padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
     ...theme.mixins.toolbar,
 }));
 const AppBar = styled(MuiAppBar, {
@@ -87,7 +86,7 @@ const Drawer = styled(MuiDrawer, {
 // *************************
 export default function MiniDrawer() {
     const theme = useTheme();
-    // ** create state
+    // ** create state **
     const [open, setOpen] = React.useState(false);
     const [selectedPage, setSelectedPage] = useState("ClusterUI");
     const handleMenuSelect = (page) => {
@@ -111,7 +110,7 @@ export default function MiniDrawer() {
                 }, children: _jsxs(Toolbar, { children: [_jsx(IconButton, { color: "inherit", "aria-label": "open drawer", onClick: handleDrawerOpen, edge: "start", sx: {
                                 marginRight: 5,
                                 ...(open && { display: "none" }),
-                            }, children: _jsx(MenuIcon, {}) }), _jsxs(Typography, { variant: "h6", noWrap: true, component: "div", children: ["K", _jsx("span", { style: { color: "#ad97d0" }, children: "8" }), "STATE \u2014 ", selectedPage] }), _jsx("img", { src: logoSVG, alt: "App logo", style: { width: "50px", marginLeft: "auto", marginRight: "15px" } })] }) }), _jsxs(Drawer, { variant: "permanent", open: open, children: [_jsx(DrawerHeader, { children: _jsx(IconButton, { onClick: handleDrawerClose, children: theme.direction === "rtl" ? (_jsx(ChevronRightIcon, {})) : (_jsx(ChevronLeftIcon, {})) }) }), _jsx(Divider, {}), _jsx(List, { children: ["ClusterUI", "Logs", "Grafana Dashboard"].map((text, index) => (_jsx(ListItem, { onClick: () => handleMenuSelect(text), disablePadding: true, sx: { display: "block" }, style: {
+                            }, children: _jsx(MenuIcon, {}) }), _jsxs(Typography, { variant: "h6", noWrap: true, component: "div", children: ["K", _jsx("span", { style: { color: "#ad97d0" }, children: "8" }), "STATE \u2014 ", selectedPage] }), _jsx("img", { src: logoSVG, alt: "App logo", style: { width: "50px", marginLeft: "auto", marginRight: "15px" } })] }) }), _jsxs(Drawer, { variant: "permanent", open: open, children: [_jsxs(DrawerHeader, { children: [_jsx("h3", { style: { position: "absolute", left: "60px" }, children: "Navigation" }), _jsx(IconButton, { onClick: handleDrawerClose, children: theme.direction === "rtl" ? (_jsx(ChevronRightIcon, {})) : (_jsx(ChevronLeftIcon, {})) })] }), _jsx(Divider, {}), _jsx(List, { children: ["ClusterUI", "Logs", "Grafana Dashboard"].map((text, index) => (_jsx(ListItem, { onClick: () => handleMenuSelect(text), disablePadding: true, sx: { display: "block" }, style: {
                                 color: "black",
                                 textDecoration: "none",
                                 backgroundColor: selectedPage === text ? violetMain : "white",

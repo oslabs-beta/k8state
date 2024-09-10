@@ -11,16 +11,8 @@ import { KubeNode, KubePod, KubeCluster } from "../components/CustomNode";
 export default function ClusterViewContainer() {
     // **** Global State ****
     // Hooks into Kubernets Cluster Data via RTK Query
-    const { data: kubernetesNodes = [],
-    // error: kubernetesNodesError,
-    // isLoading: kubernetesNodesIsLoading,
-    // refetch: refetchKubernetesNodes,
-     } = useGetKubernetesNodesQuery();
-    const { data: kubernetesPods = [],
-    // error: kubernetsPodsError,
-    // isLoading: kubernetesPodsIsLoading,
-    // refetch: refetchKubernetsPods,
-     } = useGetKubernetesPodsQuery();
+    const { data: kubernetesNodes = [] } = useGetKubernetesNodesQuery();
+    const { data: kubernetesPods = [] } = useGetKubernetesPodsQuery();
     // Create object to pass into type property of React Flow Nodes.
     // This enables the usage of a React Component to be the structure of a ReactFlow Node.
     const nodeTypes = useMemo(() => ({ kubeNode: KubeNode, kubePod: KubePod, kubeCluster: KubeCluster }), []);

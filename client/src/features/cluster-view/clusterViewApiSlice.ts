@@ -83,9 +83,7 @@ const initialState: ClusterViewState = {
 export const clusterViewSlice = createSlice({
   name: "clusterView",
   initialState,
-  reducers: {
-    // Define any additional reducers here if needed
-  },
+  reducers: {},
 })
 
 // Selectors for any additional state managed in this slice

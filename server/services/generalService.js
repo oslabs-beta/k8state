@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 const generalService = {
-    //function that checks if the environment variables exist and if the env file exists, otherwise create it
+    // Function checks if the .env file exists
     checkEnv: () => {
         if (!process.env.KUBERNETES_SERVER || !process.env.KUBERNETES_TOKEN) {
             const envPath = path.resolve('./.env');
@@ -18,6 +18,7 @@ const generalService = {
             return 'exist';
         }
     },
+    //Function creates an .env file if it does not exist
     writeEnv: (key, address) => {
         const envPath = path.resolve('./.env');
         const fileEnv = 'KUBERNETES_SERVER=https://' + address + '\n' + 'KUBERNETES_TOKEN=' + key;
@@ -25,20 +26,20 @@ const generalService = {
         process.env.KUBERNETES_SERVER = 'https://' + address;
         process.env.KUBERNETES_TOKEN = key;
     },
+    //Function checks if the logs folder exists
     checkLogs: () => {
         const logFolder = path.resolve('../logs/');
-        //console.log(logFolder);
-        //fs is async
         fs.access(logFolder, (err) => {
             if (err) {
                 fs.mkdir(logFolder, (err) => {
                     if (err) {
-                        console.log(err);
+                        throw new Error(`Something went wrong: ${err.message}`);
                     }
                 });
             }
         });
     },
+    //Function creates a new log in JSON
     writeLogs: (input) => {
         const time = new Date();
         const year = time.getFullYear();
@@ -47,7 +48,6 @@ const generalService = {
         const hours = time.getHours();
         const minutes = time.getMinutes();
         const seconds = time.getSeconds();
-        //console.log(input);
         const logFile = path.resolve(`../logs/log-${year}-${month}-${day}-${hours}-${minutes}-${seconds}.json`);
         if (!fs.existsSync(logFile)) {
             fs.writeFileSync(logFile, JSON.stringify(input, null, 2));
@@ -56,10 +56,11 @@ const generalService = {
             fs.writeFileSync(logFile, JSON.stringify(input, null, 2));
         }
     },
+    //Function gets the logs in the logs directory
     getDirLogs: () => {
         const logDir = path.resolve('../logs/');
         const filesInDir = fs.readdirSync(logDir);
         return filesInDir;
-    }
+    },
 };
 export default generalService;

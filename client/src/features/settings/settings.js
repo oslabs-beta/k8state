@@ -56,11 +56,11 @@ const Settings = () => {
                     top: "200px",
                     left: "460px",
                     width: "300px",
-                } }), _jsx(TextField, { label: "Key", color: envAlertMessage === "Success!" ? "success" : "primary", error: inputError, placeholder: "yJhbGciOiJSUzI1NiIsImtpZCI6ImhzU0E2OUlaSno2VmZR.....", onChange: (e) => setEnvKey(e.target.value), focused: true, style: {
+                } }), _jsx(TextField, { label: "Key", color: envAlertMessage === "Success!" ? "success" : "primary", error: inputError, placeholder: "yJhbGciOiJSUzI1NiIsImtpZCI6ImhzU...", onChange: (e) => setEnvKey(e.target.value), focused: true, style: {
                     position: "fixed",
                     top: "280px",
-                    left: "385px",
-                    width: "450px",
+                    left: "460px",
+                    width: "300px",
                 } }), _jsx("div", { style: {
                     display: "flex",
                     position: "absolute",

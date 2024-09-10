@@ -8,7 +8,6 @@
   filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2))
     drop-shadow(0 30px 80px rgba(93, 52, 200, 0.2))
     drop-shadow(0 60px 20px rgba(128, 90, 213, 0.2));
-  /* drop-shadow(0 80px 10px rgba(5, 200, 178, 0.2)); */
 }
 
 @keyframes App-logo-float {
@@ -20,12 +19,6 @@
   }
   100% {
     transform: translateY(0px);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .logo-main {
-    animation: App-logo-float infinite 3s ease-in-out;
   }
 }
 
@@ -41,4 +34,10 @@
 footer p {
   font-size: 0.9rem;
   color: #666;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .logo-main {
+    animation: App-logo-float infinite 3s ease-in-out;
+  }
 }

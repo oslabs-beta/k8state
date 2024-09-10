@@ -16,7 +16,6 @@ import { useState } from "react";
 import ClusterViewContainer from "../cluster-view/containers/ClusterViewContainer";
 import ClusterLogContainer from "../cluster-log/containers/ClusterLogContainer";
 import Settings from "../settings/settings";
-import LandingPage from "../landing-page/LandingPage";
 import GrafanaViewContainer from "../grafana-dashboard/GrafanaViewContainer";
 import { alpha } from "@mui/material/styles";
 // *****************************
@@ -92,6 +91,10 @@ export default function MiniDrawer() {
     const [open, setOpen] = React.useState(false);
     const [selectedPage, setSelectedPage] = useState("ClusterUI");
     const handleMenuSelect = (page) => {
+        if (page === "Github") {
+            window.open("https://github.com/oslabs-beta/k8state", "_blank");
+            return;
+        }
         setSelectedPage(page);
         setOpen(false);
     };
@@ -132,5 +135,5 @@ export default function MiniDrawer() {
                                             minWidth: 0,
                                             mr: open ? 3 : "auto",
                                             justifyContent: "center",
-                                        }, children: index % 2 === 0 ? _jsx(SettingsIcon, {}) : _jsx(GitHubIcon, {}) }), _jsx(ListItemText, { primary: text, sx: { opacity: open ? 1 : 0 } })] }) }, text))) })] }), _jsxs(Drawer, { variant: "persistent", anchor: "right", open: open, children: [_jsx(DrawerHeader, { children: _jsx(IconButton, { onClick: handleDrawerClose, children: theme.direction === "rtl" ? (_jsx(ChevronRightIcon, {})) : (_jsx(ChevronLeftIcon, {})) }) }), _jsx(Typography, { children: "Testing" })] }), _jsxs("main", { children: [selectedPage === "ClusterUI" && _jsx(ClusterViewContainer, {}), selectedPage === "Logs" && _jsx(ClusterLogContainer, {}), selectedPage === "Grafana Dashboard" && _jsx(GrafanaViewContainer, {}), selectedPage === "Settings" && _jsx(Settings, {}), selectedPage === "Github" && _jsx(LandingPage, {})] })] }));
+                                        }, children: index % 2 === 0 ? _jsx(SettingsIcon, {}) : _jsx(GitHubIcon, {}) }), _jsx(ListItemText, { primary: text, sx: { opacity: open ? 1 : 0 } })] }) }, text))) })] }), _jsxs(Drawer, { variant: "persistent", anchor: "right", open: open, children: [_jsx(DrawerHeader, { children: _jsx(IconButton, { onClick: handleDrawerClose, children: theme.direction === "rtl" ? (_jsx(ChevronRightIcon, {})) : (_jsx(ChevronLeftIcon, {})) }) }), _jsx(Typography, { children: "Testing" })] }), _jsxs("main", { children: [selectedPage === "ClusterUI" && _jsx(ClusterViewContainer, {}), selectedPage === "Logs" && _jsx(ClusterLogContainer, {}), selectedPage === "Grafana Dashboard" && _jsx(GrafanaViewContainer, {}), selectedPage === "Settings" && _jsx(Settings, {}), selectedPage === "Github"] })] }));
 }

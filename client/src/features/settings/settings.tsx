@@ -70,7 +70,12 @@ const Settings = () => {
           setEnvAddress(e.target.value)
         }
         focused
-        style={{ position: "fixed", top: "200px", left: "500px" }}
+        style={{
+          position: "fixed",
+          top: "200px",
+          left: "460px",
+          width: "300px",
+        }}
       />
       <TextField
         label="Key"

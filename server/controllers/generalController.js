@@ -5,7 +5,6 @@ import path from 'path';
 const generalController = {
     //middleware function to check if the env file exists
     checkEnv: (_req, res, next) => {
-        ;
         try {
             const check = generalService.checkEnv();
             if (check === 'exist') {
@@ -20,12 +19,12 @@ const generalController = {
             next();
         }
         catch (error) {
-            console.log(error);
             res.status(500).json({ message: 'error checking env ' });
+            throw new Error(`Something went wrong: ${error.message}`);
         }
     },
+    //middleware function to write logs
     writeLog: async (_req, res, next) => {
-        ;
         generalService.checkLogs();
         const pods = res.locals.podData;
         const podNames = [];
@@ -40,17 +39,19 @@ const generalController = {
         res.locals.logs = logs;
         next();
     },
+    //middleware function to provide a file for download to the frontend
     getDownloadSpecificLog: (req, res, next) => {
         const logDir = path.resolve('../logs/') + '/' + req.params.log;
         res.download(logDir, (err) => {
             if (err) {
-                console.log(err);
+                throw new Error(`Something went wrong: ${err.message}`);
             }
             else {
                 next();
             }
         });
     },
+    //middleware function to grab the logs in the logs folder
     getLogs: (_req, res, next) => {
         generalService.checkLogs();
         const result = generalService.getDirLogs();
@@ -58,13 +59,13 @@ const generalController = {
             const logDir = path.resolve('../logs/') + '/' + element;
             return {
                 name: element,
-                log: JSON.parse(fs.readFileSync(logDir, 'utf-8'))
+                log: JSON.parse(fs.readFileSync(logDir, 'utf-8')),
             };
         });
-        //console.log(logHolder);
         res.locals.dirLogs = logHolder;
         next();
     },
+    //middleware function to delete a specific log in the logs folder
     deleteSpecificLog: (req, res, next) => {
         const logDir = path.resolve('../logs/') + '/' + req.params.log;
         try {
@@ -72,10 +73,10 @@ const generalController = {
             res.locals.deletedLog = req.params.log;
         }
         catch (error) {
-            console.log(error);
             res.locals.deletedLog = 'failed to delete';
+            throw new Error(`Something went wrong: ${error.message}`);
         }
         next();
-    }
+    },
 };
 export default generalController;

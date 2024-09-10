@@ -17,68 +17,59 @@ interface Props {
 
 export default function ClusterLog(props: Props) {
   const { clusterLog } = props
-  console.log("clusterLog:", clusterLog)
+
   const [expanded, setExpanded] = React.useState(false)
 
-  const {
-    // data: clusterLogs,
-    // isLoading: clusterLogIsLoading,
-    // isError: clusterLogError,
-    refetch: refetchClusterLogs,
-  } = useGetClusterLogsQuery()
-
+  const { refetch: refetchClusterLogs } = useGetClusterLogsQuery()
+  //opens and closes the accordion
   const handleExpansion = () => {
     setExpanded(prevExpanded => !prevExpanded)
   }
-
+  //requests data from the backend to download the log
   const downloadLogHandler = (): void => {
     async function sendDownloadLogRequest(): Promise<void> {
       try {
         const response = await fetch(
-          "http://localhost:8080/api/getDownloadLogs/" + clusterLog.name,
-          {
-            method: "GET",
-          },
+          `http://localhost:8080/api/getDownloadLogs/${clusterLog.name}`,
         )
         const blob = await response.blob()
         const url = await window.URL.createObjectURL(new Blob([blob]))
-        const link = await document.createElement("a") //creates an anchor for the download
-        link.href = url //sets the blob's url to the anchor
-        link.setAttribute("download", clusterLog.name) //sets download attribute and file name (file type matters)
-        document.body.appendChild(link) //appends document to DOM
-        link.click() //"clicks" the button
+        const link = await document.createElement("a")
+
+        link.href = url
+        link.setAttribute("download", clusterLog.name)
+        document.body.appendChild(link)
+        link.click()
+
         if (link.parentNode) {
           link.parentNode.removeChild(link)
         }
-        window.URL.revokeObjectURL(url) //cleans up the URL
+        window.URL.revokeObjectURL(url)
       } catch (error) {
-        console.log(error)
+        throw new Error(`Something went wrong: ${(error as Error).message}`)
       }
     }
 
     sendDownloadLogRequest()
   }
-
+  //deletes a log when the user selects delete log
   const deleteLogHandler = (): void => {
-    // console.log("clusterLog.name: ", clusterLog.name)
-
     async function sendDeleteLogRequest() {
       try {
-        await fetch("http://localhost:8080/api/deleteLogs/" + clusterLog.name, {
+        await fetch(`http://localhost:8080/api/deleteLogs/${clusterLog.name}`, {
           method: "DELETE",
         })
-        // const data = await response.json()
         setExpanded(prevExpanded => !prevExpanded)
-        // setDeleted(data)
         await refetchClusterLogs()
       } catch (error) {
-        console.log(error)
+        throw new Error(`Something went wrong: ${(error as Error).message}`)
       }
     }
     sendDeleteLogRequest()
   }
 
   return (
+    //each log is placed in an accordion and can expand and shrink.
     <div>
       <Accordion
         expanded={expanded}
@@ -138,6 +129,7 @@ export default function ClusterLog(props: Props) {
           ))}
 
           <Button
+            aria-label="Download"
             style={{ margin: "16px" }}
             variant="contained"
             color="primary"

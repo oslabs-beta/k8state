@@ -6,19 +6,13 @@ import LandingPage from "./features/landing-page/LandingPage"
 import { store } from "./app/store"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import "./index.css"
-
 import CaptivePortal from "./features/captive-portal/containers/CaptivePortal"
-
 import ClusterLogContainer from "./features/cluster-log/containers/ClusterLogContainer"
-
 import Settings from "./features/settings/settings"
-
-// import material UI fonts
 import "@fontsource/roboto/300.css"
 import "@fontsource/roboto/400.css"
 import "@fontsource/roboto/500.css"
 import "@fontsource/roboto/700.css"
-
 import ProtectedRoute from "./features/captive-portal/ProtectedRoute"
 
 import {
@@ -81,11 +75,6 @@ const router = createBrowserRouter([
     path: "/portal",
     element: <CaptivePortal />,
   },
-  // temp route to redesign Captive Portal
-  // {
-  //   path: "/portal",
-  //   element: <SignInSide />,
-  // },
   {
     path: "/logs",
     element: <ClusterLogContainer />,

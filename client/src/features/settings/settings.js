@@ -11,22 +11,22 @@ const Settings = () => {
     const [envKey, setEnvKey] = useState(null);
     const [envAlertMessage, setEnvAlertMessage] = useState(null);
     const [envAlert, setEnvAlert] = useState(false);
-    const handleEnvSubmit = (event) => {
+    const handleEnvSubmit = async (event) => {
         event.preventDefault();
         if (inputError === true || envAlertMessage === "Success!")
             return;
-        fetch("http://localhost:8080/api/checkAPI", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                address: envAddress,
-                key: envKey,
-            }),
-        })
-            .then(response => response.json())
-            .then(data => {
+        try {
+            const response = await fetch("http://localhost:8080/api/checkAPI", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    address: envAddress,
+                    key: envKey,
+                }),
+            });
+            const data = await response.json();
             if (data.message === "ok") {
                 setEnvAlertMessage("Success!");
                 setEnvAlert(true);
@@ -41,14 +41,27 @@ const Settings = () => {
                 setTimeout(() => setInputError(false), 5000);
                 setTimeout(() => setEnvAlertMessage(null), 5000);
             }
-        });
+        }
+        catch (error) {
+            throw new Error(`Something went wrong: ${error.message}`);
+        }
     };
     return (_jsxs(Box, { component: "form", sx: { "& > :not(style)": { m: 1, width: "25ch" } }, noValidate: true, autoComplete: "off", children: [_jsx("h1", { style: {
                     width: "max-content",
                     position: "absolute",
                     top: "120px",
                     left: "375px",
-                }, children: "Change Cluster Address and Key" }), _jsx(TextField, { label: "Address", color: envAlertMessage === "Success!" ? "success" : "primary", error: inputError, onChange: (e) => setEnvAddress(e.target.value), focused: true, style: { position: "fixed", top: "200px", left: "500px" } }), _jsx(TextField, { label: "Key", color: envAlertMessage === "Success!" ? "success" : "primary", error: inputError, onChange: (e) => setEnvKey(e.target.value), focused: true, style: { position: "fixed", top: "280px", left: "500px" } }), _jsx("div", { style: {
+                }, children: "Change Cluster Address and Key" }), _jsx(TextField, { "aria-label": "Address", label: "Address", color: envAlertMessage === "Success!" ? "success" : "primary", error: inputError, placeholder: "clusterurl.com:00000", onChange: (e) => setEnvAddress(e.target.value), focused: true, style: {
+                    position: "fixed",
+                    top: "200px",
+                    left: "460px",
+                    width: "300px",
+                } }), _jsx(TextField, { label: "Key", color: envAlertMessage === "Success!" ? "success" : "primary", error: inputError, placeholder: "yJhbGciOiJSUzI1NiIsImtpZCI6ImhzU...", onChange: (e) => setEnvKey(e.target.value), focused: true, style: {
+                    position: "fixed",
+                    top: "280px",
+                    left: "460px",
+                    width: "300px",
+                } }), _jsx("div", { style: {
                     display: "flex",
                     position: "absolute",
                     top: "350px",

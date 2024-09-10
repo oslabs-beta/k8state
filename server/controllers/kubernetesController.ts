@@ -10,7 +10,6 @@ interface ReturnedPod {
 	namespace: String;
 	labels: { [key: string]: string } | undefined;
 	nodeName: String | undefined;
-	// containers: k8s.V1Container[] | undefined; //(Stretch)
 	restartPolicy: String;
 	hostIP: String;
 	podIP: String;
@@ -57,7 +56,6 @@ const kubernetesController = {
 					namespace: pod.metadata?.namespace || 'Unknown namespce',
 					labels: pod.metadata?.labels || undefined,
 					nodeName: pod.spec?.nodeName,
-					// containers: pod.spec?.containers || undefined, //(Stretch)
 					restartPolicy: pod.spec?.restartPolicy || 'Unknown restart policy',
 					hostIP: pod.status?.hostIP || 'Unknown host IP',
 					podIP: pod.status?.podIP || 'Unknown pod IP',
@@ -71,8 +69,8 @@ const kubernetesController = {
 			res.locals.podData = returnedPods;
 			next();
 		} catch (error) {
-			console.log(error);
 			res.status(500).json({ message: 'Error fetching pods from cluster' });
+			throw new Error(`Something went wrong: ${(error as Error).message}`);
 		}
 	},
 
@@ -85,7 +83,6 @@ const kubernetesController = {
 			namespace: String;
 			labels: { [key: string]: string } | undefined;
 			nodeName: String | undefined;
-			// containers: k8s.V1Container[] | undefined; //(Stretch)
 			restartPolicy: String;
 			hostIP: String;
 			podIP: String;
@@ -104,18 +101,16 @@ const kubernetesController = {
 				namespace: pod.metadata?.namespace || 'Unknown namespce',
 				labels: pod.metadata?.labels || undefined,
 				nodeName: pod.spec?.nodeName,
-				// containers: pod.spec?.containers || undefined, //(Stretch)
 				restartPolicy: pod.spec?.restartPolicy || 'Unknown restart policy',
 				hostIP: pod.status?.hostIP || 'Unknown host IP',
 				podIP: pod.status?.podIP || 'Unknown pod IP',
 				phase: pod.status?.phase || 'Unknown phase',
-				conditions: pod.status?.conditions || undefined, //(Pod Health)
+				conditions: pod.status?.conditions || undefined,
 				startTime: pod.status?.startTime || undefined,
 			};
 			res.locals.pod = newPod;
 			next();
 		} catch (error) {
-			console.log(error);
 			throw new Error(
 				`Error occurred while fetching pod data for pod: ${podName} in namespace: ${namespace}`
 			);
@@ -144,8 +139,8 @@ const kubernetesController = {
 			res.locals.nodeData = returnedNodes;
 			next();
 		} catch (error) {
-			console.log(error);
 			res.status(500).json({ message: 'Error fetching services from cluster' });
+			throw new Error(`Something went wrong: ${(error as Error).message}`);
 		}
 	},
 
@@ -171,8 +166,8 @@ const kubernetesController = {
 			res.locals.serviceData = returnedServices;
 			next();
 		} catch (error) {
-			console.log(error);
 			res.status(500).json({ message: 'Error fetching nodes from cluster' });
+			throw new Error(`Something went wrong: ${(error as Error).message}`);
 		}
 	},
 
@@ -180,11 +175,10 @@ const kubernetesController = {
 	checkAPI: async (req: Request, res: Response, next: NextFunction) => {
 		const key: string = req.body.key;
 		const address: string = req.body.address;
-		console.log(address);
 		let cleanAddress: string = address;
 		if (cleanAddress) {
-			cleanAddress = address.replace('https://', '');
-			//console.log(cleanAddress);
+			cleanAddress = address.replace(/https?:\/\//, '');
+
 			try {
 				const check = await kubernetesService.checkAPI(key, cleanAddress);
 				if (check === 'ok') {
@@ -196,11 +190,10 @@ const kubernetesController = {
 					res.status(500).json({ message: 'unable to connect to cluster' });
 				}
 			} catch (error) {
-				console.log(error);
 				res.status(500).json({ message: 'error checking API ' });
+				throw new Error(`Something went wrong: ${(error as Error).message}`);
 			}
 		} else {
-			console.log('no address');
 			res.status(500).json({ message: 'no address given' });
 		}
 	},

@@ -1,0 +1,53 @@
+.readme-section {
+    padding: 50px 0;
+    background-color: #f9f9f9;
+    text-align: center;
+  }
+  
+  .readme-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 30px;
+  }
+  
+  .instructions {
+    max-width: 800px;
+    margin: 0 auto;
+    margin-top: 15px;
+    text-align: left;
+    font-size: 1.1rem;
+    color: #555;
+    line-height: 1.6;
+  }
+  
+  .instructions pre {
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 5px;
+    color: #333;
+  }
+  
+  .instructions code {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1rem;
+    background-color: #e0e0e0;
+    padding: 2px 5px;
+    border-radius: 3px;
+  }
+  
+  .instructions ol {
+    padding-left: 20px;
+  }
+  
+  .instructions a {
+    color: #0073b1;
+  }
+  
+  .instructions ul {
+    margin-left: 40px;
+  }
+  
+  .instructions ul li {
+    list-style-type: disc;
+  }

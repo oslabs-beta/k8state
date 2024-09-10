@@ -11,22 +11,22 @@ const Settings = () => {
     const [envKey, setEnvKey] = useState(null);
     const [envAlertMessage, setEnvAlertMessage] = useState(null);
     const [envAlert, setEnvAlert] = useState(false);
-    const handleEnvSubmit = (event) => {
+    const handleEnvSubmit = async (event) => {
         event.preventDefault();
         if (inputError === true || envAlertMessage === "Success!")
             return;
-        fetch("http://localhost:8080/api/checkAPI", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                address: envAddress,
-                key: envKey,
-            }),
-        })
-            .then(response => response.json())
-            .then(data => {
+        try {
+            const response = await fetch("http://localhost:8080/api/checkAPI", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    address: envAddress,
+                    key: envKey,
+                }),
+            });
+            const data = await response.json();
             if (data.message === "ok") {
                 setEnvAlertMessage("Success!");
                 setEnvAlert(true);
@@ -41,7 +41,10 @@ const Settings = () => {
                 setTimeout(() => setInputError(false), 5000);
                 setTimeout(() => setEnvAlertMessage(null), 5000);
             }
-        });
+        }
+        catch (error) {
+            console.log(error);
+        }
     };
     return (_jsxs(Box, { component: "form", sx: { "& > :not(style)": { m: 1, width: "25ch" } }, noValidate: true, autoComplete: "off", children: [_jsx("h1", { style: {
                     width: "max-content",

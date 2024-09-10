@@ -1,4 +1,4 @@
-import * as React from "react"
+import type * as React from "react"
 import Box from "@mui/material/Box"
 import TextField from "@mui/material/TextField"
 import Stack from "@mui/material/Stack"
@@ -13,35 +13,40 @@ const Settings = () => {
   const [envAlertMessage, setEnvAlertMessage] = useState<string | null>(null)
   const [envAlert, setEnvAlert] = useState<boolean>(false)
 
-  const handleEnvSubmit = (event: React.MouseEvent<HTMLElement>) => {
+  const handleEnvSubmit = async (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault()
     if (inputError === true || envAlertMessage === "Success!") return
-    fetch("http://localhost:8080/api/checkAPI", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        address: envAddress,
-        key: envKey,
-      }),
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (data.message === "ok") {
-          setEnvAlertMessage("Success!")
-          setEnvAlert(true)
-          setTimeout(() => setEnvAlert(false), 5000)
-          setTimeout(() => setEnvAlertMessage(null), 5000)
-        } else {
-          setEnvAlertMessage("Invalid Address or Key")
-          setEnvAlert(true)
-          setInputError(true)
-          setTimeout(() => setEnvAlert(false), 5000)
-          setTimeout(() => setInputError(false), 5000)
-          setTimeout(() => setEnvAlertMessage(null), 5000)
-        }
+
+    try {
+      const response = await fetch("http://localhost:8080/api/checkAPI", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          address: envAddress,
+          key: envKey,
+        }),
       })
+
+      const data = await response.json()
+
+      if (data.message === "ok") {
+        setEnvAlertMessage("Success!")
+        setEnvAlert(true)
+        setTimeout(() => setEnvAlert(false), 5000)
+        setTimeout(() => setEnvAlertMessage(null), 5000)
+      } else {
+        setEnvAlertMessage("Invalid Address or Key")
+        setEnvAlert(true)
+        setInputError(true)
+        setTimeout(() => setEnvAlert(false), 5000)
+        setTimeout(() => setInputError(false), 5000)
+        setTimeout(() => setEnvAlertMessage(null), 5000)
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (

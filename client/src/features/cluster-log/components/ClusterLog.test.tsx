@@ -1,9 +1,11 @@
 import { afterEach, test } from "vitest"
 import { screen, cleanup } from "@testing-library/react"
-import LandingPage from "./LandingPage"
+import userEvent from "@testing-library/user-event"
+
+// import LandingPage from "./LandingPage"
 import { renderWithProviders } from "../../../utils/test-utils"
 
-import ClusterLogContainer from "../containers/ClusterLogContainer"
+// import ClusterLogContainer from "../containers/ClusterLogContainer"
 import ClusterLog from "./ClusterLog"
 
 // import { useGetClusterLogsQuery } from "../clusterLogsApiSlice"
@@ -12,7 +14,7 @@ afterEach(() => {
   cleanup()
 })
 
-test("if a cluster log renders with correct buttons", () => {
+test("if a cluster log renders with correct buttons", async () => {
   const sampleClusterLog = {
     name: "log-2024-9-10-11-57-17.json",
     log: [
@@ -33,7 +35,19 @@ test("if a cluster log renders with correct buttons", () => {
 
   renderWithProviders(<ClusterLog clusterLog={sampleClusterLog} />)
 
-  const downloadLogButton = screen.getByRole("button", { name: /Download/i })
+  // Simulate expanding the accordion to show its content
+  const accordionToggle = screen.getByRole("button", { name: /log instance/i })
+  userEvent.click(accordionToggle)
+
+  // Try to find the "Download" button after expanding the accordion
+  const downloadLogButton = await screen.findByRole("button", {
+    name: /Download/i,
+  })
+
+  const deleteLogButton = await screen.findByRole("button", {
+    name: /Delete/i,
+  })
 
   expect(downloadLogButton).toBeInTheDocument()
+  expect(deleteLogButton).toBeInTheDocument()
 })

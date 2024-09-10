@@ -65,6 +65,7 @@ const Settings = () => {
         label="Address"
         color={envAlertMessage === "Success!" ? "success" : "primary"}
         error={inputError}
+        placeholder="clusterurl.com:00000"
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           setEnvAddress(e.target.value)
         }
@@ -75,6 +76,7 @@ const Settings = () => {
         label="Key"
         color={envAlertMessage === "Success!" ? "success" : "primary"}
         error={inputError}
+        placeholder="yJhbGciOiJSUzI1NiIsImtpZ"
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           setEnvKey(e.target.value)
         }

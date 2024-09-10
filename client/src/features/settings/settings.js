@@ -51,7 +51,7 @@ const Settings = () => {
                     position: "absolute",
                     top: "120px",
                     left: "375px",
-                }, children: "Change Cluster Address and Key" }), _jsx(TextField, { label: "Address", color: envAlertMessage === "Success!" ? "success" : "primary", error: inputError, onChange: (e) => setEnvAddress(e.target.value), focused: true, style: { position: "fixed", top: "200px", left: "500px" } }), _jsx(TextField, { label: "Key", color: envAlertMessage === "Success!" ? "success" : "primary", error: inputError, onChange: (e) => setEnvKey(e.target.value), focused: true, style: { position: "fixed", top: "280px", left: "500px" } }), _jsx("div", { style: {
+                }, children: "Change Cluster Address and Key" }), _jsx(TextField, { "aria-label": "Address", label: "Address", color: envAlertMessage === "Success!" ? "success" : "primary", error: inputError, onChange: (e) => setEnvAddress(e.target.value), focused: true, style: { position: "fixed", top: "200px", left: "500px" } }), _jsx(TextField, { label: "Key", color: envAlertMessage === "Success!" ? "success" : "primary", error: inputError, onChange: (e) => setEnvKey(e.target.value), focused: true, style: { position: "fixed", top: "280px", left: "500px" } }), _jsx("div", { style: {
                     display: "flex",
                     position: "absolute",
                     top: "350px",

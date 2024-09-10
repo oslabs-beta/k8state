@@ -5,37 +5,35 @@ import Popover from "@mui/material/Popover";
 import Typography from "@mui/material/Typography";
 import styled from "styled-components";
 const Cluster = styled.div `
-background: white;
-border-radius: 50%; 
-height: 150px; 
-width: 150px;
-border: 5px solid #ad97d0;
-box-shadow: 0 0 40px #ad97d0;
-color: black;
-text-align: center;
-align-content: center;
+  background: white;
+  border-radius: 50%;
+  height: 150px;
+  width: 150px;
+  border: 5px solid #ad97d0;
+  box-shadow: 0 0 40px #ad97d0;
+  color: black;
+  text-align: center;
+  align-content: center;
 `;
 const Node = styled.div `
-background: white;
-border-radius: 50%; 
-height: 150px; 
-width: 150px;
-border: 5px solid #ad97d0;
-box-shadow: 0 0 40px #ad97d0;
-color: black;
-text-align: center;
-align-content: center;
+  background: white;
+  border-radius: 50%;
+  height: 150px;
+  width: 150px;
+  border: 5px solid #ad97d0;
+  box-shadow: 0 0 40px #ad97d0;
+  color: black;
+  text-align: center;
+  align-content: center;
 `;
-// ${data.conditions[2].status ? '5px solid rgb(46, 226, 88)': '5px solid red'};
-// ${data.conditions[2].status ? '0 0 40px rgb(46, 226, 88)': '0 0 40px red'};
 const Pod = styled.div `
-background: white;
-border-radius: 50%; 
-height: 150px; 
-width: 150px;
-color: black;
-text-align: center;
-align-content: center;
+  background: white;
+  border-radius: 50%;
+  height: 150px;
+  width: 150px;
+  color: black;
+  text-align: center;
+  align-content: center;
 `;
 export const KubeNode = ({ data }) => {
     // ** set local state **
@@ -74,8 +72,8 @@ export const KubePod = ({ data }) => {
     const open = Boolean(anchorEl);
     const id = open ? "simple-popover" : undefined;
     const styles = {
-        border: `5px solid ${status ? 'rgb(46, 226, 88)' : 'red'}`,
-        boxShadow: `0 0 40px ${status ? 'rgb(46, 226, 88)' : 'red'}`
+        border: `5px solid ${status ? "rgb(46, 226, 88)" : "red"}`,
+        boxShadow: `0 0 40px ${status ? "rgb(46, 226, 88)" : "red"}`,
     };
     return (_jsxs(_Fragment, { children: [_jsxs(Pod, { onClick: handleClick, style: styles, children: [_jsx("div", { children: data.name.length > 10 ? `${data.name.slice(0, 20)}...` : data.name }), _jsx(Handle, { type: "target", position: Position.Top, style: { borderRadius: 100, width: 20 } })] }), _jsx(Popover, { id: id, open: open, anchorEl: anchorEl, onClose: handleClose, anchorOrigin: {
                     vertical: "top",

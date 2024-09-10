@@ -13,6 +13,7 @@ import { useGetClusterLogsQuery } from "../clusterLogsApiSlice";
 import ClusterLog from "../components/ClusterLog";
 export default function LogPage() {
     const [open, setOpen] = useState(false);
+    //creates a log in the backend once the create log button is pressed.
     const createLogHandler = () => {
         async function sendCreateLogRequest() {
             try {
@@ -22,12 +23,14 @@ export default function LogPage() {
                 await refetchClusterLogs();
             }
             catch (error) {
-                console.log(error);
+                throw new Error(`Something went wrong: ${error.message}`);
             }
         }
         sendCreateLogRequest();
     };
+    //RTK Query to grab log info and to refetch if desired
     const { data: clusterLogs, refetch: refetchClusterLogs } = useGetClusterLogsQuery();
+    //handlers for dialogues and for state modifications.
     function AlertDialog() {
         const handleClickOpen = () => {
             setOpen(true);
@@ -42,14 +45,16 @@ export default function LogPage() {
             setOpen(false);
             deleteLogHandler();
         };
-        return (_jsxs(React.Fragment, { children: [_jsx(Button, { variant: "outlined", onClick: handleClickOpen, children: "Delete Logs" }), _jsxs(Dialog, { open: open, onClose: handleClose, "aria-labelledby": "alert-dialog-title", "aria-describedby": "alert-dialog-description", children: [_jsx(DialogTitle, { id: "alert-dialog-title", children: "Are you sure you want to delete all logs?" }), _jsx(DialogContent, { children: _jsx(DialogContentText, { id: "alert-dialog-description", children: "This action is irreversable, please confirm you would like to delete ALL logs." }) }), _jsxs(DialogActions, { children: [_jsx(Button, { onClick: handleCloseCancel, children: "Cancel" }), _jsx(Button, { onClick: handleCloseConfirm, autoFocus: true, children: "Confirm" })] })] })] }));
+        return (
+        // delete all confirmation prompt
+        _jsxs(React.Fragment, { children: [_jsx(Button, { variant: "outlined", onClick: handleClickOpen, children: "Delete Logs" }), _jsxs(Dialog, { open: open, onClose: handleClose, "aria-labelledby": "alert-dialog-title", "aria-describedby": "alert-dialog-description", children: [_jsx(DialogTitle, { id: "alert-dialog-title", children: "Are you sure you want to delete all logs?" }), _jsx(DialogContent, { children: _jsx(DialogContentText, { id: "alert-dialog-description", children: "This action is irreversable, please confirm you would like to delete ALL logs." }) }), _jsxs(DialogActions, { children: [_jsx(Button, { onClick: handleCloseCancel, children: "Cancel" }), _jsx(Button, { onClick: handleCloseConfirm, autoFocus: true, children: "Confirm" })] })] })] }));
     }
     const confirmDeleteAll = () => {
         setOpen(true);
     };
+    //deletes all the logs if the user accepts the confirmation prompt
     const deleteLogHandler = async () => {
         if (!clusterLogs || clusterLogs.length === 0) {
-            console.log("No logs to delete");
             return;
         }
         try {
@@ -60,16 +65,18 @@ export default function LogPage() {
                     });
                 }
                 catch (error) {
-                    console.log(error);
+                    throw new Error(`Something went wrong: ${error.message}`);
                 }
             }));
             await refetchClusterLogs();
         }
         catch (error) {
-            console.log("Error in deleting logs:", error);
+            throw new Error(`Something went wrong: ${error.message}`);
         }
     };
-    return (_jsxs("div", { style: { position: "absolute", left: "250px", top: "100px" }, children: [_jsx("h1", { style: {
+    return (
+    // holds, styles, and displays the logs and buttons
+    _jsxs("div", { style: { position: "absolute", left: "250px", top: "100px" }, children: [_jsx("h1", { style: {
                     textAlign: "center",
                     marginLeft: "32px",
                     marginBottom: "16px",

@@ -8,13 +8,7 @@ import { renderWithProviders } from "../../../utils/test-utils"
 // import ClusterLogContainer from "../containers/ClusterLogContainer"
 import ClusterLog from "./ClusterLog"
 
-// import { useGetClusterLogsQuery } from "../clusterLogsApiSlice"
-
-afterEach(() => {
-  cleanup()
-})
-
-test("if a cluster log renders with correct buttons", async () => {
+describe("if cluster log page renders", () => {
   const sampleClusterLog = {
     name: "log-2024-9-10-11-57-17.json",
     log: [
@@ -32,22 +26,38 @@ test("if a cluster log renders with correct buttons", async () => {
       },
     ],
   }
-
-  renderWithProviders(<ClusterLog clusterLog={sampleClusterLog} />)
-
-  // Simulate expanding the accordion to show its content
-  const accordionToggle = screen.getByRole("button", { name: /log instance/i })
-  userEvent.click(accordionToggle)
-
-  // Try to find the "Download" button after expanding the accordion
-  const downloadLogButton = await screen.findByRole("button", {
-    name: /Download/i,
+  beforeEach(() => {
+    renderWithProviders(<ClusterLog clusterLog={sampleClusterLog} />)
+  })
+  afterEach(() => {
+    cleanup()
   })
 
-  const deleteLogButton = await screen.findByRole("button", {
-    name: /Delete/i,
+  test("if a cluster log renders with download button", async () => {
+    // Simulate expanding the accordion to show its content
+    const accordionToggle = screen.getByRole("button", {
+      name: /log instance/i,
+    })
+    await userEvent.click(accordionToggle)
+
+    // Try to find the "Download" button after expanding the accordion
+    const downloadLogButton = await screen.findByRole("button", {
+      name: /Download/i,
+    })
+    expect(downloadLogButton).toBeInTheDocument()
   })
 
-  expect(downloadLogButton).toBeInTheDocument()
-  expect(deleteLogButton).toBeInTheDocument()
+  test("if a cluster log renders with delete buttons", async () => {
+    // Simulate expanding the accordion to show its content
+    const accordionToggle = screen.getByRole("button", {
+      name: /log instance/i,
+    })
+    await userEvent.click(accordionToggle)
+
+    const deleteLogButton = await screen.findByRole("button", {
+      name: /Delete/i,
+    })
+
+    expect(deleteLogButton).toBeInTheDocument()
+  })
 })

@@ -16,7 +16,7 @@ import ClusterLog from "../components/ClusterLog"
 
 export default function LogPage() {
   const [open, setOpen] = useState(false)
-
+  //creates a log in the backend once the create log button is pressed.
   const createLogHandler = (): void => {
     async function sendCreateLogRequest() {
       try {
@@ -25,16 +25,16 @@ export default function LogPage() {
         })
         await refetchClusterLogs()
       } catch (error) {
-        console.log(error)
+        throw new Error(`Something went wrong: ${(error as Error).message}`)
       }
     }
 
     sendCreateLogRequest()
   }
-
+  //RTK Query to grab log info and to refetch if desired
   const { data: clusterLogs, refetch: refetchClusterLogs } =
     useGetClusterLogsQuery()
-
+  //handlers for dialogues and for state modifications.
   function AlertDialog() {
     const handleClickOpen = () => {
       setOpen(true)
@@ -54,6 +54,7 @@ export default function LogPage() {
     }
 
     return (
+      // delete all confirmation prompt
       <React.Fragment>
         <Button variant="outlined" onClick={handleClickOpen}>
           Delete Logs
@@ -87,10 +88,9 @@ export default function LogPage() {
   const confirmDeleteAll = () => {
     setOpen(true)
   }
-
+  //deletes all the logs if the user accepts the confirmation prompt
   const deleteLogHandler = async (): Promise<void> => {
     if (!clusterLogs || clusterLogs.length === 0) {
-      console.log("No logs to delete")
       return
     }
 
@@ -102,17 +102,18 @@ export default function LogPage() {
               method: "DELETE",
             })
           } catch (error) {
-            console.log(error)
+            throw new Error(`Something went wrong: ${(error as Error).message}`)
           }
         }),
       )
       await refetchClusterLogs()
     } catch (error) {
-      console.log("Error in deleting logs:", error)
+      throw new Error(`Something went wrong: ${(error as Error).message}`)
     }
   }
 
   return (
+    // holds, styles, and displays the logs and buttons
     <div style={{ position: "absolute", left: "250px", top: "100px" }}>
       <h1
         style={{
@@ -157,11 +158,7 @@ export default function LogPage() {
         </Button>
       </div>
       {clusterLogs?.map((clusterLog, i) => (
-        <ClusterLog
-          key={`clusterLog:${i}`}
-          clusterLog={clusterLog}
-          // setDeleted={setDeleted}
-        />
+        <ClusterLog key={`clusterLog:${i}`} clusterLog={clusterLog} />
       ))}
 
       <div

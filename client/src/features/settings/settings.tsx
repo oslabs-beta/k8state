@@ -67,6 +67,7 @@ const Settings = () => {
         Change Cluster Address and Key
       </h1>
       <TextField
+        aria-label="Address"
         label="Address"
         color={envAlertMessage === "Success!" ? "success" : "primary"}
         error={inputError}

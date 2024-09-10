@@ -76,12 +76,17 @@ const Settings = () => {
         label="Key"
         color={envAlertMessage === "Success!" ? "success" : "primary"}
         error={inputError}
-        placeholder="yJhbGciOiJSUzI1NiIsImtpZ"
+        placeholder="yJhbGciOiJSUzI1NiIsImtpZCI6ImhzU0E2OUlaSno2VmZR....."
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           setEnvKey(e.target.value)
         }
         focused
-        style={{ position: "fixed", top: "280px", left: "500px" }}
+        style={{
+          position: "fixed",
+          top: "280px",
+          left: "385px",
+          width: "450px",
+        }}
       />
       <div
         style={{

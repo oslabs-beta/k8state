@@ -113,7 +113,7 @@ export default function LogPage() {
   }
 
   return (
-    <div style={{ position: "absolute", left: "250px", top: "100px" }}>
+    <div style={{ position: "absolute", left: "225px", top: "100px" }}>
       <h1
         style={{
           textAlign: "center",

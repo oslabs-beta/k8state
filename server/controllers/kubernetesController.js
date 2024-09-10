@@ -28,8 +28,8 @@ const kubernetesController = {
             next();
         }
         catch (error) {
-            console.log(error);
             res.status(500).json({ message: 'Error fetching pods from cluster' });
+            throw new Error(`Something went wrong: ${error.message}`);
         }
     },
     // Middleware function to get details on a single pod from the cluster
@@ -54,7 +54,6 @@ const kubernetesController = {
             next();
         }
         catch (error) {
-            console.log(error);
             throw new Error(`Error occurred while fetching pod data for pod: ${podName} in namespace: ${namespace}`);
         }
     },
@@ -81,8 +80,8 @@ const kubernetesController = {
             next();
         }
         catch (error) {
-            console.log(error);
             res.status(500).json({ message: 'Error fetching services from cluster' });
+            throw new Error(`Something went wrong: ${error.message}`);
         }
     },
     // Middleware function to get all services from the cluster
@@ -107,15 +106,14 @@ const kubernetesController = {
             next();
         }
         catch (error) {
-            console.log(error);
             res.status(500).json({ message: 'Error fetching nodes from cluster' });
+            throw new Error(`Something went wrong: ${error.message}`);
         }
     },
     //middleware function to check if the user provided key and address are valid
     checkAPI: async (req, res, next) => {
         const key = req.body.key;
         const address = req.body.address;
-        console.log(address);
         let cleanAddress = address;
         if (cleanAddress) {
             cleanAddress = address.replace(/https?:\/\//, '');
@@ -133,12 +131,11 @@ const kubernetesController = {
                 }
             }
             catch (error) {
-                console.log(error);
                 res.status(500).json({ message: 'error checking API ' });
+                throw new Error(`Something went wrong: ${error.message}`);
             }
         }
         else {
-            console.log('no address');
             res.status(500).json({ message: 'no address given' });
         }
     },

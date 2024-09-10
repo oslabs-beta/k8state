@@ -8,7 +8,7 @@ interface data {
 }
 
 const generalService = {
-	// Function creates a .env file if it doesn't already exist
+	// Function checks if the .env file exists
 	checkEnv: (): string | undefined => {
 		if (!process.env.KUBERNETES_SERVER || !process.env.KUBERNETES_TOKEN) {
 			const envPath = path.resolve('./.env');
@@ -23,6 +23,7 @@ const generalService = {
 			return 'exist';
 		}
 	},
+	//Function creates an .env file if it does not exist
 	writeEnv: (key: string, address: string) => {
 		const envPath = path.resolve('./.env');
 		const fileEnv =
@@ -31,18 +32,20 @@ const generalService = {
 		process.env.KUBERNETES_SERVER = 'https://' + address;
 		process.env.KUBERNETES_TOKEN = key;
 	},
+	//Function checks if the logs folder exists
 	checkLogs: () => {
 		const logFolder = path.resolve('../logs/');
 		fs.access(logFolder, (err) => {
 			if (err) {
 				fs.mkdir(logFolder, (err) => {
 					if (err) {
-						console.log(err);
+						throw new Error(`Something went wrong: ${(err as Error).message}`);
 					}
 				});
 			}
 		});
 	},
+	//Function creates a new log in JSON
 	writeLogs: (input: data[] | undefined) => {
 		const time = new Date();
 		const year = time.getFullYear();
@@ -60,6 +63,7 @@ const generalService = {
 			fs.writeFileSync(logFile, JSON.stringify(input, null, 2));
 		}
 	},
+	//Function gets the logs in the logs directory
 	getDirLogs: (): string[] => {
 		const logDir: string = path.resolve('../logs/');
 		const filesInDir: string[] = fs.readdirSync(logDir);

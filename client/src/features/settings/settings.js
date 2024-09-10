@@ -43,7 +43,12 @@ const Settings = () => {
             }
         });
     };
-    return (_jsxs(Box, { component: "form", sx: { "& > :not(style)": { m: 1, width: "25ch" } }, noValidate: true, autoComplete: "off", children: [_jsx(TextField, { label: "Address", color: envAlertMessage === "Success!" ? "success" : "primary", error: inputError, onChange: (e) => setEnvAddress(e.target.value), focused: true, style: { position: "fixed", top: "200px", left: "500px" } }), _jsx(TextField, { label: "Key", color: envAlertMessage === "Success!" ? "success" : "primary", error: inputError, onChange: (e) => setEnvKey(e.target.value), focused: true, style: { position: "fixed", top: "280px", left: "500px" } }), _jsx("div", { style: {
+    return (_jsxs(Box, { component: "form", sx: { "& > :not(style)": { m: 1, width: "25ch" } }, noValidate: true, autoComplete: "off", children: [_jsx("h1", { style: {
+                    width: "max-content",
+                    position: "absolute",
+                    top: "120px",
+                    left: "375px",
+                }, children: "Change Cluster Address and Key" }), _jsx(TextField, { label: "Address", color: envAlertMessage === "Success!" ? "success" : "primary", error: inputError, onChange: (e) => setEnvAddress(e.target.value), focused: true, style: { position: "fixed", top: "200px", left: "500px" } }), _jsx(TextField, { label: "Key", color: envAlertMessage === "Success!" ? "success" : "primary", error: inputError, onChange: (e) => setEnvKey(e.target.value), focused: true, style: { position: "fixed", top: "280px", left: "500px" } }), _jsx("div", { style: {
                     display: "flex",
                     position: "absolute",
                     top: "350px",

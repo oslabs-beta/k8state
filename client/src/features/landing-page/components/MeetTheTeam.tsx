@@ -26,15 +26,15 @@ export default function MeetTheTeam () {
         {
             name: 'Vincent Collis',
             role: 'Full Stack Developer',
-            github: '',
-            linkedin: '',
+            github: 'https://github.com/vincentcollis',
+            linkedin: 'https://www.linkedin.com/in/vincentcollis/',
             img: VincentPFP
         },
         {
             name: 'Michael Chen',
             role: 'Full Stack Developer',
-            github: '',
-            linkedin: '',
+            github: 'https://github.com/mochamochaccino',
+            linkedin: 'https://www.linkedin.com/in/michael-chen-345b4b1aa/',
             img: MichaelPFP
         },
         {

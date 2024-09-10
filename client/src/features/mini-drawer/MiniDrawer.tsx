@@ -29,7 +29,6 @@ import SettingsIcon from "@mui/icons-material/Settings"
 import GitHubIcon from "@mui/icons-material/GitHub"
 import { useState } from "react"
 import ClusterViewContainer from "../cluster-view/containers/ClusterViewContainer"
-import PrometheusViewContainer from "../prometheus-view/containers/PrometheusViewContainer"
 import ClusterLogContainer from "../cluster-log/containers/ClusterLogContainer"
 import Settings from "../settings/settings"
 import LandingPage from "../landing-page/LandingPage"
@@ -168,7 +167,7 @@ export default function MiniDrawer() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            K<span style={{ color: "#ad97d0" }}>8</span>STATE — Cluster View
+            K<span style={{ color: "#ad97d0" }}>8</span>STATE — {selectedPage}
           </Typography>
           <img
             src={logoSVG}
@@ -283,7 +282,6 @@ export default function MiniDrawer() {
         {selectedPage === "ClusterUI" && <ClusterViewContainer />}
         {selectedPage === "Logs" && <ClusterLogContainer />}
         {selectedPage === "Grafana Dashboard" && <GrafanaViewContainer />}
-        {selectedPage === "Prometheus Charts" && <PrometheusViewContainer />}
         {selectedPage === "Settings" && <Settings />}
         {selectedPage === "Github" && <LandingPage />}
       </main>

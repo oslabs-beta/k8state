@@ -35,6 +35,7 @@
   border-top: 1px solid #ddd;
   text-align: center;
   margin-top: auto;
+  width: 100vw;
 }
 
 footer p {

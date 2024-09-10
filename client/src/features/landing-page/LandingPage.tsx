@@ -66,6 +66,7 @@ export default function LandingPage() {
               Experience cluster visualization that moves as fast as you do.
             </Typography>
             <Button
+              aria-label="Get Started"
               variant="contained"
               color="primary"
               size="large"
@@ -75,6 +76,7 @@ export default function LandingPage() {
               Get Started
             </Button>
             <Button
+              aria-label="Visit GitHub"
               variant="outlined"
               color="primary"
               size="large"

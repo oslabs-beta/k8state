@@ -1,11 +1,7 @@
 import { afterEach, test } from "vitest"
 import { screen, cleanup } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
-
-// import LandingPage from "./LandingPage"
 import { renderWithProviders } from "../../../utils/test-utils"
-
-// import ClusterLogContainer from "../containers/ClusterLogContainer"
 import ClusterLog from "./ClusterLog"
 
 describe("if cluster log page renders", () => {

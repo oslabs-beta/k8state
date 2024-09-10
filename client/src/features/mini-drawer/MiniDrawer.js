@@ -46,7 +46,6 @@ const DrawerHeader = styled("div")(({ theme }) => ({
     alignItems: "center",
     justifyContent: "flex-end",
     padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
     ...theme.mixins.toolbar,
 }));
 const AppBar = styled(MuiAppBar, {
@@ -87,7 +86,7 @@ const Drawer = styled(MuiDrawer, {
 // *************************
 export default function MiniDrawer() {
     const theme = useTheme();
-    // ** create state
+    // ** create state **
     const [open, setOpen] = React.useState(false);
     const [selectedPage, setSelectedPage] = useState("ClusterUI");
     const handleMenuSelect = (page) => {

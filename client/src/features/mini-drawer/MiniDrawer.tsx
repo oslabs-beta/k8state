@@ -31,7 +31,6 @@ import { useState } from "react"
 import ClusterViewContainer from "../cluster-view/containers/ClusterViewContainer"
 import ClusterLogContainer from "../cluster-log/containers/ClusterLogContainer"
 import Settings from "../settings/settings"
-import LandingPage from "../landing-page/LandingPage"
 import GrafanaViewContainer from "../grafana-dashboard/GrafanaViewContainer"
 import { alpha } from "@mui/material/styles"
 
@@ -75,7 +74,6 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   alignItems: "center",
   justifyContent: "flex-end",
   padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }))
 
@@ -121,7 +119,7 @@ const Drawer = styled(MuiDrawer, {
 export default function MiniDrawer() {
   const theme = useTheme()
 
-  // ** create state
+  // ** create state **
   const [open, setOpen] = React.useState(false)
 
   const [selectedPage, setSelectedPage] = useState<string | null>("ClusterUI")

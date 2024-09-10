@@ -1,8 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 import { createSlice } from "@reduxjs/toolkit"
 
-// export type ClusterLog = string
-
 export interface ClusterLog {
   name: string
   log: Log[]
@@ -40,9 +38,7 @@ const initialState: ClusterLogsState = {
 export const clusterLogsSlice = createSlice({
   name: "clusterLogs",
   initialState,
-  reducers: {
-    // Define any additional reducers here if needed
-  },
+  reducers: {},
 })
 
 // Selectors for any additional state managed in this slice

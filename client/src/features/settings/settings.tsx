@@ -45,7 +45,7 @@ const Settings = () => {
         setTimeout(() => setEnvAlertMessage(null), 5000)
       }
     } catch (error) {
-      console.log(error)
+      throw new Error(`Something went wrong: ${(error as Error).message}`)
     }
   }
 

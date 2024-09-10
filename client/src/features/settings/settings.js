@@ -43,7 +43,7 @@ const Settings = () => {
             }
         }
         catch (error) {
-            console.log(error);
+            throw new Error(`Something went wrong: ${error.message}`);
         }
     };
     return (_jsxs(Box, { component: "form", sx: { "& > :not(style)": { m: 1, width: "25ch" } }, noValidate: true, autoComplete: "off", children: [_jsx("h1", { style: {

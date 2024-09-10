@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 const generalService = {
-    //function that checks if the environment variables exist and if the env file exists, otherwise create it
+    // Function creates a .env file if it doesn't already exist
     checkEnv: () => {
         if (!process.env.KUBERNETES_SERVER || !process.env.KUBERNETES_TOKEN) {
             const envPath = path.resolve('./.env');
@@ -27,8 +27,6 @@ const generalService = {
     },
     checkLogs: () => {
         const logFolder = path.resolve('../logs/');
-        //console.log(logFolder);
-        //fs is async
         fs.access(logFolder, (err) => {
             if (err) {
                 fs.mkdir(logFolder, (err) => {
@@ -47,7 +45,6 @@ const generalService = {
         const hours = time.getHours();
         const minutes = time.getMinutes();
         const seconds = time.getSeconds();
-        //console.log(input);
         const logFile = path.resolve(`../logs/log-${year}-${month}-${day}-${hours}-${minutes}-${seconds}.json`);
         if (!fs.existsSync(logFile)) {
             fs.writeFileSync(logFile, JSON.stringify(input, null, 2));
@@ -60,6 +57,6 @@ const generalService = {
         const logDir = path.resolve('../logs/');
         const filesInDir = fs.readdirSync(logDir);
         return filesInDir;
-    }
+    },
 };
 export default generalService;

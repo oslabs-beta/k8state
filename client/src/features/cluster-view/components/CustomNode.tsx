@@ -5,7 +5,6 @@ import Popover from "@mui/material/Popover"
 import Typography from "@mui/material/Typography"
 import styled from "styled-components"
 import type { KubernetesNode, KubernetesPod } from "../clusterViewApiSlice"
-// import shadows from "@mui/material/styles/shadows"
 
 // ****************************
 // **   Create Interface's   **

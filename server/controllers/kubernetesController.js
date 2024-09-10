@@ -14,7 +14,6 @@ const kubernetesController = {
                     namespace: pod.metadata?.namespace || 'Unknown namespce',
                     labels: pod.metadata?.labels || undefined,
                     nodeName: pod.spec?.nodeName,
-                    // containers: pod.spec?.containers || undefined, //(Stretch)
                     restartPolicy: pod.spec?.restartPolicy || 'Unknown restart policy',
                     hostIP: pod.status?.hostIP || 'Unknown host IP',
                     podIP: pod.status?.podIP || 'Unknown pod IP',
@@ -44,12 +43,11 @@ const kubernetesController = {
                 namespace: pod.metadata?.namespace || 'Unknown namespce',
                 labels: pod.metadata?.labels || undefined,
                 nodeName: pod.spec?.nodeName,
-                // containers: pod.spec?.containers || undefined, //(Stretch)
                 restartPolicy: pod.spec?.restartPolicy || 'Unknown restart policy',
                 hostIP: pod.status?.hostIP || 'Unknown host IP',
                 podIP: pod.status?.podIP || 'Unknown pod IP',
                 phase: pod.status?.phase || 'Unknown phase',
-                conditions: pod.status?.conditions || undefined, //(Pod Health)
+                conditions: pod.status?.conditions || undefined,
                 startTime: pod.status?.startTime || undefined,
             };
             res.locals.pod = newPod;
@@ -120,8 +118,7 @@ const kubernetesController = {
         console.log(address);
         let cleanAddress = address;
         if (cleanAddress) {
-            cleanAddress = address.replace('https://', '');
-            //console.log(cleanAddress);
+            cleanAddress = address.replace(/https?:\/\//, '');
             try {
                 const check = await kubernetesService.checkAPI(key, cleanAddress);
                 if (check === 'ok') {

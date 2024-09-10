@@ -24,6 +24,8 @@ body {
   margin: 0 auto;
   padding: 20px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.241);
+  flex-shrink: 1;
+  flex-grow: 1;
 }
 
 .wrapper form {
@@ -36,6 +38,7 @@ body {
   margin-top: 15px;
   font-size: 1.8rem;
   margin-bottom: 20px;
+  text-align: center;
 }
 
 .wrapper input[type="text"] {
@@ -75,4 +78,19 @@ body {
 .wrapper button:active {
   background-color: #3a008c;
   transform: translateY(2px);
+}
+
+@media (max-width: 768px) {
+  .wrapper {
+    width: 90%;
+    padding: 15px;
+  }
+
+  .wrapper h2 {
+    font-size: 1.5rem;
+  }
+
+  .wrapper button {
+    font-size: 0.9rem;
+  }
 }

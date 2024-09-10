@@ -15,7 +15,7 @@ export default function GrafanaViewContainer() {
             e.preventDefault();
             dispatch(setIframeSrc(inputValue));
         };
-        return (_jsxs("div", { className: "wrapper", children: [_jsx("h2", { children: "Connect Your Grafana Dashboard" }), _jsxs("form", { onSubmit: handleSubmit, children: [_jsx("label", { children: "Link URL" }), _jsx("input", { placeholder: "http://your-grafana-instance/d/your-dashboard-id", type: "text", value: inputValue, onChange: handleInputChange }), _jsx("button", { type: "submit", children: _jsx("strong", { children: "Connect" }) })] })] }));
+        return (_jsxs("div", { className: "wrapper", style: { position: "absolute", top: "200px", left: "425px" }, children: [_jsx("h2", { children: "Connect Your Grafana Dashboard" }), _jsxs("form", { onSubmit: handleSubmit, children: [_jsx("label", { children: "Link URL" }), _jsx("input", { placeholder: "http://your-grafana-instance/d/your-dashboard-id", type: "text", value: inputValue, onChange: handleInputChange }), _jsx("button", { type: "submit", children: _jsx("strong", { children: "Connect" }) })] })] }));
     };
     const Dashboard = () => {
         return (_jsx("iframe", { title: "Grafana Dashboard", src: iframeURL, style: {

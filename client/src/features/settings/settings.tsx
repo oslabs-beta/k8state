@@ -79,10 +79,13 @@ const Settings = () => {
           color={envAlertMessage === "Success!" ? "success" : "primary"}
           helperText={
             envAddress?.includes("www.")
-              ? "Do not include 'www' in Cluster URL"
+              ? "Do not include 'www' before Cluster URL"
               : null
           }
-          error={inputError || envAddress?.includes("www.")}
+          error={
+            inputError ||
+            (envAddress?.includes("www.") && !envAddress?.includes("www.com"))
+          }
           placeholder="clusterurl.com:00000"
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setEnvAddress(e.target.value)
@@ -128,7 +131,11 @@ const Settings = () => {
                     ? "success"
                     : "secondary"
               }
-              disabled={envAddress?.includes("www.") ? true : false}
+              disabled={
+                envAddress?.includes("www.") && !envAddress?.includes("www.com")
+                  ? true
+                  : false
+              }
               onClick={handleEnvSubmit}
               style={{ marginTop: "16px" }}
             >

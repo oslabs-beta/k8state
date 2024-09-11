@@ -15,19 +15,11 @@ export default function GrafanaViewContainer() {
             e.preventDefault();
             dispatch(setIframeSrc(inputValue));
         };
-        return (_jsxs("div", { className: "wrapper", style: { position: "absolute", top: "200px", left: "425px" }, children: [_jsx("h2", { children: "Connect Your Grafana Dashboard" }), _jsxs("form", { onSubmit: handleSubmit, children: [_jsx("label", { children: "Link URL" }), _jsx("input", { placeholder: "http://your-grafana-instance/d/your-dashboard-id", type: "text", value: inputValue, onChange: handleInputChange }), _jsx("button", { type: "submit", children: _jsx("strong", { children: "Connect" }) })] })] }));
+        return (_jsxs("div", { className: "wrapper", style: { position: "absolute", top: "200px", left: "390px" }, children: ["=======", _jsxs("div", { className: "wrapper", children: [">>>>>>> e11dcab8d988b506cead6dd93d8c73c46970fa9c", _jsx("h2", { children: "Connect Your Grafana Dashboard" }), _jsxs("form", { onSubmit: handleSubmit, children: [_jsx("label", { children: "Link URL" }), _jsx("input", { placeholder: "http://your-grafana-instance/d/your-dashboard-id", type: "text", value: inputValue, onChange: handleInputChange }), _jsx("button", { type: "submit", children: _jsx("strong", { children: "Connect" }) })] })] }), ") } const Dashboard = () => ", , "return (", _jsx("iframe", { title: "Grafana Dashboard", src: iframeURL, style: {
+                        width: "100vw",
+                        height: "100vh",
+                        border: "none",
+                        position: "relative",
+                    } }), ") } return ", _jsx(_Fragment, { children: iframeURL !== "" ? _jsx(Dashboard, {}) : _jsx(Form, {}) }), "}"] }));
     };
-    const Dashboard = () => {
-        return (_jsx("iframe", { title: "Grafana Dashboard", src: iframeURL, style: {
-                width: "100vw",
-                height: "100vh",
-                paddingTop: "65px",
-                border: "none",
-                position: "relative",
-            } }));
-    };
-    // **********************************
-    // **   Render Grafana dashboard   **
-    // **********************************
-    return _jsx(_Fragment, { children: iframeURL !== "" /** && Link Works */ ? _jsx(Dashboard, {}) : _jsx(Form, {}) });
 }

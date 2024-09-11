@@ -22,21 +22,23 @@ export default function GrafanaViewContainer() {
     }
 
     return (
+<<<<<<< HEAD
       <div
         className="wrapper"
         style={{ position: "absolute", top: "200px", left: "390px" }}
       >
+=======
+      <div className="wrapper">
+>>>>>>> e11dcab8d988b506cead6dd93d8c73c46970fa9c
         <h2>Connect Your Grafana Dashboard</h2>
         <form onSubmit={handleSubmit}>
           <label>Link URL</label>
-
           <input
             placeholder={"http://your-grafana-instance/d/your-dashboard-id"}
             type="text"
             value={inputValue}
             onChange={handleInputChange}
           />
-
           <button type={"submit"}>
             <strong>Connect</strong>
           </button>
@@ -53,7 +55,6 @@ export default function GrafanaViewContainer() {
         style={{
           width: "100vw",
           height: "100vh",
-          paddingTop: "65px",
           border: "none",
           position: "relative",
         }}
@@ -61,8 +62,5 @@ export default function GrafanaViewContainer() {
     )
   }
 
-  // **********************************
-  // **   Render Grafana dashboard   **
-  // **********************************
-  return <>{iframeURL !== "" /** && Link Works */ ? <Dashboard /> : <Form />}</>
+  return <>{iframeURL !== "" ? <Dashboard /> : <Form />}</>
 }

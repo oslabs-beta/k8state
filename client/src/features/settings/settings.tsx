@@ -90,7 +90,7 @@ const Settings = () => {
           focused
           style={{
             position: "absolute",
-            top: "-140px",
+            top: "-150px",
             left: "45px",
             width: "300px",
           }}
@@ -106,7 +106,7 @@ const Settings = () => {
           focused
           style={{
             position: "absolute",
-            top: "-50px",
+            top: "-60px",
             left: "45px",
             width: "300px",
           }}
@@ -114,7 +114,7 @@ const Settings = () => {
         <div
           style={{
             position: "relative",
-            top: "20px",
+            top: "10px",
             left: "150px",
           }}
         >

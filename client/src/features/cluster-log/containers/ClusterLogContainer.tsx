@@ -117,7 +117,7 @@ export default function LogPage() {
     <div
       style={{
         position: "relative",
-        left: "230px",
+        left: "225px",
         top: "90px",
         width: "100vw",
         height: "100vh",

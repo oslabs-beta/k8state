@@ -55,74 +55,81 @@ const Settings = () => {
       sx={{ "& > :not(style)": { m: 1, width: "25ch" } }}
       noValidate
       autoComplete="off"
+      style={{
+        position: "relative",
+        width: "max-content",
+        height: "max-content",
+      }}
     >
       <h1
         style={{
           width: "max-content",
-          position: "absolute",
-          top: "120px",
-          left: "375px",
+          position: "relative",
+          alignContent: "center",
+          top: "-150px",
+          left: "-45px",
         }}
       >
         Change Cluster Address and Key
       </h1>
-      <TextField
-        aria-label="Address"
-        label="Address"
-        color={envAlertMessage === "Success!" ? "success" : "primary"}
-        error={inputError}
-        placeholder="clusterurl.com:00000"
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          setEnvAddress(e.target.value)
-        }
-        focused
-        style={{
-          position: "fixed",
-          top: "200px",
-          left: "460px",
-          width: "300px",
-        }}
-      />
-      <TextField
-        label="Key"
-        color={envAlertMessage === "Success!" ? "success" : "primary"}
-        error={inputError}
-        placeholder="yJhbGciOiJSUzI1NiIsImtpZCI6ImhzU..."
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          setEnvKey(e.target.value)
-        }
-        focused
-        style={{
-          position: "fixed",
-          top: "280px",
-          left: "460px",
-          width: "300px",
-        }}
-      />
-      <div
-        style={{
-          display: "flex",
-          position: "absolute",
-          top: "350px",
-          left: "570px",
-        }}
-      >
-        <Stack direction="row" spacing={2}>
-          <Button
-            variant={inputError === true ? "outlined" : "contained"}
-            color={
-              inputError === true
-                ? "error"
-                : envAlertMessage === "Success!"
-                  ? "success"
-                  : "primary"
-            }
-            onClick={handleEnvSubmit}
-            style={{ marginTop: "16px" }}
-          >
-            Submit
-          </Button>
-        </Stack>
+      <div style={{ position: "relative" }}>
+        <TextField
+          aria-label="Address"
+          label="Address"
+          color={envAlertMessage === "Success!" ? "success" : "primary"}
+          error={inputError}
+          placeholder="clusterurl.com:00000"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setEnvAddress(e.target.value)
+          }
+          focused
+          style={{
+            position: "relative",
+            top: "-120px",
+            left: "45px",
+            width: "300px",
+          }}
+        />
+        <TextField
+          label="Key"
+          color={envAlertMessage === "Success!" ? "success" : "primary"}
+          error={inputError}
+          placeholder="yJhbGciOiJSUzI1NiIsImtpZCI6ImhzU..."
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setEnvKey(e.target.value)
+          }
+          focused
+          style={{
+            position: "relative",
+            top: "-90px",
+            left: "45px",
+            width: "300px",
+          }}
+        />
+        <div
+          style={{
+            position: "relative",
+            top: "-75px",
+            left: "155px",
+          }}
+        >
+          <Stack direction="row" spacing={2}>
+            <Button
+              variant={inputError === true ? "outlined" : "contained"}
+              color={
+                inputError === true
+                  ? "error"
+                  : envAlertMessage === "Success!"
+                    ? "success"
+                    : "secondary"
+              }
+              onClick={handleEnvSubmit}
+              style={{ marginTop: "16px" }}
+            >
+              Submit
+            </Button>
+          </Stack>
+        </div>
       </div>
       <div
         style={{

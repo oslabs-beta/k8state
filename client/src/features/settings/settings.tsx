@@ -66,7 +66,7 @@ const Settings = () => {
           width: "max-content",
           position: "relative",
           alignContent: "center",
-          top: "-150px",
+          top: "-170px",
           left: "-45px",
         }}
       >
@@ -77,15 +77,20 @@ const Settings = () => {
           aria-label="Address"
           label="Address"
           color={envAlertMessage === "Success!" ? "success" : "primary"}
-          error={inputError}
+          helperText={
+            envAddress?.includes("www")
+              ? "Do not include 'www' in Cluster URL"
+              : null
+          }
+          error={inputError || envAddress?.includes("www")}
           placeholder="clusterurl.com:00000"
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setEnvAddress(e.target.value)
           }
           focused
           style={{
-            position: "relative",
-            top: "-120px",
+            position: "absolute",
+            top: "-140px",
             left: "45px",
             width: "300px",
           }}
@@ -100,8 +105,8 @@ const Settings = () => {
           }
           focused
           style={{
-            position: "relative",
-            top: "-90px",
+            position: "absolute",
+            top: "-50px",
             left: "45px",
             width: "300px",
           }}
@@ -109,7 +114,7 @@ const Settings = () => {
         <div
           style={{
             position: "relative",
-            top: "-75px",
+            top: "20px",
             left: "155px",
           }}
         >
@@ -123,6 +128,7 @@ const Settings = () => {
                     ? "success"
                     : "secondary"
               }
+              disabled={envAddress?.includes("www") ? true : false}
               onClick={handleEnvSubmit}
               style={{ marginTop: "16px" }}
             >

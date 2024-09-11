@@ -115,7 +115,7 @@ const Settings = () => {
           style={{
             position: "relative",
             top: "20px",
-            left: "155px",
+            left: "150px",
           }}
         >
           <Stack direction="row" spacing={2}>

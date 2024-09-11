@@ -56,6 +56,7 @@ export default function GrafanaViewContainer() {
           height: "100vh",
           border: "none",
           position: "relative",
+          marginTop: "30px",
         }}
       />
     )

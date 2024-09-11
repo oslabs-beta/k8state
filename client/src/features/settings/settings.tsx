@@ -139,10 +139,9 @@ const Settings = () => {
       </div>
       <div
         style={{
-          display: "flex",
           position: "absolute",
-          left: "500px",
-          top: "425px",
+          left: "90px",
+          top: "145px",
           marginTop: "16px",
         }}
       >

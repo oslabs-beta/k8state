@@ -55,13 +55,14 @@ const Settings = () => {
       sx={{ "& > :not(style)": { m: 1, width: "25ch" } }}
       noValidate
       autoComplete="off"
+      style={{ position: "relative", width: "100vw", height: "100vh" }}
     >
       <h1
         style={{
           width: "max-content",
           position: "absolute",
           top: "120px",
-          left: "375px",
+          left: "315px",
         }}
       >
         Change Cluster Address and Key
@@ -77,9 +78,9 @@ const Settings = () => {
         }
         focused
         style={{
-          position: "fixed",
+          position: "relative",
           top: "200px",
-          left: "460px",
+          left: "405px",
           width: "300px",
         }}
       />
@@ -93,9 +94,9 @@ const Settings = () => {
         }
         focused
         style={{
-          position: "fixed",
+          position: "relative",
           top: "280px",
-          left: "460px",
+          left: "90px",
           width: "300px",
         }}
       />
@@ -104,7 +105,7 @@ const Settings = () => {
           display: "flex",
           position: "absolute",
           top: "350px",
-          left: "570px",
+          left: "515px",
         }}
       >
         <Stack direction="row" spacing={2}>

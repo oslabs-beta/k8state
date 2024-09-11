@@ -22,14 +22,10 @@ export default function GrafanaViewContainer() {
     }
 
     return (
-<<<<<<< HEAD
       <div
         className="wrapper"
-        style={{ position: "absolute", top: "200px", left: "390px" }}
+        style={{ position: "relative", left: "-40px", top: "-75px" }}
       >
-=======
-      <div className="wrapper">
->>>>>>> e11dcab8d988b506cead6dd93d8c73c46970fa9c
         <h2>Connect Your Grafana Dashboard</h2>
         <form onSubmit={handleSubmit}>
           <label>Link URL</label>

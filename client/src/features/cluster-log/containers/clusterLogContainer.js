@@ -76,19 +76,30 @@ export default function LogPage() {
     };
     return (
     // holds, styles, and displays the logs and buttons
-    _jsxs("div", { style: { position: "absolute", left: "250px", top: "100px" }, children: [_jsx("h1", { style: {
+    _jsxs("div", { style: {
+            position: "relative",
+            left: "225px",
+            top: "90px",
+            width: "100vw",
+            height: "100vh",
+        }, children: [_jsx("h1", { style: {
+                    position: "absolute",
                     textAlign: "center",
                     marginLeft: "32px",
                     marginBottom: "16px",
                     minWidth: "700px",
+                    left: "-50px",
+                    top: "35px",
                 }, children: "Logs" }), _jsxs("div", { className: "log-button-container", children: [_jsx(Button, { style: {
-                            display: "inline",
-                            left: "175px",
+                            display: "absolute",
+                            left: "130px",
+                            top: "100px",
                             marginLeft: "32px",
                             marginBottom: "16px",
-                        }, variant: "contained", color: "primary", type: "button", onClick: createLogHandler, children: "Create a Log" }), _jsx(Button, { id: "delete-all-logs-button", style: {
-                            display: "inline",
-                            left: "240px",
+                        }, variant: "contained", color: "secondary", type: "button", onClick: createLogHandler, children: "Create a Log" }), _jsx(Button, { id: "delete-all-logs-button", style: {
+                            display: "absolute",
+                            left: "190px",
+                            top: "100px",
                             marginLeft: "32px",
                             marginBottom: "16px",
                         }, variant: "contained", color: "error", type: "button", onClick: confirmDeleteAll, disabled: !clusterLogs || clusterLogs.length === 0 ? true : false, children: "Delete all Logs" })] }), clusterLogs?.map((clusterLog, i) => (_jsx(ClusterLog, { clusterLog: clusterLog }, `clusterLog:${i}`))), _jsx("div", { className: "alert-dialog", style: {

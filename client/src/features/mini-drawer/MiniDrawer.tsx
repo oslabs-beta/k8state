@@ -172,11 +172,16 @@ export default function MiniDrawer() {
           <Typography variant="h6" noWrap component="div">
             K<span style={{ color: "#ad97d0" }}>8</span>STATE — {selectedPage}
           </Typography>
-          <img
-            src={logoSVG}
-            alt="App logo"
-            style={{ width: "50px", marginLeft: "auto", marginRight: "15px" }}
-          />
+          <a
+            href="/"
+            style={{
+              width: "50px",
+              marginLeft: "auto",
+              marginRight: "15px",
+            }}
+          >
+            <img src={logoSVG} alt="App logo" />
+          </a>
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>

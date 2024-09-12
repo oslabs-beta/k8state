@@ -3,6 +3,7 @@ import { useState } from "react";
 import { setIframeSrc } from "./GrafanaDashboardApiSlice";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import "./Grafana.css";
+import { TextField, Button } from "@mui/material";
 export default function GrafanaViewContainer() {
     const iframeURL = useAppSelector((state) => state.iframe.src);
     const Form = () => {
@@ -15,19 +16,16 @@ export default function GrafanaViewContainer() {
             e.preventDefault();
             dispatch(setIframeSrc(inputValue));
         };
-        return (_jsxs("div", { className: "wrapper", style: { position: "absolute", top: "200px", left: "425px" }, children: [_jsx("h2", { children: "Connect Your Grafana Dashboard" }), _jsxs("form", { onSubmit: handleSubmit, children: [_jsx("label", { children: "Link URL" }), _jsx("input", { placeholder: "http://your-grafana-instance/d/your-dashboard-id", type: "text", value: inputValue, onChange: handleInputChange }), _jsx("button", { type: "submit", children: _jsx("strong", { children: "Connect" }) })] })] }));
+        return (_jsxs("div", { className: "wrapper", style: { position: "relative", left: "-45px", top: "-75px" }, children: [_jsx("h2", { children: "Connect Your Grafana Dashboard" }), _jsxs("form", { onSubmit: handleSubmit, children: [_jsx(TextField, { label: "Grafana URL", color: "primary", variant: "outlined", placeholder: "http://your-grafana-instance/d/your-dashboard-id", focused: true, value: inputValue, onChange: handleInputChange }), _jsx(Button, { type: "button", children: "Connect" })] })] }));
     };
     const Dashboard = () => {
         return (_jsx("iframe", { title: "Grafana Dashboard", src: iframeURL, style: {
                 width: "100vw",
                 height: "100vh",
-                paddingTop: "65px",
                 border: "none",
                 position: "relative",
+                marginTop: "30px",
             } }));
     };
-    // **********************************
-    // **   Render Grafana dashboard   **
-    // **********************************
-    return _jsx(_Fragment, { children: iframeURL !== "" /** && Link Works */ ? _jsx(Dashboard, {}) : _jsx(Form, {}) });
+    return _jsx(_Fragment, { children: iframeURL !== "" ? _jsx(Dashboard, {}) : _jsx(Form, {}) });
 }

@@ -30,12 +30,17 @@ git clone https://github.com/your-username/k8state.git
 cd k8state
 ```
 
-2. Install Dependencies
+2. Install dependencies in both the client and server folders
 
 Using npm:
 
 ```sh
+cd client
 npm install
+
+cd server
+npm install
+
 ```
 
 Using yarn:

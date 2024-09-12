@@ -176,9 +176,11 @@ export default function LogPage() {
       <div
         className="alert-dialog"
         style={{
-          display: "flex",
-          justifyContent: "center",
+          display: "none",
+          position: "relative",
           marginTop: "16px",
+          left: "275px",
+          top: "126px",
         }}
       >
         {open === true && <AlertDialog />}

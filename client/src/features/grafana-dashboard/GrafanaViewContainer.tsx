@@ -38,7 +38,7 @@ export default function GrafanaViewContainer() {
             value={inputValue}
             onChange={handleInputChange}
           />
-          <Button type="button">Connect</Button>
+          <Button type="submit">Connect</Button>
         </form>
       </div>
     )

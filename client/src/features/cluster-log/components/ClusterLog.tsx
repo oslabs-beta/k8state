@@ -74,7 +74,11 @@ export default function ClusterLog(props: Props) {
       <Accordion
         expanded={expanded}
         onChange={handleExpansion}
-        style={{ width: "700px", left: "50px" }}
+        style={{
+          position: "relative",
+          width: "700px",
+          top: "120px",
+        }}
         sx={[
           expanded
             ? {

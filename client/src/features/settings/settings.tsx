@@ -66,7 +66,7 @@ const Settings = () => {
           width: "max-content",
           position: "relative",
           alignContent: "center",
-          top: "-150px",
+          top: "-170px",
           left: "-45px",
         }}
       >
@@ -77,15 +77,23 @@ const Settings = () => {
           aria-label="Address"
           label="Address"
           color={envAlertMessage === "Success!" ? "success" : "primary"}
-          error={inputError}
+          helperText={
+            envAddress?.includes("www.")
+              ? "Do not include 'www' before Cluster URL"
+              : null
+          }
+          error={
+            inputError ||
+            (envAddress?.includes("www.") && !envAddress?.includes("www.com"))
+          }
           placeholder="clusterurl.com:00000"
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setEnvAddress(e.target.value)
           }
           focused
           style={{
-            position: "relative",
-            top: "-120px",
+            position: "absolute",
+            top: "-150px",
             left: "45px",
             width: "300px",
           }}
@@ -100,8 +108,8 @@ const Settings = () => {
           }
           focused
           style={{
-            position: "relative",
-            top: "-90px",
+            position: "absolute",
+            top: "-60px",
             left: "45px",
             width: "300px",
           }}
@@ -109,8 +117,8 @@ const Settings = () => {
         <div
           style={{
             position: "relative",
-            top: "-75px",
-            left: "155px",
+            top: "10px",
+            left: "150px",
           }}
         >
           <Stack direction="row" spacing={2}>
@@ -123,6 +131,11 @@ const Settings = () => {
                     ? "success"
                     : "secondary"
               }
+              disabled={
+                envAddress?.includes("www.") && !envAddress?.includes("www.com")
+                  ? true
+                  : false
+              }
               onClick={handleEnvSubmit}
               style={{ marginTop: "16px" }}
             >
@@ -133,10 +146,9 @@ const Settings = () => {
       </div>
       <div
         style={{
-          display: "flex",
           position: "absolute",
-          left: "500px",
-          top: "425px",
+          left: "90px",
+          top: "145px",
           marginTop: "16px",
         }}
       >

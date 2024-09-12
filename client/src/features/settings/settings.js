@@ -46,35 +46,43 @@ const Settings = () => {
             throw new Error(`Something went wrong: ${error.message}`);
         }
     };
-    return (_jsxs(Box, { component: "form", sx: { "& > :not(style)": { m: 1, width: "25ch" } }, noValidate: true, autoComplete: "off", children: [_jsx("h1", { style: {
+    return (_jsxs(Box, { component: "form", sx: { "& > :not(style)": { m: 1, width: "25ch" } }, noValidate: true, autoComplete: "off", style: {
+            position: "relative",
+            width: "max-content",
+            height: "max-content",
+        }, children: [_jsx("h1", { style: {
                     width: "max-content",
+                    position: "relative",
+                    alignContent: "center",
+                    top: "-170px",
+                    left: "-45px",
+                }, children: "Change Cluster Address and Key" }), _jsxs("div", { style: { position: "relative" }, children: [_jsx(TextField, { "aria-label": "Address", label: "Address", color: envAlertMessage === "Success!" ? "success" : "primary", helperText: envAddress?.includes("www.")
+                            ? "Do not include 'www' before Cluster URL"
+                            : null, error: inputError ||
+                            (envAddress?.includes("www.") && !envAddress?.includes("www.com")), placeholder: "clusterurl.com:00000", onChange: (e) => setEnvAddress(e.target.value), focused: true, style: {
+                            position: "absolute",
+                            top: "-150px",
+                            left: "45px",
+                            width: "300px",
+                        } }), _jsx(TextField, { label: "Key", color: envAlertMessage === "Success!" ? "success" : "primary", error: inputError, placeholder: "yJhbGciOiJSUzI1NiIsImtpZCI6ImhzU...", onChange: (e) => setEnvKey(e.target.value), focused: true, style: {
+                            position: "absolute",
+                            top: "-60px",
+                            left: "45px",
+                            width: "300px",
+                        } }), _jsx("div", { style: {
+                            position: "relative",
+                            top: "10px",
+                            left: "150px",
+                        }, children: _jsx(Stack, { direction: "row", spacing: 2, children: _jsx(Button, { variant: inputError === true ? "outlined" : "contained", color: inputError === true
+                                    ? "error"
+                                    : envAlertMessage === "Success!"
+                                        ? "success"
+                                        : "secondary", disabled: envAddress?.includes("www.") && !envAddress?.includes("www.com")
+                                    ? true
+                                    : false, onClick: handleEnvSubmit, style: { marginTop: "16px" }, children: "Submit" }) }) })] }), _jsx("div", { style: {
                     position: "absolute",
-                    top: "120px",
-                    left: "375px",
-                }, children: "Change Cluster Address and Key" }), _jsx(TextField, { "aria-label": "Address", label: "Address", color: envAlertMessage === "Success!" ? "success" : "primary", error: inputError, placeholder: "clusterurl.com:00000", onChange: (e) => setEnvAddress(e.target.value), focused: true, style: {
-                    position: "fixed",
-                    top: "200px",
-                    left: "460px",
-                    width: "300px",
-                } }), _jsx(TextField, { label: "Key", color: envAlertMessage === "Success!" ? "success" : "primary", error: inputError, placeholder: "yJhbGciOiJSUzI1NiIsImtpZCI6ImhzU...", onChange: (e) => setEnvKey(e.target.value), focused: true, style: {
-                    position: "fixed",
-                    top: "280px",
-                    left: "460px",
-                    width: "300px",
-                } }), _jsx("div", { style: {
-                    display: "flex",
-                    position: "absolute",
-                    top: "350px",
-                    left: "570px",
-                }, children: _jsx(Stack, { direction: "row", spacing: 2, children: _jsx(Button, { variant: inputError === true ? "outlined" : "contained", color: inputError === true
-                            ? "error"
-                            : envAlertMessage === "Success!"
-                                ? "success"
-                                : "primary", onClick: handleEnvSubmit, style: { marginTop: "16px" }, children: "Submit" }) }) }), _jsx("div", { style: {
-                    display: "flex",
-                    position: "absolute",
-                    left: "500px",
-                    top: "425px",
+                    left: "90px",
+                    top: "145px",
                     marginTop: "16px",
                 }, children: _jsx(Stack, { sx: { width: "100%" }, spacing: 2, children: envAlert && (_jsx(Alert, { severity: inputError === true ? "error" : "success", children: envAlertMessage })) }) })] }));
 };

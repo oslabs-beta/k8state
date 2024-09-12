@@ -56,7 +56,11 @@ export default function ClusterLog(props) {
     };
     return (
     //each log is placed in an accordion and can expand and shrink.
-    _jsx("div", { children: _jsxs(Accordion, { expanded: expanded, onChange: handleExpansion, style: { width: "700px", left: "50px" }, sx: [
+    _jsx("div", { children: _jsxs(Accordion, { expanded: expanded, onChange: handleExpansion, style: {
+                position: "relative",
+                width: "700px",
+                top: "120px",
+            }, sx: [
                 expanded
                     ? {
                         "& .MuiAccordion-region": {

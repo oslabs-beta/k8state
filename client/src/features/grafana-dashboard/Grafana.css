@@ -42,7 +42,7 @@ body {
   width: 100%;
   padding: 12px 16px;
   border-radius: 12px;
-  border: 1px solid #ccc;
+  /* border: 1px solid #ccc; */
   font-size: 1rem;
   outline: none;
   transition: border-color 0.3s ease;
@@ -55,7 +55,7 @@ body {
 
 .wrapper button {
   padding: 12px 24px;
-  background-color: #6200ea;
+  background-color: #7f00ff;
   color: white;
   border: none;
   border-radius: 12px;

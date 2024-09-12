@@ -27,18 +27,6 @@ export default function ProtectedRoute(props: prop) {
     setLoading(false)
   }
   checkENVfileForCredentials()
-  // fetch("http://localhost:8080/api/checkenv", {
-  //   method: "GET",
-  // })
-  //   .then(response => response.json())
-  //   .then(data => {
-  //     if (data.address && data.key) {
-  //       dispatch(setInit(true))
-  //       dispatch(setKey(data.key))
-  //       dispatch(setAddress(data.address))
-  //     }
-  //     setLoading(false)
-  //   })
 
   if (loading) {
     return <div>Loading...</div>
